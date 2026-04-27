@@ -1,0 +1,98 @@
+.sidebar{
+    width:240px;
+    height:100vh;
+    background:#0f172a;
+    position:fixed;
+    left:0;
+    top:0;
+    padding:15px;
+}
+
+.logo{
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:20px;
+    text-align:center;
+}
+
+.logo h2{
+    margin:0;
+    color:#2563eb;
+}
+
+.sidebar a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#cbd5e1;
+    text-decoration:none;
+    padding:14px;
+    border-radius:10px;
+    margin-bottom:10px;
+    transition:0.3s;
+    font-size:15px;
+}
+
+.sidebar a i{
+    width:20px;
+}
+
+.sidebar a:hover{
+    background:#1e293b;
+    color:white;
+    transform:translateX(5px);
+}
+
+.sidebar a.active{
+    background:#2563eb;
+    color:white;
+    font-weight:600;
+}
+
+.main{
+    margin-left:260px;
+}
+.sidebar{
+    width:240px;
+    height:100vh;
+    background:#0f172a;
+    position:fixed;
+    left:0;
+    top:0;
+    padding:15px;
+    transition:0.3s;
+    overflow:hidden;
+}
+
+.main{
+    margin-left:260px;
+    transition:0.3s;
+}
+
+.sidebar.collapsed{
+    width:80px;
+}
+
+.sidebar.collapsed .logo h2,
+.sidebar.collapsed a span{
+    display:none;
+}
+
+.sidebar.collapsed a{
+    justify-content:center;
+}
+
+.main.expanded{
+    margin-left:100px;
+}
+
+.menu-btn{
+    border:none;
+    background:#2563eb;
+    color:white;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-right:10px;
+}
