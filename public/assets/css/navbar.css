@@ -1,0 +1,32 @@
+.navbar{
+    background:white;
+    padding:15px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+
+.nav-right{
+    display:flex;
+    gap:15px;
+    align-items:center;
+}
+
+.search-box{
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+.profile-box{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.profile-box img{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+}

@@ -46,4 +46,33 @@ class EmployeeController extends Controller
         $employee->delete();
         return back();
     }
+    public function edit(Employee $employee)
+{
+    $departments = Department::all();
+    $designations = Designation::all();
+
+    return view('employees.edit', compact(
+        'employee',
+        'departments',
+        'designations'
+    ));
+}
+
+public function update(Request $request, Employee $employee)
+{
+    $data = $request->all();
+
+    if($request->hasFile('photo'))
+    {
+        $file = $request->file('photo');
+        $name = time().'.'.$file->getClientOriginalExtension();
+        $file->move(public_path('uploads'), $name);
+        $data['photo'] = $name;
+    }
+
+    $employee->update($data);
+
+    return redirect()->route('employees.index')
+        ->with('success','Employee Updated');
+}
 }

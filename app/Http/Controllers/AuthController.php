@@ -9,7 +9,7 @@ class AuthController extends Controller
 {
     public function loginForm()
     {
-        return view('auth.login');
+        return view('login');
     }
 
     public function login(Request $request)
@@ -18,31 +18,30 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ]);
-if(Auth::attempt($credentials))
-{
-    $request->session()->regenerate();
 
-    $role = Auth::user()->role;
+        if(Auth::attempt($credentials))
+        {
+            $request->session()->regenerate();
 
-    if($role == 'admin'){
-        return redirect('/admin/dashboard');
+            $role = Auth::user()->role;
+
+            if($role == 'admin'){
+                return redirect('/admin/dashboard');
+            }
+
+            if($role == 'hr'){
+                return redirect('/hr/dashboard');
+            }
+
+            return redirect('/employee/dashboard');
+        }
+
+        return back()->with('error','Invalid Login');
     }
 
-    if($role == 'hr'){
-        return redirect('/hr/dashboard');
-    }
-
-    return redirect('/employee/dashboard');
-}
-    }
-
-    public function logout(Request $request)
+    public function logout()
     {
         Auth::logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/');
+        return redirect('/login');
     }
 }

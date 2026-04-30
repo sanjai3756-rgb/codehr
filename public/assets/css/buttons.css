@@ -1,0 +1,67 @@
+.btn-add,
+.btn-edit,
+.btn-back,
+.logout-btn,
+.dark-btn{
+    color:white;
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.btn-add{background:#16a34a;
+width: 100px;
+height: 30px;
+}
+.btn-edit{background:#3b82f6;}
+.btn-back{background:#64748b;}
+.logout-btn{background:#ef4444;}
+.dark-btn{background:#111827;}
+
+.btn-edit{
+    background:#2563eb;
+    color:white;
+    padding:7px 12px;
+    border-radius:8px;
+    text-decoration:none;
+    margin-right:5px;
+}
+
+.btn-delete{
+    background:#ef4444;
+    color:white;
+    border:none;
+    padding:7px 12px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+
+.btn-delete:hover{
+    background:#dc2626;
+}
+
+.btn-edit{
+    background:#2563eb;
+    color:white;
+    padding:7px 12px;
+    border-radius:8px;
+    text-decoration:none;
+    margin-right:0px;
+    /* margin left: 80%; */
+}
+
+.btn-delete{
+    background:#ef4444;
+    color:white;
+    border:none;
+    padding:7px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    /* margin-left: 90%; */
+}
+
+.btn-delete:hover{
+    background:#dc2626;
+}

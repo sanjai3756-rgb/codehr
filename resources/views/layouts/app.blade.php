@@ -1,100 +1,175 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title >HRMS</title>
+    <title>HRMS</title>
 
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/sidebar.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/table.css') }}">
-    <link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('assets/css/form.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/employee.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/navbar.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/profile.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/buttons.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/dark.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
-{{-- <div class="sidebar">
-
-    <h2>HRMS</h2>
- --}}
-
 <div class="sidebar" id="sidebar">
 
-<div class="logo">
-<h2>HRMS</h2>
+    <div class="logo">
+        <h2>HRMS</h2>
+    </div>
+
+    @php
+        $role = auth()->user()->role;
+    @endphp
+
+    {{-- ADMIN MENU --}}
+    @if($role == 'admin')
+
+        <a href="/admin/dashboard" class="{{ request()->is('admin/dashboard') ? 'active' : '' }}">
+            Dashboard
+        </a>
+
+        <a href="/employees" class="{{ request()->is('employees*') ? 'active' : '' }}">
+            Employees
+        </a>
+
+        <a href="/departments" class="{{ request()->is('departments*') ? 'active' : '' }}">
+            Departments
+        </a>
+
+        <a href="/designations" class="{{ request()->is('designations*') ? 'active' : '' }}">
+            Designations
+        </a>
+
+        <a href="/attendances" class="{{ request()->is('attendances*') ? 'active' : '' }}">
+            Attendance
+        </a>
+
+        <a href="/leaves" class="{{ request()->is('leaves*') ? 'active' : '' }}">
+            Leaves
+        </a>
+
+        <a href="/payrolls" class="{{ request()->is('payrolls*') ? 'active' : '' }}">
+            Payroll
+        </a>
+
+        <a href="javascript:void(0);" 
+           onclick="toggleReport()" 
+           class="dropdown-btn {{ request()->is('reports*') ? 'active' : '' }}">
+            Reports ▼
+        </a>
+
+        <div id="reportMenu" class="dropdown-menu {{ request()->is('reports*') ? 'show' : '' }}">
+
+            <a href="/reports/attendance" class="{{ request()->is('reports/attendance') ? 'active' : '' }}">
+                Attendance Report
+            </a>
+
+            <a href="/reports/payroll" class="{{ request()->is('reports/payroll') ? 'active' : '' }}">
+                Payroll Report
+            </a>
+
+            <a href="/reports/leaves" class="{{ request()->is('reports/leaves') ? 'active' : '' }}">
+                Leave Report
+            </a>
+
+        </div>
+
+    @endif
+
+
+    {{-- HR MENU --}}
+    @if($role == 'hr')
+
+        <a href="/hr/dashboard" class="{{ request()->is('hr/dashboard') ? 'active' : '' }}">
+            Dashboard
+        </a>
+
+        <a href="/employees" class="{{ request()->is('employees*') ? 'active' : '' }}">
+            Employees
+        </a>
+
+        <a href="/attendances" class="{{ request()->is('attendances*') ? 'active' : '' }}">
+            Attendance
+        </a>
+
+        <a href="/leaves" class="{{ request()->is('leaves*') ? 'active' : '' }}">
+            Leaves
+        </a>
+
+        <a href="/payrolls" class="{{ request()->is('payrolls*') ? 'active' : '' }}">
+            Payroll
+        </a>
+
+    @endif
+
+
+    {{-- EMPLOYEE MENU --}}
+    @if($role == 'employee')
+
+        <a href="/employee/dashboard" class="{{ request()->is('employee/dashboard') ? 'active' : '' }}">
+            Dashboard
+        </a>
+
+        <a href="/profile" class="{{ request()->is('profile') ? 'active' : '' }}">
+            My Profile
+        </a>
+
+        <a href="/my-attendance" class="{{ request()->is('my-attendance') ? 'active' : '' }}">
+            Attendance
+        </a>
+
+        <a href="/punch" class="{{ request()->is('punch') ? 'active' : '' }}">
+            Punch
+        </a>
+
+        <a href="/apply-leave" class="{{ request()->is('apply-leave') ? 'active' : '' }}">
+            Apply Leave
+        </a>
+
+        <a href="/my-payslip" class="{{ request()->is('my-payslip') ? 'active' : '' }}">
+            Payslip
+        </a>
+
+    @endif
+
 </div>
 
-@php
-$role = auth()->user()->role;
-@endphp
 
-{{-- ADMIN MENU --}}
-@if($role == 'admin')
+<!-- MAIN CONTENT -->
+<div class="main">
 
-<a href="/admin/dashboard">Dashboard</a>
-<a href="/employees"
-class="{{ request()->is('employees*') ? 'active' : '' }}">
-Employees
-</a>
-<a href="/departments">Departments</a>
-<a href="/designations">Designations</a>
-<a href="/attendances">Attendance</a>
-<a href="/leaves">Leaves</a>
-<a href="/payrolls">Payroll</a>
-<a href="/users">Users</a>
-<a href="/reports">Reports</a>
+    <!-- TOP NAVBAR -->
+    <div class="navbar">
+        <div class="nav-left">
+            <h3>Welcome, {{ auth()->user()->name }}</h3>
+        </div>
 
-@endif
+        <div class="nav-right">
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+    </div>
 
-{{-- HR MENU --}}
-@if($role == 'hr')
-
-<a href="/hr/dashboard">Dashboard</a>
-<a href="/employees"
-class="{{ request()->is('employees*') ? 'active' : '' }}">
-Employees
-</a>
-<a href="/attendances">Attendance</a>
-<a href="/leaves">Leaves</a>
-<a href="/payrolls">Payroll</a>
-
-@endif
-
-{{-- EMPLOYEE MENU --}}
-@if($role == 'employee')
-
-<a href="/employee/dashboard">Dashboard</a>
-<a href="/profile">My Profile</a>
-<a href="/my-attendance">My Attendance</a>
-<a href="/punch">Punch</a>
-<a href="/my-leaves">Apply Leave</a>
-<a href="/my-payslip">Payslip</a>
-
-@endif
+    <!-- PAGE CONTENT -->
+    <div class="content">
+        @yield('content')
+    </div>
 
 </div>
+
+
 <script>
-document.getElementById('toggleBtn').addEventListener('click', function () {
-    document.getElementById('sidebar').classList.toggle('collapsed');
-    document.getElementById('main').classList.toggle('expanded');
-});
-
-const darkBtn = document.getElementById('darkModeBtn');
-
-if(localStorage.getItem('theme') === 'dark'){
-    document.body.classList.add('dark-mode');
+function toggleReport() {
+    document.getElementById("reportMenu").classList.toggle("show");
 }
-
-darkBtn.addEventListener('click', function(){
-
-    document.body.classList.toggle('dark-mode');
-
-    if(document.body.classList.contains('dark-mode')){
-        localStorage.setItem('theme','dark');
-    }else{
-        localStorage.setItem('theme','light');
-    }
-
-});
 </script>
+
 </body>
 </html>

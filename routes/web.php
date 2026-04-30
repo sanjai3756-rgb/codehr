@@ -12,92 +12,87 @@ use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\EmployeePanelController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReportController;
 
-/*
-|--------------------------------------------------------------------------
-| Public Routes
-|--------------------------------------------------------------------------
-*/
+/* PUBLIC */
+Route::get('/', fn() => redirect('/login'));
 
-Route::get('/', [AuthController::class, 'loginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth');
+Route::get('/login', [AuthController::class,'loginForm'])->name('login');
+Route::post('/login', [AuthController::class,'login']);
+Route::get('/logout', [AuthController::class,'logout'])->middleware('auth');
 
-/*
-|--------------------------------------------------------------------------
-| Common Auth Routes
-|--------------------------------------------------------------------------
-*/
 
+/* COMMON */
 Route::middleware('auth')->group(function () {
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', function () {
 
-    Route::get('/profile', [EmployeePanelController::class, 'profile']);
+        $role = auth()->user()->role;
+
+        if($role == 'admin') return redirect('/admin/dashboard');
+        if($role == 'hr') return redirect('/hr/dashboard');
+
+        return redirect('/employee/dashboard');
+
+    });
+
+    Route::get('/profile', [EmployeePanelController::class,'profile']);
 
 });
 
-/*
-|--------------------------------------------------------------------------
-| Admin Routes
-|--------------------------------------------------------------------------
-*/
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+/* ADMIN ONLY */
+Route::middleware(['auth','role:admin'])->group(function () {
 
-    Route::get('/admin/dashboard', function () {
-        return view('dashboard');
-    });
+    Route::get('/admin/dashboard', [DashboardController::class,'admin']);
 
     Route::resource('users', UserController::class);
-
     Route::resource('departments', DepartmentController::class);
     Route::resource('designations', DesignationController::class);
-    Route::resource('employees', EmployeeController::class);
-    Route::resource('attendances', AttendanceController::class);
-    Route::resource('leaves', LeaveRequestController::class);
-    Route::resource('payrolls', PayrollController::class);
+
+    Route::get('/reports/attendance', fn() => view('reports.attendance'));
+    Route::get('/reports/payroll', fn() => view('reports.payroll'));
+    Route::get('/reports/leaves', fn() => view('reports.leaves'));
 
 });
 
-/*
-|--------------------------------------------------------------------------
-| HR Routes
-|--------------------------------------------------------------------------
-*/
 
-Route::middleware(['auth', 'role:hr'])->group(function () {
-
-    Route::get('/hr/dashboard', function () {
-        return view('dashboard');
-    });
+/* ADMIN + HR */
+Route::middleware(['auth','role:admin,hr'])->group(function () {
 
     Route::resource('employees', EmployeeController::class);
     Route::resource('attendances', AttendanceController::class);
     Route::resource('leaves', LeaveRequestController::class);
     Route::resource('payrolls', PayrollController::class);
 
+    Route::get('/hr/dashboard', [DashboardController::class,'hr']);
 
 });
 
-/*
-|--------------------------------------------------------------------------
-| Employee Routes
-|--------------------------------------------------------------------------
-*/
 
-Route::middleware(['auth', 'role:employee'])->group(function () {
+/* EMPLOYEE ONLY */
+Route::middleware(['auth','role:employee'])->group(function () {
 
-    Route::get('/employee/dashboard', [EmployeePanelController::class, 'dashboard']);
+    Route::get('/employee/dashboard', [DashboardController::class,'employee']);
 
-    Route::get('/my-attendance', [EmployeePanelController::class, 'attendance']);
+    Route::get('/my-attendance', [EmployeePanelController::class,'attendance']);
+    Route::get('/my-leaves', [EmployeePanelController::class,'leaves']);
+    Route::get('/my-payslip', [EmployeePanelController::class,'payslip']);
 
-    Route::get('/my-leaves', [EmployeePanelController::class, 'leaves']);
     Route::get('/punch', [EmployeePanelController::class,'punchPage']);
     Route::post('/punch-in', [EmployeePanelController::class,'punchIn']);
     Route::post('/punch-out', [EmployeePanelController::class,'punchOut']);
-    Route::get('/my-payslip', [EmployeePanelController::class, 'payslip']);
+
     Route::get('/apply-leave', [EmployeePanelController::class,'applyLeave']);
     Route::post('/apply-leave', [EmployeePanelController::class,'storeLeave']);
+
+});
+
+// reports 
+Route::middleware(['auth','role:admin'])->group(function () {
+
+    Route::get('/reports/attendance', [ReportController::class,'attendance']);
+    Route::get('/reports/payroll', [ReportController::class,'payroll']);
+    Route::get('/reports/leaves', [ReportController::class,'leaves']);
 
 });

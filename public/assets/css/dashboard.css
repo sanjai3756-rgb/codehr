@@ -1,25 +1,123 @@
-.cards{
-    display:flex;
+.page-title{
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:20px;
+    color:#111827;
+}
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
     gap:20px;
-    flex-wrap:wrap;
+    margin-bottom:30px;
 }
 
-.card{
-    width:220px;
-    /* background:rgb(27, 65, 190); */
-    color: green;
-    padding:20px;
-    border-radius:8px;
-    box-shadow:0 2px 5px rgba(26, 52, 216, 0.888);
-
+.dash-card{
+    border-radius:18px;
+    padding:25px;
+    color:white;
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+    transition:.3s;
 }
 
-.card h3{
+.dash-card:hover{
+    transform:translateY(-8px);
+}
+
+.dash-card h4{
     margin:0;
-    font-size:18px;
+    font-size:16px;
+    opacity:.9;
 }
 
-.card h1{
+.dash-card h1{
     margin-top:10px;
-    color:#1756dd;
+    font-size:34px;
+}
+
+.blue{background:linear-gradient(135deg,#2563eb,#1d4ed8);}
+.green{background:linear-gradient(135deg,#16a34a,#15803d);}
+.orange{background:linear-gradient(135deg,#ea580c,#c2410c);}
+.purple{background:linear-gradient(135deg,#9333ea,#7e22ce);}
+
+.quick-box{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:25px;
+}
+
+.quick-box a{
+    display:inline-block;
+    background:#2563eb;
+    color:white;
+    padding:10px 15px;
+    border-radius:8px;
+    margin:5px;
+}
+
+.activity-box{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+}
+
+.activity-box table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.activity-box th,
+.activity-box td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+    text-align:left;
+}
+.chart-box{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    margin-top:25px;
+    margin-bottom:25px;
+}
+
+.bars{
+    display:flex;
+    align-items:flex-end;
+    gap:20px;
+    height:220px;
+    margin-top:20px;
+}
+
+.bar{
+    width:50px;
+    text-align:center;
+}
+
+.bar span{
+    display:block;
+    width:100%;
+    background:linear-gradient(180deg,#2563eb,#1d4ed8);
+    border-radius:8px 8px 0 0;
+}
+
+.bar p{
+    margin-top:10px;
+    font-size:14px;
+}
+
+.quick-box{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+}
+
+.quick-box a{
+    display:inline-block;
+    background:#2563eb;
+    color:white;
+    padding:10px 15px;
+    border-radius:8px;
+    margin:5px;
+    text-decoration:none;
 }

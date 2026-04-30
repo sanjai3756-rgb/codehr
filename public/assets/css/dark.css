@@ -1,0 +1,15 @@
+body.dark-mode{
+    background:#0f172a;
+    color:white;
+}
+
+body.dark-mode .navbar,
+body.dark-mode .table-box,
+body.dark-mode .profile-card{
+    background:#1e293b;
+    color:white;
+}
+
+body.dark-mode table th{
+    background:#334155;
+}

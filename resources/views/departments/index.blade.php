@@ -8,26 +8,50 @@
 <a href="{{ route('departments.create') }}" class="btn-add">+ Add Department</a>
 </div>
 
-<table>
+<table class="table">
+
 <thead>
 <tr>
-<th>ID</th>
-<th>Name</th>
-<th>Code</th>
+    <th>S.No</th>
+    <th>Department Name</th>
+    <th>Action</th>
 </tr>
 </thead>
 
 <tbody>
-@foreach($departments as $row)
+
+@foreach($departments as $key => $department)
+
 <tr>
-<td>{{ $row->id }}</td>
-<td>{{ $row->department_name }}</td>
-<td>{{ $row->department_code }}</td>
+    <td>{{ $key + 1 }}</td>
+    <td>{{ $department->name }}</td>
+
+    <td>
+
+        <a href="{{ route('departments.edit',$department->id) }}" class="btn-edit">
+            Edit
+        </a>
+
+        <form action="{{ route('departments.destroy',$department->id) }}"
+              method="POST"
+              style="display:inline-block;"
+              onsubmit="return confirm('Delete Department?')">
+
+            @csrf
+            @method('DELETE')
+
+            <button class="btn-delete">
+                Delete
+            </button>
+
+        </form>
+
+    </td>
 </tr>
+
 @endforeach
+
 </tbody>
 </table>
-
 </div>
-
 @endsection
