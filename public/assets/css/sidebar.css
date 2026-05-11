@@ -1,99 +1,85 @@
+/* SIDEBAR */
+
 .sidebar{
     width:240px;
-    height:100%;
-    min-height:100vh;
+    height:100vh;
     background:#0f172a;
     position:fixed;
-    top:0;
     left:0;
-
-    padding:15px 15px 50px 15px;
-
+    top:0;
+    padding:20px;
     overflow-y:auto;
-    overflow-x:hidden;
-
-    box-sizing:border-box;
 }
-/* HRM Logo Box */
+
+/* LOGO */
+
 .logo{
-    background:white;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:20px;
-    text-align:center;
+    margin-bottom:30px;
 }
 
 .logo h2{
-    color:#2563eb;
+    color:#fff;
     margin:0;
-    font-size:24px;
-    font-weight:bold;
 }
 
-/* Sidebar Menu Links */
-.sidebar a{
-    display:flex;
-    align-items:center;
-    gap:10px;
+/* LINKS */
+
+.sidebar a,
+.dropdown-btn{
+    display:block;
+    width:100%;
     padding:12px 15px;
-    color:#cbd5e1;
-    border-radius:8px;
-    margin-bottom:8px;
-
-    text-decoration:none;      /* underline remove */
+    margin-bottom:10px;
+    color:#fff;
+    text-decoration:none;
     border:none;
-    outline:none;
+    background:none;
+    text-align:left;
+    border-radius:8px;
+    cursor:pointer;
     transition:0.3s;
+    font-size:15px;
 }
 
-/* Hover + Active */
+/* HOVER */
+
 .sidebar a:hover,
+.dropdown-btn:hover{
+    background:#1e293b;
+}
+
+/* ACTIVE */
+
 .sidebar a.active{
     background:#2563eb;
-    color:white;
-    text-decoration:none;
 }
 
-/* Visited / Focus */
-.sidebar a:visited,
-.sidebar a:focus{
-    text-decoration:none;
-    color:#cbd5e1;
-}
+/* DROPDOWN */
 
-/* Scroll if many menu items */
-.sidebar{
-    overflow-y:auto;
-}
-
-/* Scrollbar style */
-.sidebar::-webkit-scrollbar{
-    width:6px;
-}
-
-.sidebar::-webkit-scrollbar-thumb{
-    background:#334155;
-    border-radius:10px;
-}
-.dropdown-menu{
+.dropdown-container{
     display:none;
     padding-left:15px;
 }
 
-.dropdown-menu.show{
+.dropdown-container.show{
     display:block;
 }
 
-.dropdown-menu a{
-    display:block;
-    padding:10px;
+.dropdown-container a{
     font-size:14px;
 }
-.sidebar::-webkit-scrollbar{
-    width:5px;
-}
 
-.sidebar::-webkit-scrollbar-thumb{
-    background:#334155;
+/* LOGOUT */
+
+.logout-btn{
+    background:#dc2626 !important;
+    text-align:center !important;
+    width:85% !important;
+    margin:30px auto 0;
     border-radius:10px;
+    display:block;
+    padding:12px;
+}
+.logout-btn:hover{
+    background:#b91c1c !important;
 }

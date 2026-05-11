@@ -5,23 +5,47 @@
 <div class="table-box">
 <h2>Attendance</h2>
 
-<table>
+<table class="table">
+
+<thead>
 <tr>
-<th>Employee</th>
-<th>Date</th>
-<th>Status</th>
+    <th>S.No</th>
+    <th>Employee</th>
+    <th>Date</th>
+    <th>Status</th>
+    <th>Check In</th>
+    <th>Check Out</th>
+</tr>
+</thead>
+
+<tbody>
+
+@foreach($attendances as $key => $attendance)
+
+<tr>
+
+<td>
+
+@if($attendance->employee)
+
+    {{ $attendance->employee->employee_id ?? $attendance->employee->id }}
+    -
+    {{ $attendance->employee->name }}
+
+@else
+
+    No Employee
+
+@endif
+
+</td>
 </tr>
 
-@foreach($attendances as $row)
-<tr>
-<td>{{ $row->employee->name ?? '-' }}</td>
-<td>{{ $row->date }}</td>
-<td>{{ $row->status }}</td>
-</tr>
 @endforeach
 
-</table>
+</tbody>
 
+</table>
 </div>
 
 @endsection

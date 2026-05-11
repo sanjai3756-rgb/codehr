@@ -1,16 +1,23 @@
 body{
     margin:0;
-    font-family:Arial;
-    background:#f4f6f9;
+    font-family:Arial, sans-serif;
+    background:#f1f5f9;
 }
+
+/* MAIN */
 
 .main{
-    margin-left:240px;
+    margin-left:280px;
+    padding:20px;
 }
 
+/* CONTENT */
+
 .content{
-    padding:25px;
+    margin-top:20px;
 }
+
+/* CARDS */
 
 .card-box{
     display:flex;
@@ -20,13 +27,41 @@ body{
 
 .card{
     width:220px;
-    background:#1858e2;
+    background:#2563eb;
     color:white;
     padding:20px;
-    border-radius:8px;
-    box-shadow:0 2px 5px rgba(0,0,0,.1);
+    border-radius:12px;
+    box-shadow:0 4px 10px rgba(0,0,0,.1);
 }
 
 .card h1{
     color:white;
+}
+
+/* SETTINGS */
+
+.settings-card{
+    background:#fff;
+    padding:30px;
+    border-radius:18px;
+    max-width:700px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.settings-card input{
+    width:100%;
+    padding:12px;
+    margin:8px 0 18px;
+    border:1px solid #ddd;
+    border-radius:10px;
+}
+
+/* SUCCESS */
+
+.success-msg{
+    background:#16a34a;
+    color:#fff;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:15px;
 }

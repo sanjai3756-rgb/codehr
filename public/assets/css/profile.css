@@ -35,3 +35,66 @@
     padding:10px 0;
     border-bottom:1px solid #eee;
 }
+.profile-page{
+    padding:30px;
+}
+
+.profile-card{
+    background:white;
+    border-radius:20px;
+    padding:30px;
+    max-width:850px;
+    margin:auto;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.profile-top{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.profile-img{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+    border:5px solid #2563eb;
+    margin-bottom:15px;
+}
+
+.grid-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+label{
+    display:block;
+    font-weight:600;
+    margin-bottom:6px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+}
+
+.save-btn{
+    margin-top:25px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    padding:14px 25px;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.success-msg{
+    background:#16a34a;
+    color:white;
+    padding:12px;
+    border-radius:10px;
+    margin-bottom:20px;
+}

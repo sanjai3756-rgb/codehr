@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
-    public function index()
-    {
-        $attendances = Attendance::with('employee')->latest()->get();
-        return view('attendances.index', compact('attendances'));
-    }
+  public function index()
+{
+    $attendances = Attendance::with('employee')->latest()->get();
+    return view('attendances.index', compact('attendances'));
+}
 
     public function create()
     {

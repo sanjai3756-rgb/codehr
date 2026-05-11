@@ -1,0 +1,110 @@
+.permission-page{
+    padding:30px;
+    max-width:1100px;
+    margin:auto;
+}
+
+/* Header */
+.perm-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.perm-header h2{
+    margin:0;
+}
+
+.perm-header p{
+    color:#6b7280;
+}
+
+/* Card */
+.card-box{
+    background:#fff;
+    padding:20px;
+    border-radius:14px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.06);
+}
+
+/* Spacing */
+.mt-20{
+    margin-top:20px;
+}
+
+/* Form */
+.form-group label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+.input-box{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #ddd;
+}
+
+/* Grid */
+.permission-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:12px;
+    margin-top:15px;
+}
+
+/* Permission card */
+.permission-item{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #eee;
+    background:#f9fafb;
+    cursor:pointer;
+}
+
+.permission-item:hover{
+    background:#eef2ff;
+}
+
+/* Buttons */
+.btn-back{
+    background:#e5e7eb;
+    padding:10px 15px;
+    border-radius:8px;
+    text-decoration:none;
+    color:#111;
+    font-weight:600;
+}
+
+.save-btn{
+    background:#2563eb;
+    color:#fff;
+    padding:14px 25px;
+    border:none;
+    border-radius:10px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.save-btn:hover{
+    background:#1e40af;
+}
+
+/* Bottom action bar */
+.action-bar{
+    margin-top:25px;
+    text-align:right;
+}
+
+/* Alert */
+.alert-success{
+    background:#dcfce7;
+    padding:10px;
+    margin-bottom:15px;
+    border-radius:8px;
+}

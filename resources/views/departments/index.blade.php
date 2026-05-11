@@ -24,7 +24,7 @@
 
 <tr>
     <td>{{ $key + 1 }}</td>
-    <td>{{ $department->name }}</td>
+    <td>{{ $department->department_name }}</td>
 
     <td>
 

@@ -27,8 +27,7 @@
 <td>{{ ucfirst($row->role) }}</td>
 <td>
 
-<a href="{{ route('users.edit',$row->id) }}" class="btn-edit">Edit</a>
-
+<a href="{{ route('users.edit',$row->id) }}">Edit</a>
 <form action="{{ route('users.destroy',$row->id) }}" method="POST" style="display:inline">
 @csrf
 @method('DELETE')

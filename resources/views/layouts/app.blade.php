@@ -25,124 +25,107 @@
         <h2>HRMS</h2>
     </div>
 
-    @php
-        $role = auth()->user()->role;
-    @endphp
+    {{-- ADMIN --}}
+    @role('admin')
 
-    {{-- ADMIN MENU --}}
-    @if($role == 'admin')
+        <a href="/dashboard">Dashboard</a>
 
-        <a href="/admin/dashboard" class="{{ request()->is('admin/dashboard') ? 'active' : '' }}">
-            Dashboard
-        </a>
+        {{-- USERS --}}
+        <button class="dropdown-btn"
+                onclick="toggleMenu('userMenu')">
 
-        <a href="/employees" class="{{ request()->is('employees*') ? 'active' : '' }}">
-            Employees
-        </a>
+            Users ⌄
 
-        <a href="/departments" class="{{ request()->is('departments*') ? 'active' : '' }}">
-            Departments
-        </a>
+        </button>
 
-        <a href="/designations" class="{{ request()->is('designations*') ? 'active' : '' }}">
-            Designations
-        </a>
+        <div id="userMenu" class="dropdown-container">
 
-        <a href="/attendances" class="{{ request()->is('attendances*') ? 'active' : '' }}">
-            Attendance
-        </a>
+            <a href="/users">Users</a>
 
-        <a href="/leaves" class="{{ request()->is('leaves*') ? 'active' : '' }}">
-            Leaves
-        </a>
+            <a href="/permissions">Permissions</a>
 
-        <a href="/payrolls" class="{{ request()->is('payrolls*') ? 'active' : '' }}">
-            Payroll
-        </a>
+        </div>
 
-        <a href="javascript:void(0);" 
-           onclick="toggleReport()" 
-           class="dropdown-btn {{ request()->is('reports*') ? 'active' : '' }}">
-            Reports ▼
-        </a>
 
-        <div id="reportMenu" class="dropdown-menu {{ request()->is('reports*') ? 'show' : '' }}">
+        <a href="/departments">Departments</a>
 
-            <a href="/reports/attendance" class="{{ request()->is('reports/attendance') ? 'active' : '' }}">
+        <a href="/designations">Designation</a>
+
+        <a href="/attendances">Attendance</a>
+
+        <a href="/payrolls">Payroll</a>
+
+        <a href="/leaves">Leaves</a>
+
+
+        {{-- REPORTS --}}
+        <button class="dropdown-btn"
+                onclick="toggleMenu('reportsMenu')">
+
+            Reports ⌄
+
+        </button>
+
+        <div id="reportsMenu" class="dropdown-container">
+
+            <a href="/reports/attendance">
                 Attendance Report
             </a>
 
-            <a href="/reports/payroll" class="{{ request()->is('reports/payroll') ? 'active' : '' }}">
-                Payroll Report
+            <a href="/reports/leaves">
+                Leave Report
             </a>
 
-            <a href="/reports/leaves" class="{{ request()->is('reports/leaves') ? 'active' : '' }}">
-                Leave Report
+            <a href="/reports/payroll">
+                Payroll Report
             </a>
 
         </div>
 
-    @endif
+    @endrole
 
 
-    {{-- HR MENU --}}
-    @if($role == 'hr')
 
-        <a href="/hr/dashboard" class="{{ request()->is('hr/dashboard') ? 'active' : '' }}">
-            Dashboard
-        </a>
+    {{-- HR --}}
+    @role('hr')
 
-        <a href="/employees" class="{{ request()->is('employees*') ? 'active' : '' }}">
-            Employees
-        </a>
+        <a href="/dashboard">Dashboard</a>
 
-        <a href="/attendances" class="{{ request()->is('attendances*') ? 'active' : '' }}">
-            Attendance
-        </a>
+        <a href="/employees">Employees</a>
 
-        <a href="/leaves" class="{{ request()->is('leaves*') ? 'active' : '' }}">
-            Leaves
-        </a>
+        <a href="/attendances">Attendance</a>
 
-        <a href="/payrolls" class="{{ request()->is('payrolls*') ? 'active' : '' }}">
-            Payroll
-        </a>
+        <a href="/payrolls">Payroll</a>
 
-    @endif
+        <a href="/leaves">Leaves</a>
+
+    @endrole
 
 
-    {{-- EMPLOYEE MENU --}}
-    @if($role == 'employee')
 
-        <a href="/employee/dashboard" class="{{ request()->is('employee/dashboard') ? 'active' : '' }}">
-            Dashboard
-        </a>
+    {{-- EMPLOYEE --}}
+    @role('employee')
 
-        <a href="/profile" class="{{ request()->is('profile') ? 'active' : '' }}">
-            My Profile
-        </a>
+        <a href="/dashboard">Dashboard</a>
 
-        <a href="/my-attendance" class="{{ request()->is('my-attendance') ? 'active' : '' }}">
-            Attendance
-        </a>
+        <a href="/profile">My Profile</a>
 
-        <a href="/punch" class="{{ request()->is('punch') ? 'active' : '' }}">
-            Punch
-        </a>
+        <a href="/my-attendance">My Attendance</a>
 
-        <a href="/apply-leave" class="{{ request()->is('apply-leave') ? 'active' : '' }}">
-            Apply Leave
-        </a>
+        <a href="/punch">Punch</a>
 
-        <a href="/my-payslip" class="{{ request()->is('my-payslip') ? 'active' : '' }}">
-            Payslip
-        </a>
+        <a href="/apply-leave">Apply Leave</a>
 
-    @endif
+        <a href="/my-payslip">Payslip</a>
+
+    @endrole
+
+
+    <a href="/logout" class="logout-btn">
+        Logout
+    </a>
 
 </div>
-
-
 <!-- MAIN CONTENT -->
 <div class="main">
 
@@ -152,9 +135,9 @@
             <h3>Welcome, {{ auth()->user()->name }}</h3>
         </div>
 
-        <div class="nav-right">
+        {{-- <div class="nav-right">
             <a href="/logout" class="logout-btn">Logout</a>
-        </div>
+        </div> --}}
     </div>
 
     <!-- PAGE CONTENT -->
@@ -166,10 +149,29 @@
 
 
 <script>
-function toggleReport() {
-    document.getElementById("reportMenu").classList.toggle("show");
-}
-</script>
 
+function toggleUserMenu() {
+
+    document.getElementById("userMenu")
+            .classList.toggle("show");
+
+}
+
+function toggleReportsMenu() {
+
+    document.getElementById("reportsMenu")
+            .classList.toggle("show");
+
+}
+function toggleMenu(menuId)
+{
+    document
+        .getElementById(menuId)
+        .classList
+        .toggle("show");
+}
+
+
+</script>
 </body>
 </html>

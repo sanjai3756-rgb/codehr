@@ -1,40 +1,73 @@
- 
- 
-<div class="table-box">
+@extends('layouts.app')
 
-<a href="/employee/dashboard" class="btn-back">← Back</a>
+@section('content')
 
+<div class="main-content">
 
- {{-- Punch In --}}
-@if(empty($today?->check_in))
+    <h2>Punch In / Punch Out</h2>
 
-<form method="POST" action="/punch-in" style="display:inline-block">
-@csrf
-<button class="btn-add">Punch In</button>
-</form>
+    @if(session('success'))
+        <div class="success-msg">
+            {{ session('success') }}
+        </div>
+    @endif
 
-@else
+    <div class="card">
 
-<button class="btn-add" disabled style="opacity:.6;cursor:not-allowed;">
-Already Punched In
-</button>
+        <p><strong>Date :</strong> {{ date('d-m-Y') }}</p>
 
-@endif
+        @if(!$today)
 
+            <form action="/punch-in" method="POST">
+                @csrf
+                <button type="submit" class="btn-edit">
+                    Punch In
+                </button>
+            </form>
 
-{{-- Punch Out --}}
-@if(!empty($today?->check_in) && empty($today?->check_out))
+        @else
 
-<form method="POST" action="/punch-out" style="display:inline-block">
-@csrf
-<button class="btn-edit">Punch Out</button>
-</form>
+            <p><strong>Status :</strong> {{ $today->status }}</p>
 
-@elseif(!empty($today?->check_out))
+            <p><strong>Check In :</strong> {{ date('h:i A', strtotime($today->check_in)) }}</p>
 
-<button class="btn-edit" disabled style="opacity:.6;cursor:not-allowed;">
-Already Punched Out
-</button>
+            <p>
+                <strong>Check Out :</strong>
 
+                @if($today->check_out)
+                    {{ date('h:i A', strtotime($today->check_out)) }}
+                @else
+                    Not Yet
+                @endif
+            </p>
 
-@endif
+            @if($today->check_in && $today->check_out)
+
+                @php
+                    $start = \Carbon\Carbon::parse($today->check_in);
+                    $end   = \Carbon\Carbon::parse($today->check_out);
+                    $hours = $start->diff($end)->format('%h hrs %i mins');
+                @endphp
+
+                <p><strong>Working Hours :</strong> {{ $hours }}</p>
+
+            @endif
+
+            @if(!$today->check_out)
+
+                <form action="/punch-out" method="POST">
+                    @csrf
+                    <button type="submit" class="btn-delete">
+                        Punch Out
+                    </button>
+                </form>
+
+            @endif
+
+        @endif
+
+    </div>
+
+</div>
+
+@endsection

@@ -10,6 +10,19 @@ use App\Models\Payroll;
 
 class DashboardController extends Controller
 {
+
+public function index()
+{
+if(auth()->user()->role === 'admin'){
+    return redirect('/admin/dashboard');
+}
+
+if(auth()->user()->role === 'hr'){
+    return redirect('/hr/dashboard');
+}
+
+return redirect('/employee/dashboard');}
+
 public function admin()
 {
     $employees = Employee::count();

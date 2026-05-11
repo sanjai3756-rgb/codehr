@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HRMS Login</title>
 
     <link rel="stylesheet" href="{{ asset('assets/css/login.css') }}">
@@ -16,31 +18,51 @@
     <span></span>
 </div>
 
-<!-- Glass Login Card -->
+<!-- Login Card -->
 <div class="login-card">
 
     <h1>HRMS</h1>
+
     <p>Welcome Back</p>
 
+    {{-- Error Message --}}
     @if(session('error'))
-    <div class="error">{{ session('error') }}</div>
+        <div class="error">
+            {{ session('error') }}
+        </div>
     @endif
 
-    <form method="POST" action="/login">
+    {{-- Validation Errors --}}
+    @if ($errors->any())
+        <div class="error">
+            {{ $errors->first() }}
+        </div>
+    @endif
+
+    <form method="POST" action="{{ url('/login') }}">
 
         @csrf
 
-        <input type="email" name="email" placeholder="Email Address">
+        <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value="{{ old('email') }}"
+            required
+            autocomplete="email"
+        >
 
-        <div class="password-box">
+        <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+            autocomplete="current-password"
+        >
 
-            <input type="password" name="password" id="password" placeholder="Password">
-
-            <span class="eye" onclick="togglePassword()">👁</span>
-
-        </div>
-
-        <button type="submit">Login</button>
+        <button type="submit">
+            Login
+        </button>
 
     </form>
 

@@ -20,7 +20,7 @@ height: 30px;
 .dark-btn{background:#111827;}
 
 .btn-edit{
-    background:#2563eb;
+    background:#2e15bb;
     color:white;
     padding:7px 12px;
     border-radius:8px;
@@ -64,4 +64,12 @@ height: 30px;
 
 .btn-delete:hover{
     background:#dc2626;
+}
+/* punch in/out */
+.success-msg{
+    background:#22c55e;
+    color:white;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
 }

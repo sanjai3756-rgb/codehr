@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+
     public function index()
+
     {
         $users = User::latest()->get();
         return view('users.index', compact('users'));
@@ -16,41 +18,54 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('users.create');
+        $permissions = Permission::all();
+        return view('users.create', compact('permissions'));
     }
 
     public function store(Request $request)
     {
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'role' => $request->role,
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect()->route('users.index');
+        $user->syncRoles([$request->role]);
+
+        if ($request->permissions) {
+            $user->syncPermissions($request->permissions);
+        }
+
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
+        return redirect()->route('users.index')
+            ->with('success', 'User Created');
     }
 
-    public function edit(User $user)
-    {
-        return view('users.edit', compact('user'));
-    }
+public function edit(User $user)
+{
+    return view('users.edit', compact('user'));
+}
 
-    public function update(Request $request, User $user)
-    {
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'role' => $request->role,
-        ]);
+public function update(Request $request, User $user)
+{
+    $user->update([
+        'name' => $request->name,
+        'email' => $request->email,
+        'role' => $request->role,
+    ]);
 
-        return redirect()->route('users.index');
-    }
+    return redirect()->route('users.index')
+        ->with('success', 'User Updated');
+}
 
-    public function destroy(User $user)
+public function destroy(User $user)
     {
         $user->delete();
 
-        return back();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+
+        return back()->with('success', 'User Deleted');
     }
 }

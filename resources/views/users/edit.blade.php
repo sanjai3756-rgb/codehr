@@ -12,9 +12,9 @@
 <input type="email" name="email" value="{{ $user->email }}">
 
 <select name="role">
-<option value="admin" {{ $user->role=='admin'?'selected':'' }}>Admin</option>
-<option value="hr" {{ $user->role=='hr'?'selected':'' }}>HR</option>
-<option value="employee" {{ $user->role=='employee'?'selected':'' }}>Employee</option>
+    <option value="admin" {{ $user->role=='admin'?'selected':'' }}>Admin</option>
+    <option value="hr" {{ $user->role=='hr'?'selected':'' }}>HR</option>
+    <option value="employee" {{ $user->role=='employee'?'selected':'' }}>Employee</option>
 </select>
 
 <button type="submit">Update</button>
