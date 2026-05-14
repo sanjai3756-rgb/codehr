@@ -10,9 +10,13 @@
     cursor:pointer;
 }
 
-.btn-add{background:#16a34a;
-width: 100px;
-height: 30px;
+.btn-add { background:#1c5cc5;;
+    color:#fff;
+    text-decoration:none;
+    /* padding:15px 18px; */
+    border-radius:12px;
+    font-size:14px;
+    transition:.3s;
 }
 .btn-edit{background:#3b82f6;}
 .btn-back{background:#64748b;}
@@ -41,14 +45,15 @@ height: 30px;
 .btn-delete:hover{
     background:#dc2626;
 }
-
+/* department edit */
 .btn-edit{
-    background:#2563eb;
+    background:#225dcb;
     color:white;
     padding:7px 12px;
     border-radius:8px;
     text-decoration:none;
-    margin-right:0px;
+    margin-right:5px;
+    
     /* margin left: 80%; */
 }
 
@@ -59,6 +64,7 @@ height: 30px;
     padding:7px 12px;
     border-radius:8px;
     cursor:pointer;
+    
     /* margin-left: 90%; */
 }
 

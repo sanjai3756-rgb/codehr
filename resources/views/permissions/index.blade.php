@@ -2,74 +2,108 @@
 
 @section('content')
 
-<div class="permission-page">
+<div class="permission-wrapper">
 
-    <!-- Header -->
-    <div class="perm-header">
-        <div>
-            <h2>Permissions Management</h2>
-            <p>Control module access for roles</p>
-        </div>
+    <div class="permission-card">
 
-        <a href="/users" class="btn-back">← Back</a>
-    </div>
+        {{-- HEADER --}}
+        <div class="permission-header">
 
-    @if(session('success'))
-        <div class="alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+            <div>
+                <h2>
+                    Role & Permissions
+                </h2>
 
-    <form method="POST" action="/permissions/assign">
-        @csrf
-
-        <!-- Role Select -->
-        <div class="card-box">
-
-            <div class="form-group">
-                <label>Select Role</label>
-                <select name="role_id" class="input-box">
-                    <option value="">Choose Role</option>
-
-                    @foreach($roles as $role)
-                        <option value="{{ $role->id }}">
-                            {{ ucfirst($role->name) }}
-                        </option>
-                    @endforeach
-
-                </select>
+                <p>
+                    Manage user access and module permissions
+                </p>
             </div>
 
         </div>
 
-        <!-- Permissions -->
-        <div class="card-box mt-20">
 
-            <h4 class="section-title">Permissions</h4>
+        {{-- SUCCESS --}}
+@if(session('success'))
 
+<div class="toast-success" id="toast">
+
+    {{ session('success') }}
+
+</div>
+
+@endif
+
+        {{-- USER INFO --}}
+        <div class="user-info">
+
+            <div class="user-avatar">
+
+                {{ strtoupper(substr($user->name,0,1)) }}
+
+            </div>
+
+            <div>
+
+                <h3>{{ $user->name }}</h3>
+
+                <span>{{ $user->email }}</span>
+
+            </div>
+
+        </div>
+
+
+        {{-- FORM --}}
+<form method="POST"
+      action="{{ url('/permissions/update') }}">
+            @csrf
+
+            <input type="hidden"
+                   name="user_id"
+                   value="{{ $user->id }}">
+
+
+            {{-- PERMISSIONS --}}
             <div class="permission-grid">
 
                 @foreach($permissions as $permission)
 
-                <label class="permission-item">
-                    <input type="checkbox" name="permissions[]" value="{{ $permission->name }}">
-                    <span>{{ ucfirst($permission->name) }}</span>
-                </label>
+                    <label class="permission-item">
+
+                        <input type="checkbox"
+                               name="permissions[]"
+                               value="{{ $permission->name }}"
+
+                               {{$role->hasPermissionTo($permission->name) ? 'checked' : '' }}>
+
+                        <span>
+
+                            {{ ucwords(str_replace('-',' ',$permission->name)) }}
+
+                        </span>
+
+                    </label>
 
                 @endforeach
 
             </div>
 
-        </div>
 
-        <!-- Save Button -->
-        <div class="action-bar">
-            <button type="submit" class="save-btn">
-                Save Changes
-            </button>
-        </div>
+            {{-- BUTTON --}}
+            <div class="permission-footer">
 
-    </form>
+                <button type="submit"
+                        class="save-btn">
+
+                    Save Permissions
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
 
 </div>
 

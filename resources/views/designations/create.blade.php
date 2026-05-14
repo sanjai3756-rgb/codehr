@@ -1,19 +1,129 @@
-<form method="POST" action="{{ route('designations.store') }}">
-@csrf
+@extends('layouts.app')
 
-<select name="department_id">
-<option value="">Select Department</option>
+@section('content')
 
-@foreach($departments as $dept)
-<option value="{{ $dept->id }}">
-{{ $dept->department_name }}
-</option>
-@endforeach
+<div class="top-bar">
 
-</select>
+    <a href="javascript:history.back()"
+       class="back-btn">
 
-<input type="text" name="designation_name" placeholder="Designation Name">
+        <i class="fa-solid fa-arrow-left"></i>
 
-<button type="submit">Save</button>
+        Back
 
-</form>
+    </a>
+
+</div>
+
+<div class="form-card">
+
+    <div class="form-header">
+
+        <div>
+
+            <h2>Add Designation</h2>
+
+            <p>
+                Create new designation
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {{-- ERRORS --}}
+    @if ($errors->any())
+
+        <div class="error-box">
+
+            <ul>
+
+                @foreach ($errors->all() as $error)
+
+                    <li>{{ $error }}</li>
+
+                @endforeach
+
+            </ul>
+
+        </div>
+
+    @endif
+
+
+
+    {{-- FORM --}}
+    <form method="POST"
+          action="{{ route('designations.store') }}">
+
+        @csrf
+
+
+        {{-- DEPARTMENT --}}
+        <div class="form-group">
+
+            <label>
+
+                Department
+
+            </label>
+
+            <select name="department_id" required>
+
+                <option value="">
+                    Select Department
+                </option>
+
+                @foreach($departments as $department)
+
+                    <option value="{{ $department->id }}">
+
+                        {{ $department->department_name }}
+
+                    </option>
+
+                @endforeach
+
+            </select>
+
+        </div>
+
+
+
+        {{-- DESIGNATION --}}
+        <div class="form-group">
+
+            <label>
+
+                Designation Name
+
+            </label>
+
+            <input type="text"
+                   name="designation_name"
+                   placeholder="Enter Designation Name"
+                   value="{{ old('designation_name') }}">
+
+        </div>
+
+
+
+        {{-- BUTTON --}}
+        <div class="form-footer">
+
+            <button type="submit"
+                    class="save-btn">
+
+                Save Designation
+
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+@endsection

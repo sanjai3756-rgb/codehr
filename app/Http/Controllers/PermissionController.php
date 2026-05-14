@@ -3,33 +3,56 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use App\Models\User;
+
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+
 use Spatie\Permission\PermissionRegistrar;
 
 class PermissionController extends Controller
 {
-public function index(Request $request)
-{
-    $roles = \Spatie\Permission\Models\Role::all();
-    $permissions = \Spatie\Permission\Models\Permission::all();
+    public function index(Request $request)
+    {
+        $permissions = Permission::all();
 
-    $user = null;
+        $user = User::findOrFail(
+            $request->user_id
+        );
 
-    if($request->user_id){
-        $user = \App\Models\User::find($request->user_id);
+        $role = $user->roles->first();
+
+        return view(
+            'permissions.index',
+            compact(
+                'permissions',
+                'user',
+                'role'
+            )
+        );
     }
 
-    return view('permissions.index', compact('roles','permissions','user'));
-}
-    public function assign(Request $request)
+    public function update(Request $request)
     {
-        $role = Role::findById($request->role_id);
+        $user = User::findOrFail(
+            $request->user_id
+        );
 
-        $role->syncPermissions($request->permissions ?? []);
+        $role = $user->roles->first();
 
-        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+        // UPDATE ROLE PERMISSIONS
+        $role->syncPermissions(
+            $request->permissions ?? []
+        );
 
-        return back()->with('success', 'Permissions Updated');
+        // CLEAR CACHE
+        app()[PermissionRegistrar::class]
+            ->forgetCachedPermissions();
+
+        return back()->with(
+            'success',
+            'Permissions Updated Successfully'
+        );
     }
 }

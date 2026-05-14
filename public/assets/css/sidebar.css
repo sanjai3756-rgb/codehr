@@ -2,7 +2,7 @@
 
 .sidebar{
     width:240px;
-    height:100vh;
+    height:90vh;
     background:#0f172a;
     position:fixed;
     left:0;
@@ -14,31 +14,74 @@
 /* LOGO */
 
 .logo{
-    margin-bottom:30px;
+    margin-bottom:35px;
+    padding:10px;
 }
 
 .logo h2{
     color:#fff;
     margin:0;
+    font-size:28px;
+    font-weight:700;
 }
 
 /* LINKS */
 
 .sidebar a,
 .dropdown-btn{
-    display:block;
     width:100%;
-    padding:12px 15px;
+    padding:14px 16px;
     margin-bottom:10px;
-    color:#fff;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    color:#cbd5e1;
     text-decoration:none;
+
     border:none;
+    outline:none;
+
     background:none;
-    text-align:left;
-    border-radius:8px;
+
+    border-radius:12px;
+
     cursor:pointer;
-    transition:0.3s;
+
     font-size:15px;
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease;
+
+    box-sizing:border-box;
+
+    transform:none !important;
+}
+
+/* ICON + TEXT */
+
+.sidebar a div,
+.dropdown-btn div{
+    display:flex;
+    align-items:center;
+}
+
+/* ICON */
+
+.sidebar a i,
+.dropdown-btn i{
+    width:20px;
+    min-width:20px;
+    text-align:center;
+}
+
+/* TEXT */
+
+.sidebar a span,
+.dropdown-btn span{
+    margin-left:12px;
 }
 
 /* HOVER */
@@ -46,40 +89,85 @@
 .sidebar a:hover,
 .dropdown-btn:hover{
     background:#1e293b;
+    color:#fff;
+
+    transform:none !important;
 }
 
 /* ACTIVE */
 
 .sidebar a.active{
     background:#2563eb;
+    color:#fff;
+    box-shadow:0 4px 15px rgba(37,99,235,.25);
 }
 
 /* DROPDOWN */
 
 .dropdown-container{
     display:none;
-    padding-left:15px;
+    padding-left:12px;
 }
 
 .dropdown-container.show{
     display:block;
 }
 
+/* SUB MENU */
+
 .dropdown-container a{
     font-size:14px;
+    padding:12px 14px;
+}
+
+/* ARROW */
+
+.arrow{
+    font-size:12px;
+}
+
+/* SCROLLBAR */
+
+.sidebar::-webkit-scrollbar{
+    width:5px;
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+    background:#334155;
+    border-radius:10px;
 }
 
 /* LOGOUT */
 
 .logout-btn{
+    margin-top:30px !important;
+
     background:#dc2626 !important;
-    text-align:center !important;
-    width:85% !important;
-    margin:30px auto 0;
-    border-radius:10px;
-    display:block;
-    padding:12px;
+    color:#fff !important;
+
+    display:flex !important;
+    align-items:center;
+    justify-content:center !important;
+
+    gap:10px;
+
+    text-align:center;
+
+    width:100% !important;
+
+    border-radius:12px;
+
+    padding:14px;
+
+    box-sizing:border-box;
+
+    transform:none !important;
 }
+
+/* LOGOUT HOVER */
+
 .logout-btn:hover{
     background:#b91c1c !important;
+
+    transform:none !important;
 }

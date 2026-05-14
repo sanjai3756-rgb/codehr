@@ -2,56 +2,146 @@
 
 @section('content')
 
-<div class="table-box">
-<div class="table-header">
-<h2>Departments</h2>
-<a href="{{ route('departments.create') }}" class="btn-add">+ Add Department</a>
-</div>
+<div class="table-card">
 
-<table class="table">
+    <div class="table-header">
 
-<thead>
-<tr>
-    <th>S.No</th>
-    <th>Department Name</th>
-    <th>Action</th>
-</tr>
-</thead>
+        <div>
 
-<tbody>
+            <h2>Departments</h2>
 
-@foreach($departments as $key => $department)
+            <p>
+                Manage company departments
+            </p>
 
-<tr>
-    <td>{{ $key + 1 }}</td>
-    <td>{{ $department->department_name }}</td>
+        </div>
 
-    <td>
 
-        <a href="{{ route('departments.edit',$department->id) }}" class="btn-edit">
-            Edit
+        <a href="{{ route('departments.create') }}"
+           class="add-btn">
+
+            + Add Department
+
         </a>
 
-        <form action="{{ route('departments.destroy',$department->id) }}"
-              method="POST"
-              style="display:inline-block;"
-              onsubmit="return confirm('Delete Department?')">
+    </div>
 
-            @csrf
-            @method('DELETE')
 
-            <button class="btn-delete">
-                Delete
-            </button>
 
-        </form>
+    {{-- SUCCESS --}}
+    @if(session('success'))
 
-    </td>
-</tr>
+        <div class="toast-success" id="toast">
 
-@endforeach
+            {{ session('success') }}
 
-</tbody>
-</table>
+        </div>
+
+    @endif
+
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>ID</th>
+
+                <th>Department Name</th>
+
+                <th>Created At</th>
+
+                <th width="180">
+
+                    Action
+
+                </th>
+
+            </tr>
+
+        </thead>
+
+
+
+        <tbody>
+
+            @forelse($departments as $department)
+
+                <tr>
+
+                    <td>
+
+                        {{ $department->id }}
+
+                    </td>
+
+
+                    <td>
+
+                        {{ $department->department_name }}
+
+                    </td>
+
+
+                    <td>
+
+                        {{ $department->created_at->format('d M Y') }}
+
+                    </td>
+
+
+                    <td>
+
+                        <a href="{{ route('departments.edit',$department->id) }}"
+                           class="edit-btn">
+
+                            Edit
+
+                        </a>
+
+
+                        <form method="POST"
+                              action="{{ route('departments.destroy',$department->id) }}"
+                              style="display:inline-block">
+
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit"
+                                    class="delete-btn"
+                                    onclick="return confirm('Delete Department?')">
+
+                                Delete
+
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+            @empty
+
+                <tr>
+
+                    <td colspan="4"
+                        class="empty-text">
+
+                        No Departments Found
+
+                    </td>
+
+                </tr>
+
+            @endforelse
+
+        </tbody>
+
+    </table>
+
 </div>
+
 @endsection

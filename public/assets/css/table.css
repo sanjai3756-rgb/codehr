@@ -1,29 +1,259 @@
-.table-box{
-    background:white;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 2px 6px rgba(0,0,0,.08);
+
+/* designations table */
+/* TABLE CARD */
+
+.table-card{
+    background:#fff;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    overflow-x:auto;
 }
+
+/* HEADER */
 
 .table-header{
     display:flex;
     justify-content:space-between;
-    margin-bottom:15px;
+    align-items:center;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+    gap:15px;
 }
+
+.table-header h2{
+    margin:0;
+    font-size:28px;
+    color:#0f172a;
+}
+
+.table-header p{
+    margin-top:5px;
+    color:#64748b;
+    font-size:14px;
+}
+
+/* ADD BUTTON */
+
+.add-btn{
+    background:#184ab8;
+    color:#fff;
+    text-decoration:none;
+    /* padding:15px 18px; */
+    border-radius:12px;
+    font-size:14px;
+    transition:.3s;
+}
+
+.add-btn:hover{
+    background:#1d4ed8;
+}
+
+/* TABLE */
 
 table{
     width:100%;
     border-collapse:collapse;
 }
 
-table th,
-table td{
-    padding:12px;
-    border-bottom:1px solid #eee;
-    text-align:left;
+/* TABLE HEAD */
+
+table thead{
+    background:#f8fafc;
 }
 
-table th{
-    background:#1e293b;
-    color:white;
+table thead th{
+    padding:16px;
+    text-align:left;
+    color:#334155;
+    font-size:14px;
+    border-bottom:1px solid #e2e8f0;
+}
+
+/* TABLE BODY */
+
+table tbody td{
+    padding:16px;
+    border-bottom:1px solid #f1f5f9;
+    font-size:14px;
+    color:#475569;
+}
+
+/* ROW HOVER */
+
+table tbody tr:hover{
+    background:#f8fafc;
+}
+
+/* EDIT BUTTON */
+
+.edit-btn{
+    background:#decb25;
+    color:#fff;
+    text-decoration:none;
+    padding:8px 14px;
+    border-radius:8px;
+    font-size:13px;
+    margin-right:8px;
+    transition:.3s;
+}
+
+.edit-btn:hover{
+    background:#d97706;
+}
+
+/* DELETE BUTTON */
+
+.delete-btn{
+    background:#dc2626;
+    color:#fff;
+    border:none;
+    padding:8px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:13px;
+    transition:.3s;
+}
+
+.delete-btn:hover{
+    background:#b91c1c;
+}
+
+/* EMPTY */
+
+.empty-text{
+    text-align:center;
+    padding:30px;
+    color:#94a3b8;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .table-header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    table{
+        min-width:700px;
+    }
+
+}
+/* department tabele */
+/* TABLE CARD */
+
+.table-card{
+    background:#fff;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    overflow-x:auto;
+}
+
+/* HEADER */
+
+.table-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.table-header h2{
+    margin:0;
+    font-size:28px;
+    color:#0f172a;
+}
+
+.table-header p{
+    margin-top:5px;
+    color:#64748b;
+    font-size:14px;
+}
+
+/* ADD BTN */
+
+.add-btn{
+    background:#2563eb;
+    color:#fff;
+    text-decoration:none;
+    padding:12px 18px;
+    border-radius:12px;
+    transition:.3s;
+}
+
+.add-btn:hover{
+    background:#1d4ed8;
+}
+
+/* TABLE */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+/* HEAD */
+
+table thead{
+    background:#f8fafc;
+}
+
+table thead th{
+    padding:16px;
+    text-align:left;
+    color:#334155;
+    font-size:14px;
+    border-bottom:1px solid #e2e8f0;
+}
+
+/* BODY */
+
+table tbody td{
+    padding:16px;
+    border-bottom:1px solid #f1f5f9;
+    font-size:14px;
+    color:#475569;
+}
+
+/* HOVER */
+
+table tbody tr:hover{
+    background:#f8fafc;
+}
+
+/* EDIT */
+
+.edit-btn{
+    background:#0c31d6;
+    color:#fff;
+    padding:8px 14px;
+    border-radius:8px;
+    text-decoration:none;
+    margin-right:8px;
+    font-size:13px;
+}
+
+/* DELETE */
+
+.delete-btn{
+    background:#dc2626;
+    color:#fff;
+    border:none;
+    padding:8px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:13px;
+}
+
+/* EMPTY */
+
+.empty-text{
+    text-align:center;
+    color:#94a3b8;
+    padding:25px;
 }

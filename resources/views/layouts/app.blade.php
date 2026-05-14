@@ -15,154 +15,403 @@
     <link rel="stylesheet" href="{{ asset('assets/css/buttons.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/dark.css') }}">
 
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
+
 <body>
 
+<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
 
+    <!-- LOGO -->
     <div class="logo">
+
         <h2>HRMS</h2>
+
     </div>
 
-    {{-- ADMIN --}}
-    @role('admin')
 
-        <a href="/dashboard">Dashboard</a>
+    <!-- DASHBOARD -->
+    <a href="/dashboard"
+       class="{{ request()->is('dashboard') ? 'active' : '' }}">
 
-        {{-- USERS --}}
-        <button class="dropdown-btn"
-                onclick="toggleMenu('userMenu')">
+        <div>
 
-            Users ⌄
+            <i class="fa-solid fa-house"></i>
 
-        </button>
-
-        <div id="userMenu" class="dropdown-container">
-
-            <a href="/users">Users</a>
-
-            <a href="/permissions">Permissions</a>
+            <span>Dashboard</span>
 
         </div>
 
-
-        <a href="/departments">Departments</a>
-
-        <a href="/designations">Designation</a>
-
-        <a href="/attendances">Attendance</a>
-
-        <a href="/payrolls">Payroll</a>
-
-        <a href="/leaves">Leaves</a>
+    </a>
 
 
-        {{-- REPORTS --}}
-        <button class="dropdown-btn"
-                onclick="toggleMenu('reportsMenu')">
 
-            Reports ⌄
+    <!-- USERS -->
+    @can('manage users')
 
-        </button>
+    <button class="dropdown-btn
+        {{ request()->is('users*') || request()->is('permissions*') ? 'active' : '' }}"
+        onclick="toggleMenu('userMenu')">
 
-        <div id="reportsMenu" class="dropdown-container">
+        <div>
 
-            <a href="/reports/attendance">
-                Attendance Report
-            </a>
+            <i class="fa-solid fa-users"></i>
 
-            <a href="/reports/leaves">
-                Leave Report
-            </a>
-
-            <a href="/reports/payroll">
-                Payroll Report
-            </a>
+            <span>Users</span>
 
         </div>
 
-    @endrole
+        <i class="fa-solid fa-chevron-down arrow"></i>
+
+    </button>
+
+    <div id="userMenu"
+         class="dropdown-container
+         {{ request()->is('users*') || request()->is('permissions*') ? 'show' : '' }}">
+
+        <a href="/users"
+           class="{{ request()->is('users*') ? 'active' : '' }}">
+
+            <i class="fa-solid fa-user"></i>
+
+            <span>All Users</span>
+
+        </a>
+
+
+        @can('manage permissions')
+
+        <a href="/permissions?user_id={{ auth()->id() }}"
+           class="{{ request()->is('permissions*') ? 'active' : '' }}">
+
+            <i class="fa-solid fa-key"></i>
+
+            <span>Permissions</span>
+
+        </a>
+
+        @endcan
+
+    </div>
+
+    @endcan
 
 
 
-    {{-- HR --}}
-    @role('hr')
+    <!-- DEPARTMENTS -->
+    @can('manage departments')
 
-        <a href="/dashboard">Dashboard</a>
+    <a href="/departments"
+       class="{{ request()->is('departments*') ? 'active' : '' }}">
 
-        <a href="/employees">Employees</a>
+        <div>
 
-        <a href="/attendances">Attendance</a>
+            <i class="fa-solid fa-building"></i>
 
-        <a href="/payrolls">Payroll</a>
+            <span>Departments</span>
 
-        <a href="/leaves">Leaves</a>
+        </div>
 
-    @endrole
+    </a>
+
+    @endcan
 
 
 
-    {{-- EMPLOYEE --}}
+    <!-- DESIGNATIONS -->
+    @can('manage designations')
+
+    <a href="/designations"
+       class="{{ request()->is('designations*') ? 'active' : '' }}">
+
+        <div>
+
+            <i class="fa-solid fa-id-badge"></i>
+
+            <span>Designations</span>
+
+        </div>
+
+    </a>
+
+    @endcan
+
+
+
+    <!-- EMPLOYEES -->
+    @can('manage employees')
+
+    <a href="/employees"
+       class="{{ request()->is('employees*') ? 'active' : '' }}">
+
+        <div>
+
+            <i class="fa-solid fa-user-group"></i>
+
+            <span>Employees</span>
+
+        </div>
+
+    </a>
+
+    @endcan
+
+
+
+    <!-- ATTENDANCE -->
+    @can('manage attendance')
+
+    <a href="/attendances"
+       class="{{ request()->is('attendances*') ? 'active' : '' }}">
+
+        <div>
+
+            <i class="fa-solid fa-calendar-check"></i>
+
+            <span>Attendance</span>
+
+        </div>
+
+    </a>
+
+    @endcan
+
+
+
+    <!-- KPI -->
+    @can('manage kpi')
+
+    <a href="/kpi-points"
+       class="{{ request()->is('kpi-points') ? 'active' : '' }}">
+
+        <div>
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            <span>KPI Points</span>
+
+        </div>
+
+    </a>
+
+    @endcan
+
+
+
+    <!-- PAYROLL -->
+    @can('manage payroll')
+
+    <a href="/payrolls"
+       class="{{ request()->is('payrolls*') ? 'active' : '' }}">
+
+        <div>
+
+            <i class="fa-solid fa-money-bill-wave"></i>
+
+            <span>Payroll</span>
+
+        </div>
+
+    </a>
+
+    @endcan
+
+
+
+    <!-- LEAVES -->
+    @can('manage leaves')
+
+    <a href="/leaves"
+       class="{{ request()->is('leaves*') ? 'active' : '' }}">
+
+        <div>
+
+            <i class="fa-solid fa-plane-departure"></i>
+
+            <span>Leaves</span>
+
+        </div>
+
+    </a>
+
+    @endcan
+
+
+
+    <!-- REPORTS -->
+    @can('view reports')
+
+    <button class="dropdown-btn
+        {{ request()->is('reports*') ? 'active' : '' }}"
+        onclick="toggleMenu('reportsMenu')">
+
+        <div>
+
+            <i class="fa-solid fa-chart-column"></i>
+
+            <span>Reports</span>
+
+        </div>
+
+        <i class="fa-solid fa-chevron-down arrow"></i>
+
+    </button>
+
+    <div id="reportsMenu"
+         class="dropdown-container
+         {{ request()->is('reports*') ? 'show' : '' }}">
+
+        <a href="/reports/attendance">
+
+            <i class="fa-solid fa-file-lines"></i>
+
+            <span>Attendance Report</span>
+
+        </a>
+
+        <a href="/reports/leaves">
+
+            <i class="fa-solid fa-file-lines"></i>
+
+            <span>Leave Report</span>
+
+        </a>
+
+        <a href="/reports/payroll">
+
+            <i class="fa-solid fa-file-lines"></i>
+
+            <span>Payroll Report</span>
+
+        </a>
+
+    </div>
+
+    @endcan
+
+
+
+    <!-- EMPLOYEE PANEL -->
     @role('employee')
 
-        <a href="/dashboard">Dashboard</a>
+    <a href="/profile">
 
-        <a href="/profile">My Profile</a>
+        <div>
 
-        <a href="/my-attendance">My Attendance</a>
+            <i class="fa-solid fa-user"></i>
 
-        <a href="/punch">Punch</a>
+            <span>My Profile</span>
 
-        <a href="/apply-leave">Apply Leave</a>
+        </div>
 
-        <a href="/my-payslip">Payslip</a>
+    </a>
+
+    <a href="/my-attendance">
+
+        <div>
+
+            <i class="fa-solid fa-clock"></i>
+
+            <span>My Attendance</span>
+
+        </div>
+
+    </a>
+
+    <a href="/punch">
+
+        <div>
+
+            <i class="fa-solid fa-hand-pointer"></i>
+
+            <span>Punch</span>
+
+        </div>
+
+    </a>
+
+    <a href="/apply-leave">
+
+        <div>
+
+            <i class="fa-solid fa-paper-plane"></i>
+
+            <span>Apply Leave</span>
+
+        </div>
+
+    </a>
+
+    <a href="/my-payslip">
+
+        <div>
+
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+
+            <span>Payslip</span>
+
+        </div>
+
+    </a>
 
     @endrole
 
 
-    <a href="/logout" class="logout-btn">
-        Logout
+
+    <!-- LOGOUT -->
+    <a href="/logout"
+       class="logout-btn">
+
+        <i class="fa-solid fa-right-from-bracket"></i>
+
+        <span>Logout</span>
+
     </a>
 
 </div>
-<!-- MAIN CONTENT -->
+
+
+
+<!-- MAIN -->
 <div class="main">
 
-    <!-- TOP NAVBAR -->
+    <!-- NAVBAR -->
     <div class="navbar">
+
         <div class="nav-left">
-            <h3>Welcome, {{ auth()->user()->name }}</h3>
+
+            <h3>
+
+                Welcome,
+                {{ auth()->user()->name }}
+
+            </h3>
+
         </div>
 
-        {{-- <div class="nav-right">
-            <a href="/logout" class="logout-btn">Logout</a>
-        </div> --}}
     </div>
 
-    <!-- PAGE CONTENT -->
+
+    <!-- CONTENT -->
     <div class="content">
+
         @yield('content')
+
     </div>
 
 </div>
 
 
+
+<!-- SIDEBAR JS -->
 <script>
 
-function toggleUserMenu() {
-
-    document.getElementById("userMenu")
-            .classList.toggle("show");
-
-}
-
-function toggleReportsMenu() {
-
-    document.getElementById("reportsMenu")
-            .classList.toggle("show");
-
-}
 function toggleMenu(menuId)
 {
     document
@@ -171,7 +420,36 @@ function toggleMenu(menuId)
         .toggle("show");
 }
 
+</script>
+
+
+
+<!-- TOAST -->
+<script>
+
+setTimeout(() => {
+
+    let toast = document.getElementById('toast');
+
+    if(toast){
+
+        toast.style.transition = "0.5s";
+
+        toast.style.opacity = "0";
+
+        toast.style.transform = "translateX(100%)";
+
+        setTimeout(() => {
+
+            toast.remove();
+
+        }, 500);
+
+    }
+
+}, 3000);
 
 </script>
+
 </body>
 </html>
