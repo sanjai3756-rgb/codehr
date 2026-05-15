@@ -1,39 +1,117 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
     <title>HRMS</title>
 
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/sidebar.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/table.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/form.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/employee.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/navbar.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/profile.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/buttons.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/dark.css') }}">
+    @php
+        $setting = \App\Models\Setting::first();
+    @endphp
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/sidebar.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/table.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/form.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/employee.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/navbar.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/profile.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/buttons.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/dark.css') }}?v={{ time() }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/settings.css') }}?v={{ time() }}">
 
     <!-- FONT AWESOME -->
     <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <!-- CHART -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- THEME -->
+    <style>
+
+        :root{
+
+            --theme-color:
+            {{ $setting->theme_color ?? '#2563eb' }};
+
+            --font-family:
+            '{{ $setting->font_family ?? 'Poppins' }}';
+
+        }
+
+        body{
+
+            font-family:var(--font-family);
+        }
+
+    </style>
 
 </head>
 
 <body>
 
+<!-- TRANSPARENT LOADER -->
+
+<div id="pageLoader">
+
+    <div class="mini-loader">
+
+        @php
+            $setting = \App\Models\Setting::first();
+        @endphp
+
+
+        @if($setting && $setting->logo)
+
+            <img src="{{ asset('uploads/settings/'.$setting->logo) }}"
+                 class="mini-loader-logo">
+
+        @endif
+
+
+        <div class="loader-line">
+
+            <span></span>
+
+            <span></span>
+
+            <span></span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
 <!-- SIDEBAR -->
-<div class="sidebar" id="sidebar">
+<div class="sidebar">
+
 
     <!-- LOGO -->
     <div class="logo">
 
-        <h2>HRMS</h2>
+        @if($setting && $setting->logo)
+
+            <img src="{{ asset('uploads/settings/'.$setting->logo) }}"
+                 width="50"
+                 style="border-radius:12px;margin-bottom:10px;">
+
+        @endif
+
+
+        <h2>
+
+            {{ $setting->website_name ?? 'CodeHR' }}
+
+        </h2>
 
     </div>
+
 
 
     <!-- DASHBOARD -->
@@ -55,9 +133,7 @@
     <!-- USERS -->
     @can('manage users')
 
-    <button class="dropdown-btn
-        {{ request()->is('users*') || request()->is('permissions*') ? 'active' : '' }}"
-        onclick="toggleMenu('userMenu')">
+    <button class="dropdown-btn">
 
         <div>
 
@@ -71,32 +147,17 @@
 
     </button>
 
-    <div id="userMenu"
-         class="dropdown-container
-         {{ request()->is('users*') || request()->is('permissions*') ? 'show' : '' }}">
 
-        <a href="/users"
-           class="{{ request()->is('users*') ? 'active' : '' }}">
+    <div class="dropdown-container
+        {{ request()->is('users*') ? 'show' : '' }}">
+
+        <a href="/users">
 
             <i class="fa-solid fa-user"></i>
 
-            <span>All Users</span>
+            <span>All Staffs</span>
 
         </a>
-
-
-        @can('manage permissions')
-
-        <a href="/permissions?user_id={{ auth()->id() }}"
-           class="{{ request()->is('permissions*') ? 'active' : '' }}">
-
-            <i class="fa-solid fa-key"></i>
-
-            <span>Permissions</span>
-
-        </a>
-
-        @endcan
 
     </div>
 
@@ -144,26 +205,6 @@
 
 
 
-    <!-- EMPLOYEES -->
-    @can('manage employees')
-
-    <a href="/employees"
-       class="{{ request()->is('employees*') ? 'active' : '' }}">
-
-        <div>
-
-            <i class="fa-solid fa-user-group"></i>
-
-            <span>Employees</span>
-
-        </div>
-
-    </a>
-
-    @endcan
-
-
-
     <!-- ATTENDANCE -->
     @can('manage attendance')
 
@@ -184,23 +225,53 @@
 
 
 
-    <!-- KPI -->
-    @can('manage kpi')
+    <!-- KPI MANAGEMENT -->
 
-    <a href="/kpi-points"
-       class="{{ request()->is('kpi-points') ? 'active' : '' }}">
+    <button class="dropdown-btn">
 
         <div>
 
             <i class="fa-solid fa-chart-line"></i>
 
-            <span>KPI Points</span>
+            <span>KPI Management</span>
 
         </div>
 
-    </a>
+        <i class="fa-solid fa-chevron-down arrow"></i>
 
-    @endcan
+    </button>
+
+
+    <div class="dropdown-container
+        {{ request()->is('kpi*') ? 'show' : '' }}">
+
+        <a href="{{ route('kpi.dashboard') }}">
+
+            <i class="fa-solid fa-chart-pie"></i>
+
+            <span>KPI Dashboard</span>
+
+        </a>
+
+
+        <a href="{{ route('kpi.index') }}">
+
+            <i class="fa-solid fa-users"></i>
+
+            <span>Employee KPI</span>
+
+        </a>
+
+
+        <a href="{{ route('kpi.reports') }}">
+
+            <i class="fa-solid fa-file-lines"></i>
+
+            <span>KPI Reports</span>
+
+        </a>
+
+    </div>
 
 
 
@@ -225,31 +296,63 @@
 
 
     <!-- LEAVES -->
+
     @can('manage leaves')
 
-    <a href="/leaves"
-       class="{{ request()->is('leaves*') ? 'active' : '' }}">
+    <button class="dropdown-btn">
 
         <div>
 
-            <i class="fa-solid fa-plane-departure"></i>
+            <i class="fa-solid fa-calendar-days"></i>
 
             <span>Leaves</span>
 
         </div>
 
-    </a>
+        <i class="fa-solid fa-chevron-down arrow"></i>
+
+    </button>
+
+
+    <div class="dropdown-container">
+
+        <a href="/leaves">
+
+            <i class="fa-solid fa-paper-plane"></i>
+
+            <span>Leave Requests</span>
+
+        </a>
+
+
+        <a href="/leave-types">
+
+            <i class="fa-solid fa-layer-group"></i>
+
+            <span>Leave Types</span>
+
+        </a>
+
+
+        <a href="/leave-settings">
+
+            <i class="fa-solid fa-gear"></i>
+
+            <span>Approval Settings</span>
+
+        </a>
+
+    </div>
 
     @endcan
 
 
 
     <!-- REPORTS -->
+
     @can('view reports')
 
-    <button class="dropdown-btn
-        {{ request()->is('reports*') ? 'active' : '' }}"
-        onclick="toggleMenu('reportsMenu')">
+    <button class="dropdown-btn">
 
         <div>
 
@@ -263,9 +366,8 @@
 
     </button>
 
-    <div id="reportsMenu"
-         class="dropdown-container
-         {{ request()->is('reports*') ? 'show' : '' }}">
+
+    <div class="dropdown-container">
 
         <a href="/reports/attendance">
 
@@ -275,6 +377,7 @@
 
         </a>
 
+
         <a href="/reports/leaves">
 
             <i class="fa-solid fa-file-lines"></i>
@@ -282,6 +385,7 @@
             <span>Leave Report</span>
 
         </a>
+
 
         <a href="/reports/payroll">
 
@@ -297,7 +401,24 @@
 
 
 
+    <!-- SETTINGS -->
+
+    <a href="/settings">
+
+        <div>
+
+            <i class="fa-solid fa-gear"></i>
+
+            <span>Settings</span>
+
+        </div>
+
+    </a>
+
+
+
     <!-- EMPLOYEE PANEL -->
+
     @role('employee')
 
     <a href="/profile">
@@ -312,59 +433,12 @@
 
     </a>
 
-    <a href="/my-attendance">
-
-        <div>
-
-            <i class="fa-solid fa-clock"></i>
-
-            <span>My Attendance</span>
-
-        </div>
-
-    </a>
-
-    <a href="/punch">
-
-        <div>
-
-            <i class="fa-solid fa-hand-pointer"></i>
-
-            <span>Punch</span>
-
-        </div>
-
-    </a>
-
-    <a href="/apply-leave">
-
-        <div>
-
-            <i class="fa-solid fa-paper-plane"></i>
-
-            <span>Apply Leave</span>
-
-        </div>
-
-    </a>
-
-    <a href="/my-payslip">
-
-        <div>
-
-            <i class="fa-solid fa-file-invoice-dollar"></i>
-
-            <span>Payslip</span>
-
-        </div>
-
-    </a>
-
     @endrole
 
 
 
     <!-- LOGOUT -->
+
     <a href="/logout"
        class="logout-btn">
 
@@ -381,6 +455,7 @@
 <!-- MAIN -->
 <div class="main">
 
+
     <!-- NAVBAR -->
     <div class="navbar">
 
@@ -389,13 +464,51 @@
             <h3>
 
                 Welcome,
-                {{ auth()->user()->name }}
+                {{ auth()->check() ? auth()->user()->name : 'Guest' }}
 
             </h3>
 
         </div>
 
+
+        <!-- USER DROPDOWN -->
+
+        <div class="user-dropdown">
+
+
+
+
+            <div class="user-menu"
+                 id="userDropdownMenu">
+
+                <a href="/profile">
+
+
+                    
+
+                </a>
+
+
+                <a href="/settings">
+
+
+                    
+
+                </a>
+
+
+                <a href="/logout">
+
+
+
+                </a>
+
+            </div>
+
+        </div>
+
     </div>
+
 
 
     <!-- CONTENT -->
@@ -409,27 +522,123 @@
 
 
 
-<!-- SIDEBAR JS -->
+<!-- DROPDOWN SCRIPT -->
+
 <script>
 
-function toggleMenu(menuId)
-{
-    document
-        .getElementById(menuId)
-        .classList
-        .toggle("show");
-}
+document.addEventListener('DOMContentLoaded', function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | SIDEBAR DROPDOWN
+    |--------------------------------------------------------------------------
+    */
+
+    const dropdownBtns =
+        document.querySelectorAll('.dropdown-btn');
+
+    dropdownBtns.forEach(btn => {
+
+        btn.addEventListener('click', function (e) {
+
+            e.preventDefault();
+
+            e.stopPropagation();
+
+            const dropdown =
+                this.nextElementSibling;
+
+            document
+                .querySelectorAll('.dropdown-container')
+                .forEach(menu => {
+
+                    if(menu !== dropdown){
+
+                        menu.classList.remove('show');
+
+                    }
+
+                });
+
+            dropdown.classList.toggle('show');
+
+        });
+
+    });
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | USER DROPDOWN
+    |--------------------------------------------------------------------------
+    */
+
+    const userBtn =
+        document.getElementById('userDropdownBtn');
+
+    const userMenu =
+        document.getElementById('userDropdownMenu');
+
+
+    if(userBtn){
+
+        userBtn.addEventListener('click', function (e) {
+
+            e.preventDefault();
+
+            e.stopPropagation();
+
+            userMenu.classList.toggle(
+                'show-user-menu'
+            );
+
+        });
+
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | OUTSIDE CLICK CLOSE
+    |--------------------------------------------------------------------------
+    */
+
+    document.addEventListener('click', function () {
+
+        document
+            .querySelectorAll('.dropdown-container')
+            .forEach(menu => {
+
+                menu.classList.remove('show');
+
+            });
+
+        if(userMenu){
+
+            userMenu.classList.remove(
+                'show-user-menu'
+            );
+
+        }
+
+    });
+
+});
 
 </script>
 
 
 
 <!-- TOAST -->
+
 <script>
 
 setTimeout(() => {
 
-    let toast = document.getElementById('toast');
+    let toast =
+        document.getElementById('toast');
 
     if(toast){
 
@@ -437,7 +646,8 @@ setTimeout(() => {
 
         toast.style.opacity = "0";
 
-        toast.style.transform = "translateX(100%)";
+        toast.style.transform =
+            "translateX(100%)";
 
         setTimeout(() => {
 
@@ -451,5 +661,27 @@ setTimeout(() => {
 
 </script>
 
+
+<script>
+
+window.addEventListener('load', function(){
+
+    const loader =
+        document.getElementById('pageLoader');
+
+    setTimeout(() => {
+
+        loader.style.opacity = '0';
+
+        loader.style.visibility = 'hidden';
+
+        loader.style.pointerEvents = 'none';
+
+    }, 500);
+
+});
+
+</script>
 </body>
+
 </html>
