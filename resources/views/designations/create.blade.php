@@ -4,15 +4,13 @@
 
 <div class="top-bar">
 
-    <a href="javascript:history.back()"
-       class="back-btn">
+<a href="{{ url()->previous() }}" class="back-btn">
 
-        <i class="fa-solid fa-arrow-left"></i>
+    <i class="fa-solid fa-arrow-left"></i>
 
-        Back
+    Back
 
-    </a>
-
+</a>
 </div>
 
 <div class="form-card">

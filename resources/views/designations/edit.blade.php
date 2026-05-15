@@ -1,6 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="top-bar">
+
+    <a href="javascript:history.back()"
+       class="back-btn">
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+        Back
+
+    </a>
+
+</div>
+
 
 <div class="form-card">
 
@@ -44,16 +57,6 @@
         </div>
 
     </form>
-
-</div>
-<div class="page-top">
-
-    <a href="javascript:history.back()"
-       class="back-btn">
-
-        ← Back
-
-    </a>
 
 </div>
 

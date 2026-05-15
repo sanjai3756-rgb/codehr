@@ -33,26 +33,42 @@ class PermissionController extends Controller
         );
     }
 
-    public function update(Request $request)
-    {
-        $user = User::findOrFail(
-            $request->user_id
-        );
+public function update(Request $request)
+{
+    $user = User::findOrFail(
+        $request->user_id
+    );
 
-        $role = $user->roles->first();
 
-        // UPDATE ROLE PERMISSIONS
-        $role->syncPermissions(
-            $request->permissions ?? []
-        );
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE USER PERMISSIONS
+    |--------------------------------------------------------------------------
+    */
 
-        // CLEAR CACHE
-        app()[PermissionRegistrar::class]
-            ->forgetCachedPermissions();
+    $user->syncPermissions(
 
-        return back()->with(
-            'success',
-            'Permissions Updated Successfully'
-        );
-    }
+        $request->permissions ?? []
+
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CLEAR CACHE
+    |--------------------------------------------------------------------------
+    */
+
+    app()[\Spatie\Permission\PermissionRegistrar::class]
+        ->forgetCachedPermissions();
+
+
+    return back()->with(
+
+        'success',
+
+        'Permissions Updated Successfully'
+
+    );
+}
 }

@@ -18,33 +18,65 @@ class DepartmentController extends Controller
         return view('departments.create');
     }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'department_name' => 'required',
-            'department_code' => 'required|unique:departments'
-        ]);
+public function store(Request $request)
+{
+    $request->validate([
 
-        Department::create($request->all());
+        'department_name' => 'required'
 
-        return redirect()->route('departments.index')
-            ->with('success', 'Department Added Successfully');
-    }
+    ]);
 
-    public function edit(Department $department)
+
+    Department::create([
+
+        'department_name' =>
+            $request->department_name
+
+    ]);
+
+
+    return redirect()
+        ->route('departments.index')
+        ->with(
+            'success',
+            'Department Added Successfully'
+        );
+}
+
+  public function edit(Department $department)
     {
         return view('departments.edit', compact('department'));
     }
 
-    public function update(Request $request, Department $department)
-    {
-        $department->update($request->all());
+public function update(
+    Request $request,
+    Department $department
+)
+{
+    $request->validate([
 
-        return redirect()->route('departments.index')
-            ->with('success', 'Updated Successfully');
-    }
+        'department_name' => 'required'
 
-    public function destroy(Department $department)
+    ]);
+
+
+    $department->update([
+
+        'department_name' =>
+            $request->department_name
+
+    ]);
+
+
+    return redirect()
+        ->route('departments.index')
+        ->with(
+            'success',
+            'Department Updated Successfully'
+        );
+}
+
+public function destroy(Department $department)
     {
         $department->delete();
 

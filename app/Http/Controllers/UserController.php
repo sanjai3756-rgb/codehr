@@ -3,69 +3,335 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Department;
+use App\Models\Designation;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionRegistrar;
 
 class UserController extends Controller
 {
 
-    public function index()
+    /*
+    |--------------------------------------------------------------------------
+    | INDEX
+    |--------------------------------------------------------------------------
+    */
 
+    public function index()
     {
-        $users = User::latest()->get();
-        return view('users.index', compact('users'));
+        $users = User::with('designation')
+                    ->latest()
+                    ->get();
+
+        return view(
+            'users.index',
+            compact('users')
+        );
     }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CREATE
+    |--------------------------------------------------------------------------
+    */
 
     public function create()
     {
+        $departments = Department::all();
+
+        $designations = Designation::all();
+
         $permissions = Permission::all();
-        return view('users.create', compact('permissions'));
+
+
+        return view(
+            'users.create',
+            compact(
+                'departments',
+                'designations',
+                'permissions'
+            )
+        );
     }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | STORE
+    |--------------------------------------------------------------------------
+    */
 
     public function store(Request $request)
     {
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'role' => $request->role,
-            'password' => Hash::make($request->password),
+        $request->validate([
+
+            'name' => 'required',
+
+            'email' =>
+            'required|email|unique:users,email',
+
+            'password' => 'required'
+
         ]);
 
-        $user->syncRoles([$request->role]);
 
-        if ($request->permissions) {
-            $user->syncPermissions($request->permissions);
+        /*
+        |--------------------------------------------------------------------------
+        | PHOTO
+        |--------------------------------------------------------------------------
+        */
+
+        if($request->hasFile('photo'))
+        {
+            $file = $request->file('photo');
+
+            $name = time().'.'.$file
+                                  ->getClientOriginalExtension();
+
+            $file->move(
+                public_path('uploads/users'),
+                $name
+            );
+
+            $photo = $name;
+        }
+        else{
+            $photo = null;
         }
 
-        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
-        return redirect()->route('users.index')
-            ->with('success', 'User Created');
+        /*
+        |--------------------------------------------------------------------------
+        | CREATE USER
+        |--------------------------------------------------------------------------
+        */
+
+        $user = User::create([
+
+            'name' => $request->name,
+
+            'email' => $request->email,
+
+            'phone' => $request->phone,
+
+            'password' => Hash::make(
+                $request->password
+            ),
+
+            'designation_id' =>
+                $request->designation_id,
+
+            'employee_id' =>
+                $request->employee_id,
+
+            'salary' =>
+                $request->salary,
+
+            'joining_date' =>
+                $request->joining_date,
+
+            'photo' => $photo
+
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | PERMISSIONS
+        |--------------------------------------------------------------------------
+        */
+
+        if($request->permissions)
+        {
+            $user->syncPermissions(
+
+                $request->permissions
+
+            );
+        }
+
+
+        app()[PermissionRegistrar::class]
+            ->forgetCachedPermissions();
+
+
+        return redirect()
+            ->route('users.index')
+            ->with(
+                'success',
+                'User Created Successfully'
+            );
     }
 
-public function edit(User $user)
-{
-    return view('users.edit', compact('user'));
-}
 
-public function update(Request $request, User $user)
-{
-    $user->update([
-        'name' => $request->name,
-        'email' => $request->email,
-        'role' => $request->role,
-    ]);
 
-    return redirect()->route('users.index')
-        ->with('success', 'User Updated');
-}
+    /*
+    |--------------------------------------------------------------------------
+    | EDIT
+    |--------------------------------------------------------------------------
+    */
 
-public function destroy(User $user)
+    public function edit(User $user)
+    {
+        $departments = Department::all();
+
+        $designations = Designation::all();
+
+        $permissions = Permission::all();
+
+
+        return view(
+            'users.edit',
+            compact(
+                'user',
+                'departments',
+                'designations',
+                'permissions'
+            )
+        );
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | UPDATE
+    |--------------------------------------------------------------------------
+    */
+
+    public function update(
+        Request $request,
+        User $user
+    )
+    {
+        $request->validate([
+
+            'name' => 'required',
+
+            'email' =>
+            'required|email|unique:users,email,'.$user->id
+
+        ]);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | DATA
+        |--------------------------------------------------------------------------
+        */
+
+        $data = [
+
+            'name' => $request->name,
+
+            'email' => $request->email,
+
+            'phone' => $request->phone,
+
+            'designation_id' =>
+                $request->designation_id,
+
+            'employee_id' =>
+                $request->employee_id,
+
+            'salary' =>
+                $request->salary,
+
+            'joining_date' =>
+                $request->joining_date
+
+        ];
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | PASSWORD
+        |--------------------------------------------------------------------------
+        */
+
+        if($request->password)
+        {
+            $data['password'] =
+                Hash::make($request->password);
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | PHOTO
+        |--------------------------------------------------------------------------
+        */
+
+        if($request->hasFile('photo'))
+        {
+            $file = $request->file('photo');
+
+            $name = time().'.'.$file
+                                  ->getClientOriginalExtension();
+
+            $file->move(
+                public_path('uploads/users'),
+                $name
+            );
+
+            $data['photo'] = $name;
+        }
+
+
+        $user->update($data);
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | UPDATE PERMISSIONS
+        |--------------------------------------------------------------------------
+        */
+
+        $user->syncPermissions(
+
+            $request->permissions ?? []
+
+        );
+
+
+        app()[PermissionRegistrar::class]
+            ->forgetCachedPermissions();
+
+
+        return redirect()
+            ->route('users.index')
+            ->with(
+                'success',
+                'User Updated Successfully'
+            );
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DELETE
+    |--------------------------------------------------------------------------
+    */
+
+    public function destroy(User $user)
     {
         $user->delete();
 
-        app()[PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]
+            ->forgetCachedPermissions();
 
-        return back()->with('success', 'User Deleted');
+
+        return back()->with(
+            'success',
+            'User Deleted Successfully'
+        );
     }
 }

@@ -1,0 +1,56 @@
+.kpi-category-box{
+    background:#fc3030;
+    border-radius:20px;
+    padding:25px;
+    margin-bottom:25px;
+    border:1px solid #e2e8f0;
+}
+
+.kpi-category-box h3{
+    margin-top:0;
+    margin-bottom:20px;
+    color:var(--theme-color);
+}
+
+.kpi-question-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 0;
+    border-bottom:1px solid #f1f5f9;
+    gap:20px;
+}
+
+.kpi-question-row p{
+    margin-top:5px;
+    color:#64748b;
+    font-size:13px;
+}
+
+.kpi-question-row input{
+    width:80px;
+    height:45px;
+    border:1px solid #cbd5e1;
+    border-radius:12px;
+    text-align:center;
+    font-size:16px;
+    font-weight:700;
+}
+
+.score-badge{
+    background:var(--theme-color);
+    color:#fff;
+    padding:8px 15px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:700;
+}
+
+.status-success{
+    background:#dcfce7;
+    color:#15803d;
+    padding:8px 14px;
+    border-radius:30px;
+    font-size:12px;
+    font-weight:700;
+}

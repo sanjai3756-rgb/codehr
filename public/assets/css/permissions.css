@@ -22,10 +22,10 @@
 
 /* Card */
 .card-box{
-    background:#fff;
+    background:var(--theme-color);
     padding:20px;
     border-radius:14px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.06);
+    box-shadow:0 8px 20px rgba(var(--theme-color));
 }
 
 /* Spacing */
@@ -63,17 +63,17 @@
     padding:12px;
     border-radius:10px;
     border:1px solid #eee;
-    background:#f9fafb;
+    background:var(--theme-color);
     cursor:pointer;
 }
 
 .permission-item:hover{
-    background:#eef2ff;
+    background:var(--theme-color);
 }
 
 /* Buttons */
 .btn-back{
-    background:#e5e7eb;
+    background:var(--theme-color);
     padding:10px 15px;
     border-radius:8px;
     text-decoration:none;
@@ -82,7 +82,7 @@
 }
 
 .save-btn{
-    background:#2563eb;
+    background:var(--theme-color);
     color:#fff;
     padding:14px 25px;
     border:none;
@@ -92,7 +92,7 @@
 }
 
 .save-btn:hover{
-    background:#1e40af;
+    background:var(--theme-color);
 }
 
 /* Bottom action bar */
@@ -103,7 +103,7 @@
 
 /* Alert */
 .alert-success{
-    background:#dcfce7;
+    background:var(--theme-color);
     padding:10px;
     margin-bottom:15px;
     border-radius:8px;

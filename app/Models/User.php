@@ -10,16 +10,41 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles;
+public function designation()
+{
+    return $this->belongsTo(
+        \App\Models\Designation::class
+    );
+}
 
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+use HasFactory, Notifiable, HasRoles;
 
+protected $fillable = [
+
+    'name',
+
+    'email',
+
+    'phone',
+
+    'password',
+
+    'designation_id',
+
+    'employee_id',
+
+    'salary',
+
+    'photo',
+
+    'joining_date'
+
+];
     protected $hidden = [
         'password',
         'remember_token',
-    ];
+
+        ];
+ 
 }
+

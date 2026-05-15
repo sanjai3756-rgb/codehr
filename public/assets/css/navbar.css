@@ -1,5 +1,5 @@
 .navbar{
-    background:#fff;
+    background:var(--theme-color);
     padding:20px 30px;
     border-radius:12px;
     display:flex;

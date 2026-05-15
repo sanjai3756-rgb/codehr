@@ -1,6 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="top-bar">
+
+    <a href="javascript:history.back()"
+       class="back-btn">
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+        Back
+
+    </a>
+
+</div>
+
 
 <div class="permission-wrapper">
 
@@ -73,8 +86,7 @@
                         <input type="checkbox"
                                name="permissions[]"
                                value="{{ $permission->name }}"
-
-                               {{$role->hasPermissionTo($permission->name) ? 'checked' : '' }}>
+                             {{ $user->hasPermissionTo($permission->name) ? 'checked' : '' }}>
 
                         <span>
 

@@ -1,259 +1,344 @@
-
-/* designations table */
-/* TABLE CARD */
+/* =========================================
+   TABLE CARD
+========================================= */
 
 .table-card{
+
     background:#fff;
+
     padding:25px;
-    border-radius:18px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+    border-radius:22px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+
     overflow-x:auto;
+
+    transition:.3s;
 }
 
-/* HEADER */
+
+
+/* =========================================
+   HEADER
+========================================= */
 
 .table-header{
+
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
+
     margin-bottom:25px;
+
     flex-wrap:wrap;
+
     gap:15px;
 }
 
 .table-header h2{
+
     margin:0;
-    font-size:28px;
+
+    font-size:30px;
+
     color:#0f172a;
+
+    font-weight:700;
 }
 
 .table-header p{
-    margin-top:5px;
+
+    margin-top:6px;
+
     color:#64748b;
+
     font-size:14px;
 }
 
-/* ADD BUTTON */
+
+
+/* =========================================
+   ADD BUTTON
+========================================= */
 
 .add-btn{
-    background:#184ab8;
+
+    background:var(--theme-color);
+
     color:#fff;
+
     text-decoration:none;
-    /* padding:15px 18px; */
-    border-radius:12px;
+
+    padding:12px 18px;
+
+    border-radius:14px;
+
     font-size:14px;
+
+    font-weight:600;
+
     transition:.3s;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
 .add-btn:hover{
-    background:#1d4ed8;
+
+    opacity:.92;
+
+    transform:translateY(-2px);
 }
 
-/* TABLE */
+
+
+/* =========================================
+   TABLE
+========================================= */
 
 table{
+
     width:100%;
+
     border-collapse:collapse;
 }
 
-/* TABLE HEAD */
+
+
+/* =========================================
+   TABLE HEAD
+========================================= */
 
 table thead{
+
     background:#f8fafc;
 }
 
 table thead th{
-    padding:16px;
+
+    padding:18px;
+
     text-align:left;
+
     color:#334155;
+
     font-size:14px;
+
+    font-weight:700;
+
     border-bottom:1px solid #e2e8f0;
 }
 
-/* TABLE BODY */
+
+
+/* =========================================
+   TABLE BODY
+========================================= */
 
 table tbody td{
-    padding:16px;
+
+    padding:18px;
+
     border-bottom:1px solid #f1f5f9;
+
     font-size:14px;
+
     color:#475569;
+
+    vertical-align:middle;
 }
 
-/* ROW HOVER */
 
-table tbody tr:hover{
-    background:#f8fafc;
-}
 
-/* EDIT BUTTON */
+/* =========================================
+   ROW HOVER
+========================================= */
 
-.edit-btn{
-    background:#decb25;
-    color:#fff;
-    text-decoration:none;
-    padding:8px 14px;
-    border-radius:8px;
-    font-size:13px;
-    margin-right:8px;
+table tbody tr{
+
     transition:.3s;
 }
 
-.edit-btn:hover{
-    background:#d97706;
+table tbody tr:hover{
+
+    background:#f8fafc;
 }
 
-/* DELETE BUTTON */
+
+
+/* =========================================
+   EDIT BUTTON
+========================================= */
+
+.edit-btn{
+
+    background:var(--theme-color);
+
+    color:#fff;
+
+    text-decoration:none;
+
+    padding:9px 15px;
+
+    border-radius:10px;
+
+    font-size:13px;
+
+    margin-right:8px;
+
+    transition:.3s;
+
+    display:inline-block;
+}
+
+.edit-btn:hover{
+
+    opacity:.9;
+}
+
+
+
+/* =========================================
+   DELETE BUTTON
+========================================= */
 
 .delete-btn{
+
     background:#dc2626;
+
     color:#fff;
+
     border:none;
-    padding:8px 14px;
-    border-radius:8px;
+
+    padding:9px 15px;
+
+    border-radius:10px;
+
     cursor:pointer;
+
     font-size:13px;
+
     transition:.3s;
 }
 
 .delete-btn:hover{
+
     background:#b91c1c;
 }
 
-/* EMPTY */
+
+
+/* =========================================
+   EMPTY TEXT
+========================================= */
 
 .empty-text{
+
     text-align:center;
+
     padding:30px;
+
     color:#94a3b8;
+
+    font-size:15px;
 }
 
-/* MOBILE */
+
+
+/* =========================================
+   ROLE BADGE
+========================================= */
+
+.role-badge{
+
+    background:rgba(37,99,235,.12);
+
+    color:var(--theme-color);
+
+    padding:8px 15px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+    display:inline-block;
+}
+
+
+
+/* =========================================
+   PERMISSION BUTTON
+========================================= */
+
+.permission-btn{
+
+    background:#0f172a;
+
+    color:#fff;
+
+    text-decoration:none;
+
+    padding:9px 15px;
+
+    border-radius:10px;
+
+    font-size:13px;
+
+    transition:.3s;
+
+    display:inline-block;
+}
+
+.permission-btn:hover{
+
+    background:#1e293b;
+}
+
+
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.action-buttons{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    flex-wrap:wrap;
+}
+
+
+
+/* =========================================
+   MOBILE
+========================================= */
 
 @media(max-width:768px){
 
     .table-header{
+
         flex-direction:column;
+
         align-items:flex-start;
     }
 
     table{
-        min-width:700px;
+
+        min-width:750px;
     }
 
-}
-/* department tabele */
-/* TABLE CARD */
+    .add-btn{
 
-.table-card{
-    background:#fff;
-    padding:25px;
-    border-radius:18px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-    overflow-x:auto;
-}
+        width:100%;
 
-/* HEADER */
-
-.table-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-    flex-wrap:wrap;
-    gap:15px;
-}
-
-.table-header h2{
-    margin:0;
-    font-size:28px;
-    color:#0f172a;
-}
-
-.table-header p{
-    margin-top:5px;
-    color:#64748b;
-    font-size:14px;
-}
-
-/* ADD BTN */
-
-.add-btn{
-    background:#2563eb;
-    color:#fff;
-    text-decoration:none;
-    padding:12px 18px;
-    border-radius:12px;
-    transition:.3s;
-}
-
-.add-btn:hover{
-    background:#1d4ed8;
-}
-
-/* TABLE */
-
-table{
-    width:100%;
-    border-collapse:collapse;
-}
-
-/* HEAD */
-
-table thead{
-    background:#f8fafc;
-}
-
-table thead th{
-    padding:16px;
-    text-align:left;
-    color:#334155;
-    font-size:14px;
-    border-bottom:1px solid #e2e8f0;
-}
-
-/* BODY */
-
-table tbody td{
-    padding:16px;
-    border-bottom:1px solid #f1f5f9;
-    font-size:14px;
-    color:#475569;
-}
-
-/* HOVER */
-
-table tbody tr:hover{
-    background:#f8fafc;
-}
-
-/* EDIT */
-
-.edit-btn{
-    background:#0c31d6;
-    color:#fff;
-    padding:8px 14px;
-    border-radius:8px;
-    text-decoration:none;
-    margin-right:8px;
-    font-size:13px;
-}
-
-/* DELETE */
-
-.delete-btn{
-    background:#dc2626;
-    color:#fff;
-    border:none;
-    padding:8px 14px;
-    border-radius:8px;
-    cursor:pointer;
-    font-size:13px;
-}
-
-/* EMPTY */
-
-.empty-text{
-    text-align:center;
-    color:#94a3b8;
-    padding:25px;
+        text-align:center;
+    }
 }

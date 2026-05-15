@@ -7,6 +7,8 @@ use App\Models\Department;
 use App\Models\LeaveRequest;
 use App\Models\Attendance;
 use App\Models\Payroll;
+use App\Models\User;
+
 
 class DashboardController extends Controller
 {
@@ -25,7 +27,7 @@ return redirect('/employee/dashboard');}
 
 public function admin()
 {
-    $employees = Employee::count();
+    $employees = User::count();
     $departments = Department::count();
     $leaves = LeaveRequest::where('status','Pending')->count();
     $payrolls = Payroll::count();
@@ -60,7 +62,7 @@ public function admin()
     public function hr()
     {
         return view('dashboard.hr',[
-            'employees' => Employee::count(),
+            'employees' => User::count(),
             'attendance' => Attendance::count(),
             'leaves' => LeaveRequest::where('status','Pending')->count(),
         ]);

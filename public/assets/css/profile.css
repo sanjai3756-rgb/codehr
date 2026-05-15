@@ -5,7 +5,7 @@
 
 .profile-card{
     width:420px;
-    background:white;
+    background:var(--theme-color);
     border-radius:15px;
     overflow:hidden;
     box-shadow:0 10px 30px rgba(0,0,0,.08);
@@ -40,7 +40,7 @@
 }
 
 .profile-card{
-    background:white;
+    background:var(--theme-color);
     border-radius:20px;
     padding:30px;
     max-width:850px;
@@ -83,7 +83,7 @@ input{
 
 .save-btn{
     margin-top:25px;
-    background:#2563eb;
+    background:var(--theme-color);
     color:white;
     border:none;
     padding:14px 25px;
@@ -92,7 +92,7 @@ input{
 }
 
 .success-msg{
-    background:#16a34a;
+    background:var(--theme-color);
     color:white;
     padding:12px;
     border-radius:10px;

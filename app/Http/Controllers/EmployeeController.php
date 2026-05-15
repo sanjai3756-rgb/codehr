@@ -16,19 +16,18 @@ class EmployeeController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function index()
-    {
-        $employees = Employee::with(
-            'department',
-            'designation'
-        )->latest()->get();
+public function index()
+{
+    $employees = \App\Models\User::with(
+        'designation'
+    )->latest()->get();
 
-        return view(
-            'employees.index',
-            compact('employees')
-        );
-    }
 
+    return view(
+        'employees.index',
+        compact('employees')
+    );
+}
 
 
     /*

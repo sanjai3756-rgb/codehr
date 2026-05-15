@@ -1,100 +1,568 @@
-body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:#f1f5f9;
+/* =========================================
+   ROOT
+========================================= */
+
+:root{
+
+    --theme-color:#2563eb;
+
+    --font-family:'Poppins',sans-serif;
+
+    --bg-color:#f1f5f9;
+
+    --card-bg:#ffffff;
+
+    --text-dark:#0f172a;
+
+    --text-light:#64748b;
+
+    --border-color:#e2e8f0;
+
 }
 
-/* MAIN */
+
+
+/* =========================================
+   BODY
+========================================= */
+
+body{
+
+    margin:0;
+
+    padding:0;
+
+    font-family:var(--font-family);
+
+    background:var(--bg-color);
+
+    color:var(--text-dark);
+
+    overflow-x:hidden;
+
+}
+
+
+
+/* =========================================
+   MAIN
+========================================= */
 
 .main{
+
     margin-left:280px;
-    padding:20px;
+
+    padding:35px;
+
+    min-height:100vh;
+
+    background:var(--bg-color);
+
 }
 
-/* CONTENT */
 
-.content{
-    margin-top:20px;
-}
 
-/* CARDS */
+/* =========================================
+   KPI WRAPPER
+========================================= */
 
-.card-box{
-    display:flex;
-    gap:20px;
-    flex-wrap:wrap;
-}
+.kpi-dashboard-wrapper{
 
-.card{
-    width:220px;
-    background:#2563eb;
-    color:white;
-    padding:20px;
-    border-radius:12px;
-    box-shadow:0 4px 10px rgba(0,0,0,.1);
-}
-
-.card h1{
-    color:white;
-}
-
-/* SETTINGS */
-
-.settings-card{
-    background:#fff;
-    padding:30px;
-    border-radius:18px;
-    max-width:700px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-
-.settings-card input{
     width:100%;
-    padding:12px;
-    margin:8px 0 18px;
-    border:1px solid #ddd;
-    border-radius:10px;
+
+    max-width:1350px;
+
+    margin:auto;
+
 }
 
-/* SUCCESS */
 
-.success-msg{
-    background:#16a34a;
-    color:#fff;
-    padding:12px;
-    border-radius:10px;
-    margin-bottom:15px;
+
+/* =========================================
+   PAGE TITLE
+========================================= */
+
+.page-title{
+
+    margin:0;
+
+    font-size:38px;
+
+    font-weight:700;
+
+    color:#0f172a;
+
 }
 
-/* common back btn */
-/* TOP BAR */
 
-.top-bar{
+
+.page-subtitle{
+
+    margin-top:8px;
+
+    color:#64748b;
+
+    font-size:15px;
+
+}
+
+
+
+/* =========================================
+   KPI HEADER
+========================================= */
+
+.kpi-top-header{
+
+    margin-bottom:35px;
+
+}
+
+
+
+/* =========================================
+   DASHBOARD GRID
+========================================= */
+
+.dashboard-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+
+    gap:25px;
+
+    margin-bottom:35px;
+    
+
+}
+
+
+
+/* =========================================
+   DASH CARD
+========================================= */
+
+.dash-card{
+
+    background:#fff;
+
+    border-radius:26px;
+
+    padding:28px;
 
     display:flex;
-
-    justify-content:flex-start;
-
-    margin-bottom:20px;
-}
-
-/* BACK BUTTON */
-
-.back-btn{
-
-    display:inline-flex;
 
     align-items:center;
 
-    gap:8px;
+    gap:20px;
 
-    background:#1d2cd0;
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.05);
 
-    color:#f8f9fb;
+    transition:.3s;
+
+    border:1px solid #edf2f7;
+
+}
+
+
+
+.dash-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+
+
+/* =========================================
+   CARD ICON
+========================================= */
+
+.card-icon{
+
+    width:72px;
+
+    height:72px;
+
+    border-radius:22px;
+
+    background:rgba(37,99,235,.1);
+
+    color:var(--theme-color);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:28px;
+
+}
+
+
+
+/* =========================================
+   CARD INFO
+========================================= */
+
+.card-info h4{
+
+    margin:0;
+
+    color:#64748b;
+
+    font-size:15px;
+
+    font-weight:600;
+
+}
+
+
+
+.card-info h1{
+
+    margin-top:10px;
+
+    margin-bottom:0;
+
+    font-size:42px;
+
+    font-weight:700;
+
+    color:#0f172a;
+
+}
+
+
+
+/* =========================================
+   TABLE CARD
+========================================= */
+
+.table-card{
+
+    background:#fff;
+
+    border-radius:26px;
+
+    padding:30px;
+    padding-right: 100px;
+
+    box-shadow:
+    0 10px 30px rgba(0,0,0,.05);
+
+    overflow-x:auto;
+
+}
+
+
+
+/* =========================================
+   TABLE HEADER
+========================================= */
+
+.table-header{
+
+    display:flex;
+    
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+
+}
+
+
+
+.table-header h2{
+
+    margin:0;
+
+    font-size:30px;
+
+    color:#0f172a;
+
+}
+
+
+
+.table-header p{
+
+    margin-top:8px;
+
+    color:#64748b;
+
+}
+
+
+
+/* =========================================
+   TABLE
+========================================= */
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+
+
+/* TABLE HEAD */
+
+table thead{
+
+    background:#f8fafc;
+
+}
+
+
+
+/* TABLE TH */
+
+table thead th{
+
+    padding:18px;
+
+    text-align:left;
+
+    font-size:14px;
+
+    color:#334155;
+
+    border-bottom:1px solid #e2e8f0;
+
+}
+
+
+
+/* TABLE TD */
+
+table tbody td{
+
+    padding:18px;
+
+    border-bottom:1px solid #f1f5f9;
+
+    color:#475569;
+
+    font-size:14px;
+
+}
+
+
+
+/* HOVER */
+
+table tbody tr:hover{
+
+    background:#f8fafc;
+
+}
+
+
+
+/* =========================================
+   EMPLOYEE
+========================================= */
+
+.employee-info{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+}
+
+
+
+/* EMPLOYEE IMAGE */
+
+.employee-img{
+
+    width:50px;
+
+    height:50px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+
+
+/* PLACEHOLDER */
+
+.employee-placeholder{
+
+    width:50px;
+
+    height:50px;
+
+    border-radius:50%;
+
+    background:var(--theme-color);
+
+    color:#fff;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-weight:700;
+
+}
+
+
+
+/* =========================================
+   ROLE BADGE
+========================================= */
+
+.role-badge{
+
+    background:#dbeafe;
+
+    color:#2563eb;
+
+    padding:7px 15px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+}
+
+
+
+/* =========================================
+   SCORE BADGE
+========================================= */
+
+.score-badge{
+
+    background:var(--theme-color);
+
+    color:#fff;
+
+    padding:8px 15px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    font-weight:700;
+
+}
+
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status-success{
+
+    background:#dcfce7;
+
+    color:#15803d;
+
+    padding:8px 14px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+
+.status-warning{
+
+    background:#fef3c7;
+
+    color:#b45309;
+
+    padding:8px 14px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+
+.status-danger{
+
+    background:#fee2e2;
+
+    color:#b91c1c;
+
+    padding:8px 14px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:700;
+
+}
+
+
+
+/* =========================================
+   EMPTY
+========================================= */
+
+.empty-text{
+
+    text-align:center;
+
+    padding:30px;
+
+    color:#94a3b8;
+
+}
+
+
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.edit-btn,
+.add-btn,
+.save-btn{
+
+    background:var(--theme-color);
+
+    color:#0e0d0d;
+
+    border:none;
 
     text-decoration:none;
 
-    padding:12px 18px;
+    padding:10px 16px;
 
     border-radius:12px;
 
@@ -102,16 +570,218 @@ body{
 
     font-weight:600;
 
-    box-shadow:0 4px 15px rgba(0,0,0,.06);
+    cursor:pointer;
 
     transition:.3s;
+
 }
 
-/* HOVER */
 
-.back-btn:hover{
 
-    background:#2356c4;
+.edit-btn:hover,
+.add-btn:hover,
+.save-btn:hover{
 
-    color:#fff;
+    opacity:.9;
+
+}
+
+
+
+/* =========================================
+   MINI LOADER
+========================================= */
+
+#pageLoader{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(255,255,255,.18);
+
+    backdrop-filter:blur(5px);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    z-index:999999;
+
+    transition:.4s ease;
+
+}
+
+
+
+.mini-loader{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+
+
+.mini-loader-logo{
+
+    width:40px;
+
+    height:40px;
+
+    object-fit:cover;
+
+    border-radius:14px;
+
+    animation:floatLogo 1.8s infinite ease-in-out;
+
+}
+
+
+
+.loader-line{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+
+
+.loader-line span{
+
+    width:12px;
+
+    height:12px;
+
+    border-radius:50%;
+
+    background:var(--theme-color);
+
+    animation:bounce .7s infinite alternate;
+
+}
+
+
+
+.loader-line span:nth-child(2){
+
+    animation-delay:.2s;
+
+}
+
+
+
+.loader-line span:nth-child(3){
+
+    animation-delay:.4s;
+
+}
+
+
+
+/* =========================================
+   ANIMATION
+========================================= */
+
+@keyframes bounce{
+
+    from{
+
+        transform:translateY(0);
+
+        opacity:.5;
+
+    }
+
+    to{
+
+        transform:translateY(-12px);
+
+        opacity:1;
+
+    }
+
+}
+
+
+
+@keyframes floatLogo{
+
+    0%{
+
+        transform:translateY(0);
+
+    }
+
+    50%{
+
+        transform:translateY(-6px);
+
+    }
+
+    100%{
+
+        transform:translateY(0);
+
+    }
+
+}
+
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width:992px){
+
+    .main{
+
+        margin-left:0;
+
+        padding:20px;
+
+    }
+
+}
+
+
+
+@media(max-width:768px){
+
+    .dashboard-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+
+    .table-header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+    }
+
+
+
+    table{
+
+        min-width:900px;
+
+    }
+
 }

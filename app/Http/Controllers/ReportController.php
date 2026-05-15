@@ -2,80 +2,129 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Attendance;
+use App\Models\LeaveModel;
 use App\Models\Payroll;
+use App\Models\Employee;
 use App\Models\LeaveRequest;
 
 class ReportController extends Controller
 {
-    public function attendance(Request $request)
+    /*
+    |--------------------------------------------------------------------------
+    | ATTENDANCE REPORT
+    |--------------------------------------------------------------------------
+    */
+
+    public function attendance()
     {
-        $month = $request->month;
-        $year = $request->year;
+        $attendances = Attendance::with('employee')
+                        ->latest()
+                        ->get();
 
-        $query = Attendance::query();
 
-        if($month){
-            $query->whereMonth('created_at',$month);
-        }
+        $totalEmployees = Employee::count();
 
-        if($year){
-            $query->whereYear('created_at',$year);
-        }
 
-        $present = (clone $query)->where('status','Present')->count();
-        $absent = (clone $query)->where('status','Absent')->count();
+        $presentToday = Attendance::whereDate(
+                                'date',
+                                now()
+                            )
+                            ->where('status','Present')
+                            ->count();
 
-        return view('reports.attendance', compact(
-            'present','absent','month','year'
-        ));
+
+        $absentToday = Attendance::whereDate(
+                                'date',
+                                now()
+                            )
+                            ->where('status','Absent')
+                            ->count();
+
+
+        return view(
+            'reports.attendance',
+            compact(
+                'attendances',
+                'totalEmployees',
+                'presentToday',
+                'absentToday'
+            )
+        );
     }
 
-public function payroll(Request $request)
+
+
+
+
+
+  public function leaves()
 {
-    $month = $request->month;
-    $year = $request->year;
+    $leaves = \App\Models\LeaveRequest::with('employee')
+                ->latest()
+                ->get();
 
-    $query = Payroll::query();
 
-    if($month){
-        $query->whereMonth('created_at',$month);
-    }
+    $totalRequests = \App\Models\LeaveRequest::count();
 
-    if($year){
-        $query->whereYear('created_at',$year);
-    }
+    $approved = \App\Models\LeaveRequest::where(
+                    'status',
+                    'Approved'
+                )->count();
 
-    $total = $query->sum('net_salary');
-    $count = $query->count();
+    $pending = \App\Models\LeaveRequest::where(
+                    'status',
+                    'Pending'
+                )->count();
 
-    return view('reports.payroll', compact(
-        'total','count'
-    ));
+
+    return view(
+        'reports.leaves',
+        compact(
+            'leaves',
+            'totalRequests',
+            'approved',
+            'pending'
+        )
+    );
 }
 
-public function leaves(Request $request)
+public function payroll()
 {
-    $month = $request->month;
-    $year = $request->year;
+    $payrolls = \App\Models\Payroll::with('employee')
+                    ->latest()
+                    ->get();
 
-    $query = LeaveRequest::query();
 
-    if($month){
-        $query->whereMonth('created_at',$month);
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | REPORT CARDS
+    |--------------------------------------------------------------------------
+    */
 
-    if($year){
-        $query->whereYear('created_at',$year);
-    }
+$totalPayroll = Payroll::sum('basic_salary');
 
-    $pending = (clone $query)->where('status','Pending')->count();
-    $approved = (clone $query)->where('status','Approved')->count();
-    $rejected = (clone $query)->where('status','Rejected')->count();
+    $totalBonus = 0;
 
-    return view('reports.leaves', compact(
-        'pending','approved','rejected'
-    ));
+
+    $employeesPaid = \App\Models\Payroll::count();
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | RETURN VIEW
+    |--------------------------------------------------------------------------
+    */
+
+    return view(
+        'reports.payroll',
+        compact(
+            'payrolls',
+            'totalPayroll',
+            'totalBonus',
+            'employeesPaid'
+        )
+    );
 }
 }

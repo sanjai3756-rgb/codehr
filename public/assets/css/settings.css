@@ -1,0 +1,290 @@
+/* =========================================
+   SETTINGS CARD
+========================================= */
+
+.settings-card{
+
+    background:#fff;
+
+    padding:40px;
+
+    border-radius:28px;
+
+    box-shadow:0 12px 35px rgba(0,0,0,.06);
+
+    transition:.3s;
+}
+
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.settings-header{
+
+    margin-bottom:35px;
+}
+
+.settings-header h2{
+
+    margin:0;
+
+    font-size:36px;
+
+    font-weight:700;
+
+    color:#0f172a;
+}
+
+.settings-header p{
+
+    margin-top:10px;
+
+    color:#64748b;
+
+    font-size:15px;
+}
+
+
+
+/* =========================================
+   GRID
+========================================= */
+
+.settings-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    gap:28px;
+}
+
+
+
+/* =========================================
+   FORM GROUP
+========================================= */
+
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+
+
+/* LABEL */
+
+.form-group label{
+
+    margin-bottom:10px;
+
+    font-weight:600;
+
+    color:#334155;
+
+    font-size:14px;
+}
+
+
+
+/* INPUTS */
+
+.form-group input,
+.form-group select{
+
+    height:56px;
+
+    border:1px solid #dbe2ea;
+
+    border-radius:16px;
+
+    padding:0 18px;
+
+    font-size:15px;
+
+    outline:none;
+
+    background:#fff;
+
+    transition:.3s;
+
+    box-sizing:border-box;
+}
+
+
+
+/* FOCUS */
+
+.form-group input:focus,
+.form-group select:focus{
+
+    border-color:var(--theme-color);
+
+    box-shadow:0 0 0 4px rgba(37,99,235,.08);
+}
+
+
+
+/* =========================================
+   COLOR PICKER
+========================================= */
+
+.color-picker{
+
+    padding:6px !important;
+
+    cursor:pointer;
+
+    height:58px !important;
+}
+
+
+
+/* =========================================
+   LOGO PREVIEW
+========================================= */
+
+.logo-preview{
+
+    margin-top:12px;
+}
+
+.logo-preview img{
+
+    width:130px;
+
+    height:130px;
+
+    object-fit:cover;
+
+    border-radius:24px;
+
+    border:2px solid #e2e8f0;
+
+    padding:10px;
+
+    background:#fff;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.05);
+}
+
+
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.save-btn{
+
+    background:var(--theme-color);
+
+    color:#fff;
+
+    border:none;
+
+    padding:15px 30px;
+
+    border-radius:16px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+
+
+/* HOVER */
+
+.save-btn:hover{
+
+    opacity:.92;
+
+    transform:translateY(-2px);
+}
+
+
+
+/* =========================================
+   TOAST
+========================================= */
+
+.toast-success{
+
+    position:fixed;
+
+    top:25px;
+
+    right:25px;
+
+    background:#16a34a;
+
+    color:#fff;
+
+    padding:14px 22px;
+
+    border-radius:14px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.12);
+
+    z-index:9999;
+
+    animation:slideIn .4s ease;
+}
+
+
+
+/* =========================================
+   ANIMATION
+========================================= */
+
+@keyframes slideIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateX(100%);
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateX(0);
+    }
+}
+
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width:768px){
+
+    .settings-grid{
+
+        grid-template-columns:1fr;
+    }
+
+    .settings-card{
+
+        padding:25px;
+    }
+
+    .settings-header h2{
+
+        font-size:28px;
+    }
+}

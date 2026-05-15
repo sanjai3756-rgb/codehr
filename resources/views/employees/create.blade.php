@@ -1,9 +1,9 @@
-@extends('layouts.app')
+{{-- @extends('layouts.app')
 
-@section('content')
+@section('content') --}}
 
 <!-- TOP BAR -->
-<div class="top-bar">
+{{-- <div class="top-bar">
 
     <a href="javascript:history.back()"
        class="back-btn">
@@ -15,14 +15,14 @@
     </a>
 
 </div>
-
+ --}}
 
 
 <!-- EMPLOYEE CARD -->
-<div class="employee-card">
+{{-- <div class="employee-card"> --}}
 
     <!-- HEADER -->
-    <div class="employee-header">
+    {{-- <div class="employee-header">
 
         <div>
 
@@ -34,12 +34,12 @@
 
         </div>
 
-    </div>
+    </div> --}}
 
 
 
     {{-- ERRORS --}}
-    @if ($errors->any())
+    {{-- @if ($errors->any())
 
         <div class="error-box">
 
@@ -56,10 +56,10 @@
         </div>
 
     @endif
+ --}}
 
 
-
-    <!-- FORM -->
+    {{-- <!-- FORM -->
     <form method="POST"
           action="{{ route('employees.store') }}"
           enctype="multipart/form-data">
@@ -68,9 +68,9 @@
 
 
 
-        <div class="employee-grid">
+        <div class="employee-grid"> --}}
 
-            <!-- EMPLOYEE ID -->
+            {{-- <!-- EMPLOYEE ID -->
             <div class="form-group">
 
                 <label>
@@ -84,12 +84,12 @@
                        placeholder="Enter Employee ID"
                        value="{{ old('employee_id') }}">
 
-            </div>
+            </div> --}}
 
 
 
             <!-- NAME -->
-            <div class="form-group">
+            {{-- <div class="form-group">
 
                 <label>
 
@@ -104,10 +104,10 @@
 
             </div>
 
-
+ --}}
 
             <!-- EMAIL -->
-            <div class="form-group">
+            {{-- <div class="form-group">
 
                 <label>
 
@@ -123,9 +123,9 @@
             </div>
 
 
-
+ --}}
             <!-- PHONE -->
-            <div class="form-group">
+            {{-- <div class="form-group">
 
                 <label>
 
@@ -138,12 +138,12 @@
                        placeholder="Enter Phone Number"
                        value="{{ old('phone') }}">
 
-            </div>
+            </div> --}}
 
 
 
             <!-- DEPARTMENT -->
-            <div class="form-group">
+            {{-- <div class="form-group">
 
                 <label>
 
@@ -170,11 +170,11 @@
                 </select>
 
             </div>
-
+ --}}
 
 
             <!-- DESIGNATION -->
-            <div class="form-group">
+            {{-- <div class="form-group">
 
                 <label>
 
@@ -200,11 +200,11 @@
 
                 </select>
 
-            </div>
+            </div> --}}
 
 
 
-            <!-- JOIN DATE -->
+            {{-- <!-- JOIN DATE -->
             <div class="form-group">
 
                 <label>
@@ -216,11 +216,11 @@
                 <input type="date"
                        name="joining_date">
 
-            </div>
+            </div> --}}
 
 
 
-            <!-- SALARY -->
+            {{-- <!-- SALARY -->
             <div class="form-group">
 
                 <label>
@@ -234,10 +234,10 @@
                        placeholder="Enter Salary">
 
             </div>
+ --}}
 
 
-
-            <!-- PHOTO -->
+            {{-- <!-- PHOTO -->
             <div class="form-group full-width">
 
                 <label>
@@ -251,11 +251,11 @@
                        class="file-input">
 
             </div>
-
+ --}}
 
 
             <!-- ADDRESS -->
-            <div class="form-group full-width">
+            {{-- <div class="form-group full-width">
 
                 <label>
 
@@ -269,12 +269,12 @@
 
             </div>
 
-        </div>
+        </div> --}}
 
 
 
         <!-- BUTTON -->
-        <div class="employee-footer">
+        {{-- <div class="employee-footer">
 
             <button type="submit"
                     class="save-btn">
@@ -289,4 +289,4 @@
 
 </div>
 
-@endsection
+@endsection --}}

@@ -2,47 +2,188 @@
 
 @section('content')
 
-<h2>Admin Settings Panel</h2>
+<!-- TOP BAR -->
+<div class="top-bar">
 
-@if(session('success'))
-<div class="success-msg">{{ session('success') }}</div>
-@endif
+    <a href="javascript:history.back()"
+       class="back-btn">
 
+        <i class="fa-solid fa-arrow-left"></i>
+
+        Back
+
+    </a>
+
+</div>
+
+
+
+<!-- SETTINGS CARD -->
 <div class="settings-card">
 
-<form method="POST" action="/settings/update" enctype="multipart/form-data">
-@csrf
+    <!-- HEADER -->
+    <div class="settings-header">
 
-<label>Company Name</label>
-<input type="text" name="company_name" value="{{ $setting->company_name ?? '' }}">
+        <div>
 
-<label>Company Email</label>
-<input type="text" name="company_email" value="{{ $setting->company_email ?? '' }}">
+            <h2>Website Settings</h2>
 
-<label>Phone</label>
-<input type="text" name="phone" value="{{ $setting->phone ?? '' }}">
+            <p>
+                Customize website branding and appearance
+            </p>
 
-<label>Currency</label>
-<input type="text" name="currency" value="{{ $setting->currency ?? 'INR' }}">
+        </div>
 
-<label>Timezone</label>
-<input type="text" name="timezone" value="{{ $setting->timezone ?? 'Asia/Kolkata' }}">
+    </div>
 
-<label>Theme Color</label>
-<input type="color" name="theme_color" value="{{ $setting->theme_color ?? '#2563eb' }}">
 
-<label>Company Logo</label>
-<input type="file" name="logo">
 
-@if($setting && $setting->logo)
-<img src="{{ asset('uploads/logo/'.$setting->logo) }}" width="100">
-@endif
+    <!-- SUCCESS -->
+    @if(session('success'))
 
-<br><br>
+        <div class="toast-success"
+             id="toast">
 
-<button class="btn-edit">Save Settings</button>
+            {{ session('success') }}
 
-</form>
+        </div>
+
+    @endif
+
+
+
+    <!-- FORM -->
+    <form method="POST"
+          action="/settings/update"
+          enctype="multipart/form-data">
+
+        @csrf
+
+
+
+        <div class="settings-grid">
+
+            <!-- WEBSITE NAME -->
+            <div class="form-group">
+
+                <label>
+
+                    Website Name
+
+                </label>
+
+                <input type="text"
+                       name="website_name"
+                       value="{{ $setting->website_name ?? '' }}"
+                       placeholder="Enter Website Name">
+
+            </div>
+
+
+
+            <!-- THEME COLOR -->
+            <div class="form-group">
+
+                <label>
+
+                    Theme Color
+
+                </label>
+
+                <input type="color"
+                       name="theme_color"
+                       value="{{ $setting->theme_color ?? '#2563eb' }}"
+                       class="color-picker">
+
+            </div>
+
+
+
+            <!-- FONT STYLE -->
+            <div class="form-group">
+
+                <label>
+
+                    Font Style
+
+                </label>
+
+                <select name="font_family">
+
+                    <option value="Poppins">
+
+                        Poppins
+
+                    </option>
+
+                    <option value="Inter">
+
+                        Inter
+
+                    </option>
+
+                    <option value="Roboto">
+
+                        Roboto
+
+                    </option>
+
+                    <option value="Montserrat">
+
+                        Montserrat
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- LOGO -->
+            <div class="form-group full-width">
+
+                <label>
+
+                    Upload Logo
+
+                </label>
+
+                <input type="file"
+                       name="logo">
+
+            </div>
+
+
+
+            <!-- PREVIEW -->
+            @if($setting && $setting->logo)
+
+                <div class="logo-preview">
+
+                    <img src="{{ asset('uploads/settings/'.$setting->logo) }}">
+
+                </div>
+
+            @endif
+
+        </div>
+
+
+
+        <!-- BUTTON -->
+        <div class="form-footer">
+
+            <button type="submit"
+                    class="save-btn">
+
+                Save Settings
+
+            </button>
+
+        </div>
+
+    </form>
 
 </div>
 

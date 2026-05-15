@@ -67,7 +67,7 @@
 
 
 
-        <!-- DEPARTMENT CODE -->
+        {{-- <!-- DEPARTMENT CODE -->
         <div class="form-group">
 
             <label>
@@ -81,7 +81,7 @@
                    placeholder="Enter Department Code"
                    value="{{ old('department_code') }}">
 
-        </div>
+        </div> --}}
 
 
 

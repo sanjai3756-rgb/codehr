@@ -2,25 +2,58 @@
 
 @section('content')
 
-<div class="table-box">
-<h2>Leaves</h2>
+<div class="top-bar">
 
-<table>
-<tr>
-<th>Employee</th>
-<th>Type</th>
-<th>Status</th>
-</tr>
+    <a href="javascript:history.back()"
+       class="back-btn">
 
-@foreach($leaves as $row)
-<tr>
-<td>{{ $row->employee->name ?? '-' }}</td>
-<td>{{ $row->leave_type }}</td>
-<td>{{ $row->status }}</td>
-</tr>
-@endforeach
+        <i class="fa-solid fa-arrow-left"></i>
 
-</table>
+        Back
+
+    </a>
+
+</div>
+
+
+<div class="table-card">
+
+    <div class="table-header">
+
+        <div>
+
+            <h2>Leave Requests</h2>
+
+            <p>
+                Employee leave management
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Employee</th>
+
+                <th>Leave Type</th>
+
+                <th>From Date</th>
+
+                <th>To Date</th>
+
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+    </table>
 
 </div>
 

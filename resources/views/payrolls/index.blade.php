@@ -2,25 +2,58 @@
 
 @section('content')
 
-<div class="table-box">
-<h2>Payroll</h2>
+<div class="top-bar">
 
-<table>
-<tr>
-<th>Employee</th>
-<th>Month</th>
-<th>Net Salary</th>
-</tr>
+    <a href="javascript:history.back()"
+       class="back-btn">
 
-@foreach($payrolls as $row)
-<tr>
-<td>{{ $row->employee->name ?? '-' }}</td>
-<td>{{ $row->month }}</td>
-<td>{{ $row->net_salary }}</td>
-</tr>
-@endforeach
+        <i class="fa-solid fa-arrow-left"></i>
 
-</table>
+        Back
+
+    </a>
+
+</div>
+
+
+<div class="table-card">
+
+    <div class="table-header">
+
+        <div>
+
+            <h2>Payroll</h2>
+
+            <p>
+                Salary and payroll management
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Employee</th>
+
+                <th>Month</th>
+
+                <th>Basic Salary</th>
+
+                <th>Bonus</th>
+
+                <th>Total Salary</th>
+
+            </tr>
+
+        </thead>
+
+    </table>
 
 </div>
 

@@ -1,15 +1,15 @@
 body.dark-mode{
-    background:#0f172a;
+    background:var(--theme-color);
     color:white;
 }
 
 body.dark-mode .navbar,
 body.dark-mode .table-box,
 body.dark-mode .profile-card{
-    background:#1e293b;
+    background:var(--theme-color);
     color:white;
 }
 
 body.dark-mode table th{
-    background:#334155;
+    background:var(--theme-color);
 }

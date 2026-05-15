@@ -6,28 +6,26 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-   public function up(): void
-{
-    Schema::create('settings', function (Blueprint $table) {
-        $table->id();
+    public function up(): void
+    {
+        Schema::create('settings', function (Blueprint $table) {
 
-        $table->string('company_name')->nullable();
-        $table->string('company_email')->nullable();
-        $table->string('phone')->nullable();
-        $table->string('currency')->default('INR');
-        $table->string('timezone')->default('Asia/Kolkata');
-        $table->string('theme_color')->default('#2563eb');
-        $table->string('logo')->nullable();
+            $table->id();
 
-        $table->timestamps();
-    });
-}
-    /**
-     * Reverse the migrations.
-     */
+            $table->string('website_name')
+                  ->nullable();
+
+            $table->string('logo')
+                  ->nullable();
+
+            $table->string('theme_color')
+                  ->default('#2563eb');
+
+            $table->timestamps();
+
+        });
+    }
+
     public function down(): void
     {
         Schema::dropIfExists('settings');

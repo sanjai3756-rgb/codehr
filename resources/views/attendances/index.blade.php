@@ -2,50 +2,59 @@
 
 @section('content')
 
-<div class="table-box">
-<h2>Attendance</h2>
+<div class="top-bar">
 
-<table class="table">
+    <a href="javascript:history.back()"
+       class="back-btn">
 
-<thead>
-<tr>
-    <th>S.No</th>
-    <th>Employee</th>
-    <th>Date</th>
-    <th>Status</th>
-    <th>Check In</th>
-    <th>Check Out</th>
-</tr>
-</thead>
+        <i class="fa-solid fa-arrow-left"></i>
 
-<tbody>
+        Back
 
-@foreach($attendances as $key => $attendance)
+    </a>
 
-<tr>
+</div>
 
-<td>
 
-@if($attendance->employee)
+<div class="table-card">
 
-    {{ $attendance->employee->employee_id ?? $attendance->employee->id }}
-    -
-    {{ $attendance->employee->name }}
+    <div class="table-header">
 
-@else
+        <div>
 
-    No Employee
+            <h2>Attendance</h2>
 
-@endif
+            <p>
+                Employee attendance records
+            </p>
 
-</td>
-</tr>
+        </div>
 
-@endforeach
+    </div>
 
-</tbody>
 
-</table>
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Employee</th>
+
+                <th>Date</th>
+
+                <th>Check In</th>
+
+                <th>Check Out</th>
+
+                <th>Status</th>
+
+            </tr>
+
+        </thead>
+
+    </table>
+
 </div>
 
 @endsection

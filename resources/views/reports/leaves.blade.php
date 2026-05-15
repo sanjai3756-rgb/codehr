@@ -2,25 +2,36 @@
 
 @section('content')
 
-<h2>Leave Report</h2>
+<div class="table-card">
 
-<div class="card-box">
+    <div class="table-header">
 
-<div class="card">
-<h3>Pending</h3>
-<h1>{{ $pending }}</h1>
-</div>
+        <div>
+            <h2>Leave Report</h2>
+            <p>Employee leave analytics</p>
+        </div>
 
-<div class="card">
-<h3>Approved</h3>
-<h1>{{ $approved }}</h1>
-</div>
+    </div>
 
-<div class="card">
-<h3>Rejected</h3>
-<h1>{{ $rejected }}</h1>
-</div>
 
-</div>
+    <div class="report-stats">
 
+        <div class="report-card">
+            <h3>Total Requests</h3>
+            <h1>{{ $totalRequests }}</h1>
+        </div>
+
+
+        <div class="report-card">
+            <h3>Approved</h3>
+            <h1>{{ $approved }}</h1>
+        </div>
+
+
+        <div class="report-card">
+            <h3>Pending</h3>
+            <h1>{{ $pending }}</h1>
+        </div>
+
+    </div>
 @endsection

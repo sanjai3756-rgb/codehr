@@ -9,11 +9,15 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\KpiController;
 use App\Http\Controllers\LeaveRequestController;
+use App\Http\Controllers\LeaveTypeController;
+use App\Http\Controllers\LeaveSettingController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\EmployeePanelController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -262,7 +266,20 @@ Route::middleware([
         'leaves',
         LeaveRequestController::class
     );
+   Route::resource(
+    'leave-types',
+    LeaveTypeController::class
+);
 
+Route::get(
+    '/leave-settings',
+    [LeaveSettingController::class,'index']
+);
+
+Route::post(
+    '/leave-settings',
+    [LeaveSettingController::class,'update']
+);
 });
 
 
@@ -277,21 +294,20 @@ Route::middleware([
     'permission:view reports'
 ])->group(function () {
 
-    Route::get(
-        '/reports/attendance',
-        [ReportController::class, 'attendance']
-    );
+  Route::get(
+    '/reports/attendance',
+    [ReportController::class,'attendance']
+);
 
-    Route::get(
-        '/reports/payroll',
-        [ReportController::class, 'payroll']
-    );
+Route::get(
+    '/reports/leaves',
+    [ReportController::class,'leaves']
+);
 
-    Route::get(
-        '/reports/leaves',
-        [ReportController::class, 'leaves']
-    );
-
+Route::get(
+    '/reports/payroll',
+    [ReportController::class,'payroll']
+);
 });
 
 
@@ -350,5 +366,102 @@ Route::middleware([
         '/apply-leave',
         [EmployeePanelController::class, 'storeLeave']
     );
+
+
+});
+// settings
+
+Route::get(
+    '/settings',
+    [SettingController::class,'index']
+);
+
+
+Route::post(
+    '/settings/update',
+    [SettingController::class,'update']
+);
+/*
+|--------------------------------------------------------------------------
+/*
+|--------------------------------------------------------------------------
+| KPI ROUTES
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware([
+    'auth'
+])->group(function () {
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | KPI DASHBOARD
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/kpi/dashboard',
+        [KpiController::class,'dashboard']
+    )->name('kpi.dashboard');
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | EMPLOYEE KPI
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/kpi-points',
+        [KpiController::class,'index']
+    )->name('kpi.index');
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | KPI EVALUATION
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/kpi/evaluate/{id}',
+        [KpiController::class,'evaluate']
+    )->name('kpi.evaluate');
+
+
+
+    Route::post(
+        '/kpi/store',
+        [KpiController::class,'store']
+    )->name('kpi.store');
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | KPI VIEW
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/kpi/show/{id}',
+        [KpiController::class,'show']
+    )->name('kpi.show');
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | KPI REPORTS
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/kpi/reports',
+        [KpiController::class,'reports']
+    )->name('kpi.reports');
 
 });

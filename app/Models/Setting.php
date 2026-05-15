@@ -6,5 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
-    //
+    protected $fillable = [
+
+        'website_name',
+
+        'logo',
+
+        'theme_color'
+
+    ];
 }

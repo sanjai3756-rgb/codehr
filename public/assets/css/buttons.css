@@ -19,7 +19,7 @@
     transition:.3s;
 }
 .btn-edit{background:#3b82f6;}
-.btn-back{background:#64748b;}
+.btn-back{background:#325e9b;}
 .logout-btn{background:#ef4444;}
 .dark-btn{background:#111827;}
 
@@ -78,4 +78,72 @@
     padding:12px;
     border-radius:8px;
     margin-bottom:15px;
+}
+/* =========================================
+   BACK BUTTON
+========================================= */
+
+.back-btn{
+
+    display:inline-flex;
+
+    align-items:center;
+    margin: 8px;
+
+    gap:20px;
+
+    background:var(--theme-color);
+
+    color:#101010;
+
+    text-decoration:none;
+
+    padding:12px 20px;
+
+    border-radius:14px;
+
+    font-size:15px;
+
+    font-weight:600;
+
+    transition:.3s;
+
+    box-shadow:
+    0 10px 20px rgba(0,0,0,.08);
+
+}
+
+
+
+/* ICON */
+
+.back-btn i{
+
+    font-size:15px;
+
+}
+
+
+
+/* HOVER */
+
+.back-btn:hover{
+
+    transform:translateY(-3px);
+
+    opacity:.95;
+    background: #17233e;
+
+    color:#fff;
+
+}
+
+
+
+/* ACTIVE */
+
+.back-btn:active{
+
+    transform:scale(.98);
+
 }
