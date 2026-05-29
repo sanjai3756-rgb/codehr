@@ -15,20 +15,19 @@ class KpiCategory extends Model
     ];
 
 
-    public function template()
-    {
-        return $this->belongsTo(
-            KpiTemplate::class,
-            'template_id'
-        );
-    }
+public function template()
+{
+    return $this->belongsTo(
+        KpiTemplate::class,
+        'template_id'
+    );
+}
 
-
-    public function questions()
-    {
-        return $this->hasMany(
-            KpiQuestion::class,
-            'category_id'
-        );
-    }
+public function questions()
+{
+    return $this->hasMany(
+        KpiQuestion::class,
+        'category_id'
+    );
+}
 }

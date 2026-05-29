@@ -15,12 +15,11 @@ class KpiQuestion extends Model
 
     ];
 
-
-    public function category()
-    {
-        return $this->belongsTo(
-            KpiCategory::class,
-            'category_id'
-        );
-    }
+public function category()
+{
+    return $this->belongsTo(
+        KpiCategory::class,
+        'category_id'
+    );
+}
 }

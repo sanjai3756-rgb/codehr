@@ -13,11 +13,11 @@ class KpiTemplate extends Model
     ];
 
 
-    public function categories()
-    {
-        return $this->hasMany(
-            KpiCategory::class,
-            'template_id'
-        );
-    }
+   public function categories()
+{
+    return $this->hasMany(
+        KpiCategory::class,
+        'template_id'
+    );
+}
 }

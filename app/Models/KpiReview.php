@@ -34,12 +34,11 @@ class KpiReview extends Model
         );
     }
 
-
-    public function scores()
-    {
-        return $this->hasMany(
-            KpiReviewScore::class,
-            'review_id'
-        );
-    }
+public function scores()
+{
+    return $this->hasMany(
+        KpiReviewScore::class,
+        'review_id'
+    );
+}
 }

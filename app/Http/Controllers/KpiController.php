@@ -10,6 +10,7 @@ use App\Models\KpiTemplate;
 use App\Models\KpiReview;
 use App\Models\KpiReviewScore;
 use App\Models\KpiAssignment;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class KpiController extends Controller
 {
@@ -96,259 +97,210 @@ class KpiController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function reports()
-    {
+public function reports(Request $request)
+{
 
-        $reports = KpiReview::with(
-            'employee.designation'
-        )->latest()->get();
+    $reports = KpiReview::with([
+        'employee.designation',
+        'evaluator'
+    ]);
 
 
-        return view(
-            'kpi.reports',
-            compact('reports')
+
+    if($request->filled('employee')){
+
+        $reports->whereHas(
+            'employee',
+            function($q) use ($request){
+
+                $q->where(
+                    'name',
+                    'like',
+                    '%'.$request->employee.'%'
+                );
+
+            }
         );
 
     }
 
 
 
+    if($request->filled('month')){
+
+        $reports->where(
+            'month',
+            $request->month
+        );
+
+    }
+
+
+
+    $reports = $reports
+        ->latest()
+        ->get();
+
+
+
+    return view(
+        'kpi.reports',
+        compact('reports')
+    );
+
+}
+
     /*
     |--------------------------------------------------------------------------
     | KPI EVALUATION PAGE
     |--------------------------------------------------------------------------
     */
-
 public function evaluate($id)
 {
-
-    /*
-    |--------------------------------------------------------------------------
-    | EMPLOYEE
-    |--------------------------------------------------------------------------
-    */
-
     $employee = User::with(
         'designation'
     )->findOrFail($id);
 
+    $template = KpiTemplate::with(
+        'categories.questions'
+    )
+    ->where(
+        'role',
+        $employee->designation->designation_name
+    )
+    ->first();
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | DESIGNATION
-    |--------------------------------------------------------------------------
-    */
-
-    $designation = strtolower(
-        $employee
-        ->designation
-        ->designation_name ?? ''
+    dd(
+        $template->categories
     );
-
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | QUESTIONS
-    |--------------------------------------------------------------------------
-    */
-
-    $questions = [];
-
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | TESTER KPI
-    |--------------------------------------------------------------------------
-    */
-
-    if(str_contains($designation,'tester')){
-
-        $questions = [
-
-            'Test Case Coverage',
-            'Bug Detection',
-            'Bug Reporting',
-            'Execution Speed',
-            'Automation Skills',
-            'API Testing',
-            'Documentation',
-            'Team Collaboration',
-            'Communication',
-            'Attendance'
-
-        ];
-
-    }
-
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | PHP KPI
-    |--------------------------------------------------------------------------
-    */
-
-    elseif(str_contains($designation,'php')){
-
-        $questions = [
-
-            'Code Quality',
-            'Laravel Knowledge',
-            'Database Handling',
-            'API Integration',
-            'Bug Fixing',
-            'Team Communication',
-            'Task Completion',
-            'Git Usage',
-            'Optimization',
-            'Attendance'
-
-        ];
-
-    }
-
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | FLUTTER KPI
-    |--------------------------------------------------------------------------
-    */
-
-    elseif(str_contains($designation,'flutter')){
-
-        $questions = [
-
-            'UI Design',
-            'Flutter Knowledge',
-            'Firebase Usage',
-            'API Integration',
-            'Performance',
-            'Bug Fixing',
-            'Task Completion',
-            'Play Store Build',
-            'Code Quality',
-            'Attendance'
-
-        ];
-
-    }
-
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | UI UX KPI
-    |--------------------------------------------------------------------------
-    */
-
-    elseif(str_contains($designation,'ui')){
-
-        $questions = [
-
-            'Design Creativity',
-            'Figma Usage',
-            'Wireframe',
-            'User Experience',
-            'Color Theory',
-            'Responsive Design',
-            'Prototype',
-            'Team Coordination',
-            'Client Satisfaction',
-            'Attendance'
-
-        ];
-
-    }
-
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | VIDEO EDITOR KPI
-    |--------------------------------------------------------------------------
-    */
-
-    elseif(str_contains($designation,'video')){
-
-        $questions = [
-
-            'Editing Quality',
-            'Creativity',
-            'Transition Usage',
-            'Audio Sync',
-            'Color Grading',
-            'Reel Editing',
-            'Deadline Handling',
-            'Team Coordination',
-            'Client Satisfaction',
-            'Attendance'
-
-        ];
-
-    }
-
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | HR KPI
-    |--------------------------------------------------------------------------
-    */
-
-    elseif(str_contains($designation,'hr')){
-
-        $questions = [
-
-            'Hiring Process',
-            'Employee Handling',
-            'Communication',
-            'Interview Management',
-            'Documentation',
-            'Attendance Tracking',
-            'Problem Solving',
-            'Reporting',
-            'Team Support',
-            'Attendance'
-
-        ];
-
-    }
-
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | DEFAULT KPI
-    |--------------------------------------------------------------------------
-    */
-
-    else{
-
-        $questions = [
-
-            'Performance',
-            'Communication',
-            'Task Completion',
-            'Quality',
-            'Attendance'
-
-        ];
-
-    }
-
-
-
-    return view(
-        'kpi.evaluate',
-        compact(
-            'employee',
-            'questions'
-        )
-    );
-
 }
+
+
+public function submitEvaluation(Request $request)
+{
+
+    $employee = User::findOrFail(
+        $request->employee_id
+    );
+    
+    
+    $review = KpiReview::create([
+
+        'employee_id' => $employee->id,
+
+        'evaluator_id' => auth()->id(),
+
+        'month' => date('F'),
+
+        'year' => date('Y'),
+
+        'total_score' => $request->final_score
+
+    ]);
+
+    $request->validate([
+    'employee_id' => 'required',
+    'question_id' => 'required|array',
+    'week1' => 'required|array',
+    'week2' => 'required|array',
+
+]);
+foreach($request->question_id as $index => $questionId){
+
+    KpiReviewScore::create([
+
+        'review_id' =>
+            $review->id,
+
+        'question_id' =>
+            $questionId,
+
+        'week1' =>
+            $request->week1[$index],
+
+        'week2' =>
+            $request->week2[$index],
+
+        'average' =>
+            $request->average[$index]
+
+    ]);
+
+
+
+    }
+
+
+    $employee->update([
+
+        'kpi_total' =>
+            $request->final_score
+
+    ]);
+
+
+    return redirect()
+        ->route('kpi.reports')
+        ->with(
+            'success',
+            'KPI Submitted Successfully'
+        );
+}
+
+// kpi download
+
+
+public function downloadPdf($id)
+{
+    $report = KpiReview::with([
+        'employee',
+        'evaluator',
+        'scores.question'
+    ])->findOrFail($id);
+
+    $pdf = Pdf::loadView(
+        'kpi.pdf',
+        compact('report')
+    );
+
+    return $pdf->download(
+        'KPI_Report_'.$report->employee->name.'.pdf'
+    );
+}
+
+public function bulkPdf(Request $request)
+{
+
+    if(
+        !$request->has('report_ids')
+        ||
+        empty($request->report_ids)
+    ){
+
+        return back()->with(
+            'error',
+            'Please select at least one report'
+        );
+
+    }
+
+  $reports = KpiReview::with([
+    'employee',
+    'evaluator',
+    'scores.question'
+   ])
+    ->whereIn('id',$request->report_ids)
+   ->get();
+
+    $pdf = Pdf::loadView(
+        'kpi.bulk_pdf',
+        compact('reports')
+    );
+
+    return $pdf->download(
+        'Bulk_KPI_Report.pdf'
+    );
+}
+
+
     }

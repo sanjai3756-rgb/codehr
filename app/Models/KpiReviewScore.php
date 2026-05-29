@@ -16,7 +16,6 @@ class KpiReviewScore extends Model
 
     ];
 
-
     public function review()
     {
         return $this->belongsTo(
@@ -25,12 +24,11 @@ class KpiReviewScore extends Model
         );
     }
 
-
-    public function question()
-    {
-        return $this->belongsTo(
-            KpiQuestion::class,
-            'question_id'
-        );
-    }
+public function question()
+{
+    return $this->belongsTo(
+        KpiQuestion::class,
+        'question_id'
+    );
+}
 }

@@ -127,4 +127,18 @@ $totalPayroll = Payroll::sum('basic_salary');
         )
     );
 }
+public function reports()
+{
+    $reports = KpiReview::with([
+        'employee',
+        'evaluator'
+    ])
+    ->latest()
+    ->get();
+
+    return view(
+        'kpi.reports',
+        compact('reports')
+    );
+}
 }

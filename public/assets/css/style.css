@@ -348,23 +348,22 @@ body{
    TABLE CARD
 ========================================= */
 
-.table-card{
-
-    background:#fff;
-
-    border-radius:26px;
-
-    padding:30px;
-    padding-right: 100px;
-
-    box-shadow:
-    0 10px 30px rgba(0,0,0,.05);
-
-    overflow-x:auto;
-
+.table-card table{
+    width:100%;
+    border-collapse:collapse;
 }
-
-
+.table-card th{
+    background:#f1f5f9;
+    padding:16px;
+    text-align:left;
+}
+.table-card td{
+    padding:14px 16px;
+    border-bottom:1px solid #e5e7eb;
+}
+.table-card tr:hover{
+    background:#f8fafc;
+}
 
 /* =========================================
    TABLE HEADER
@@ -1242,4 +1241,62 @@ table tbody tr:hover{
     font-size:13px;
     color:#64748b;
 
+}
+/* KPI REPORT FILTER */
+
+.report-top-bar{
+    margin:25px 0;
+}
+
+.report-filter-form{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.filter-search{
+    flex:1;
+    min-width:300px;
+    height:48px;
+    border:1px solid #dbe2ea;
+    border-radius:12px;
+    padding:0 15px;
+    font-size:15px;
+    background:#fff;
+}
+
+.filter-select{
+    height:48px;
+    min-width:180px;
+    border:1px solid #dbe2ea;
+    border-radius:12px;
+    padding:0 12px;
+    background:#fff;
+}
+
+.filter-btn,
+.print-btn{
+    height:48px;
+    border:none;
+    padding:0 22px;
+    border-radius:12px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.filter-btn{
+    background:#13b305;
+    color:#fff;
+}
+
+.print-btn{
+    background:var(--theme-color);
+    color:#fff;
+}
+
+.filter-btn:hover,
+.print-btn:hover{
+    transform:translateY(-2px);
 }

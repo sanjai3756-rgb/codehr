@@ -4,224 +4,219 @@
 
 <div class="kpimain">
 
-    <div class="table-card">
+```
+<div class="table-card">
 
+    <div class="table-header">
 
-        <!-- HEADER -->
+        <div>
 
-        <div class="table-header">
+            <h2>KPI Evaluation</h2>
 
-            <div>
-
-                <h2>
-
-                    KPI Evaluation
-
-                </h2>
-
-                <p>
-
-                    {{ $employee->name }}
-
-                    -
-                    {{ $employee->designation->designation_name }}
-
-                </p>
-
-            </div>
+            <p>
+                {{ $employee->name }}
+                -
+                {{ $employee->designation->designation_name ?? '' }}
+            </p>
 
         </div>
 
-
-
-        <!-- FORM -->
-
-        <form>
-
-
-@foreach($questions as $question)
-
-<div class="kpi-question-row">
-
-    <!-- QUESTION -->
-
-    <div class="question-title">
-
-        <h4>{{ $question }}</h4>
-
     </div>
 
+    <form action="{{ route('kpi.submit') }}" method="POST">
 
-
-    <!-- WEEK 1 & 2 -->
-
-    <div class="week-box">
-
-        <label>Week 1 & 2</label>
+        @csrf
 
         <input
-            type="number"
-            class="kpi-input week12"
-            min="0"
-            max="10"
-            step="0.1"
+            type="hidden"
+            name="employee_id"
+            value="{{ $employee->id }}"
         >
-
-    </div>
-
-
-
-    <!-- WEEK 3 & 4 -->
-
-    <div class="week-box">
-
-        <label>Week 3 & 4</label>
 
         <input
-            type="number"
-            class="kpi-input week34"
-            min="0"
-            max="10"
-            step="0.1"
+            type="hidden"
+            name="final_score"
+            id="finalScoreInput"
+            value="0"
         >
+
+@foreach($template->categories as $category)
+
+<div class="kpi-category-box">
+
+    <h3>{{ $category->category }}</h3>
+
+    @foreach($category->questions as $question)
+
+    <input
+        type="hidden"
+        name="question_id[]"
+        value="{{ $question->id }}"
+    >
+
+    <div class="kpi-question-row">
+
+        <div class="question-title">
+
+            <h4>{{ $question->question }}</h4>
+
+        </div>
+
+        <div class="week-box">
+
+            <label>Week 1 & 2</label>
+
+            <input
+                type="number"
+                name="week1[]"
+                class="kpi-input week12"
+                min="0"
+                max="10"
+                step="0.1"
+            >
+
+        </div>
+
+        <div class="week-box">
+
+            <label>Week 3 & 4</label>
+
+            <input
+                type="number"
+                name="week2[]"
+                class="kpi-input week34"
+                min="0"
+                max="10"
+                step="0.1"
+            >
+
+        </div>
+
+        <div class="week-box">
+
+            <label>Final</label>
+
+            <input
+                type="text"
+                name="average[]"
+                class="kpi-input final-box"
+                readonly
+            >
+
+        </div>
 
     </div>
 
-
-
-    <!-- FINAL -->
-
-    <div class="week-box">
-
-        <label>Final</label>
-
-        <input
-            type="text"
-            class="kpi-input final-box"
-            readonly
-        >
-
-    </div>
+    @endforeach
 
 </div>
 
 @endforeach
 
+        <div class="final-score-box">
 
+            <h2>
 
-<!-- FINAL MONTH SCORE -->
+                Final Monthly KPI :
 
-<div class="final-score-box">
+                <span id="finalScore">0</span>
 
-    <h2>
+                /100
 
-        Final Monthly KPI :
+            </h2>
 
-        <span id="finalScore">
+        </div>
 
-            0
+        <br>
 
-        </span>
+        <button
+            type="submit"
+            class="save-btn"
+        >
+            Submit KPI
+        </button>
 
-        /100
-
-    </h2>
-
-</div>
-{{-- <!-- FINAL TOTAL -->
-
-            <div class="final-total-box">
-
-                <h2>
-
-                    Final Score :
-
-                    <span id="finalScore">
-
-                        0
-
-                    </span>/100
-
-                </h2>
-
-            </div>
- --}}
-
-
-            <!-- BUTTON -->
-
-            <button class="save-btn">
-
-                Submit KPI
-
-            </button>
-
-        </form>
-
-    </div>
+    </form>
 
 </div>
+```
 
-
-
-<!-- AUTO CALCULATION -->
+</div>
 
 <script>
 
-document.addEventListener(
+function calculateKPI(){
 
-    'input',
+    let grandTotal = 0;
 
-    function(){
+    document.querySelectorAll('.kpi-question-row')
+    .forEach(row => {
 
-        let rows =
-            document.querySelectorAll(
-                '.kpi-question-row'
-            );
+        let week12 =
+            parseFloat(
+                row.querySelector('.week12').value
+            ) || 0;
 
-        let total = 0;
+        let week34 =
+            parseFloat(
+                row.querySelector('.week34').value
+            ) || 0;
 
+        let final =
+            (week12 + week34) / 2;
 
-        rows.forEach(row => {
+        row.querySelector('.final-box').value =
+            final.toFixed(2);
 
-            let inputs =
-                row.querySelectorAll(
-                    '.mark-input'
+        grandTotal += final;
+
+    });
+
+    document.getElementById(
+        'finalScore'
+    ).innerText =
+        grandTotal.toFixed(2);
+
+    document.getElementById(
+        'finalScoreInput'
+    ).value =
+        grandTotal.toFixed(2);
+
+}
+
+document.querySelectorAll(
+    '.week12,.week34'
+).forEach(input => {
+
+    input.addEventListener(
+        'input',
+        function(){
+
+            let value =
+                parseFloat(this.value);
+
+            if(value > 10){
+
+                alert(
+                    'Maximum score is 10'
                 );
 
-            let avgBox =
-                row.querySelector(
-                    '.average-box'
-                );
+                this.value = 10;
 
+            }
 
-            let w1 =
-                parseFloat(inputs[0].value) || 0;
+            if(value < 0){
 
-            let w2 =
-                parseFloat(inputs[1].value) || 0;
+                this.value = 0;
 
+            }
 
-            let avg =
-                (w1 + w2) / 2;
+            calculateKPI();
 
+        }
+    );
 
-            avgBox.value =
-                avg.toFixed(1);
-
-
-            total += avg;
-
-        });
-
-
-        document.getElementById(
-            'finalScore'
-        ).innerText = total.toFixed(1);
-
-    }
-
-);
+});
 
 </script>
 

@@ -447,7 +447,7 @@ Route::post(
     | KPI EVALUATION
     |--------------------------------------------------------------------------
     */
-
+    
     Route::get(
         '/kpi/evaluate/{id}',
         [KpiController::class,'evaluate']
@@ -461,15 +461,7 @@ Route::post(
     )->name('kpi.store');
 
     
-    Route::get(
-    '/kpi/evaluate/{id}',
-    [KpiController::class, 'evaluate']
-    )->name('kpi.evaluate');
 
-    Route::post(
-    '/kpi/submit/{id}',
-    [KpiController::class, 'submit']
-    )->name('kpi.submit');
 
     /*
     |--------------------------------------------------------------------------
@@ -490,9 +482,31 @@ Route::post(
     |--------------------------------------------------------------------------
     */
 
-    Route::get(
-        '/kpi/reports',
-        [KpiController::class,'reports']
-    )->name('kpi.reports');
+Route::get(
+    '/kpi/reports',
+    [KpiController::class,'reports']
+)->name('kpi.reports');
+
+Route::post(
+    '/kpi/submit',
+    [KpiController::class,'submitEvaluation']
+)->name('kpi.submit');
+
+
+// kpi pdf download
+Route::get(
+    '/kpi/report/pdf/{id}',
+    [KpiController::class,'downloadPdf']
+)->name('kpi.pdf');
+
+Route::post(
+    '/kpi/report/bulk-pdf',
+    [KpiController::class,'bulkPdf']
+)->name('kpi.bulk.pdf');
+
+Route::post(
+    '/kpi/bulk-pdf',
+    [KpiController::class,'bulkPdf']
+)->name('kpi.bulk.pdf');
 
 });
