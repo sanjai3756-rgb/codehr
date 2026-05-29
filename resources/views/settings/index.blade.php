@@ -110,7 +110,7 @@
 
                 <select name="font_family">
 
-                    <option value="Poppins">
+                    <option value="poppins">
 
                         Poppins
 

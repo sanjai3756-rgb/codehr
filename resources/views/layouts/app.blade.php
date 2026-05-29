@@ -39,7 +39,7 @@
             {{ $setting->theme_color ?? '#2563eb' }};
 
             --font-family:
-            '{{ $setting->font_family ?? 'Poppins' }}';
+            '{{ $setting->font_family ?? 'poppins' }}';
 
         }
 
@@ -227,53 +227,63 @@
 
     <!-- KPI MANAGEMENT -->
 
-    <button class="dropdown-btn">
+<button class="dropdown-btn">
 
-        <div>
+    <div>
 
-            <i class="fa-solid fa-chart-line"></i>
+        <i class="fa-solid fa-chart-line"></i>
 
-            <span>KPI Management</span>
-
-        </div>
-
-        <i class="fa-solid fa-chevron-down arrow"></i>
-
-    </button>
-
-
-    <div class="dropdown-container
-        {{ request()->is('kpi*') ? 'show' : '' }}">
-
-        <a href="{{ route('kpi.dashboard') }}">
-
-            <i class="fa-solid fa-chart-pie"></i>
-
-            <span>KPI Dashboard</span>
-
-        </a>
-
-
-        <a href="{{ route('kpi.index') }}">
-
-            <i class="fa-solid fa-users"></i>
-
-            <span>Employee KPI</span>
-
-        </a>
-
-
-        <a href="{{ route('kpi.reports') }}">
-
-            <i class="fa-solid fa-file-lines"></i>
-
-            <span>KPI Reports</span>
-
-        </a>
+        <span>KPI Management</span>
 
     </div>
 
+    <i class="fa-solid fa-chevron-down"></i>
 
+</button>
+
+
+
+<div class="dropdown-container">
+
+    <a href="{{ route('kpi.dashboard') }}">
+
+        <i class="fa-solid fa-chart-pie"></i>
+
+        <span>KPI Dashboard</span>
+
+    </a>
+
+
+
+    <a href="{{ route('kpi.index') }}">
+
+        <i class="fa-solid fa-users"></i>
+
+        <span>Employee KPI</span>
+
+    </a>
+
+
+
+    <a href="{{ route('kpi.reports') }}">
+
+        <i class="fa-solid fa-file-lines"></i>
+
+        <span>KPI Reports</span>
+
+    </a>
+
+
+
+    <a href="{{ route('kpi.assignments') }}">
+
+        <i class="fa-solid fa-user-check"></i>
+
+        <span>KPI Assignments</span>
+
+    </a>
+
+</div>
 
     <!-- PAYROLL -->
     @can('manage payroll')
@@ -524,6 +534,8 @@
 
 <!-- DROPDOWN SCRIPT -->
 
+<!-- ALL SCRIPTS -->
+
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -581,9 +593,10 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('userDropdownMenu');
 
 
+
     if(userBtn){
 
-        userBtn.addEventListener('click', function (e) {
+        userBtn.addEventListener('click', function(e){
 
             e.preventDefault();
 
@@ -601,7 +614,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | OUTSIDE CLICK CLOSE
+    | OUTSIDE CLICK
     |--------------------------------------------------------------------------
     */
 
@@ -625,15 +638,181 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | KPI SEARCH
+    |--------------------------------------------------------------------------
+    */
+
+    const search =
+        document.getElementById(
+            'employeeSearch'
+        );
+
+
+
+    const select =
+        document.getElementById(
+            'employeeSelect'
+        );
+
+
+
+    if(search && select){
+
+        search.addEventListener('keyup', function(){
+
+            let value =
+                this.value.toLowerCase();
+
+
+
+            Array.from(
+                select.options
+            ).forEach(option => {
+
+                let text =
+                    option.text.toLowerCase();
+
+
+
+                option.style.display =
+                    text.includes(value)
+                    ? ''
+                    : 'none';
+
+            });
+
+        });
+
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | KPI CALCULATION
+    |--------------------------------------------------------------------------
+    */
+
+    function calculateKPI(){
+
+        let grandTotal = 0;
+
+
+
+        document.querySelectorAll(
+            '.kpi-question-row'
+        ).forEach(row => {
+
+            let week12 =
+                parseFloat(
+                    row.querySelector('.week12')?.value
+                ) || 0;
+
+
+
+            let week34 =
+                parseFloat(
+                    row.querySelector('.week34')?.value
+                ) || 0;
+
+
+
+            let final =
+                ((week12 + week34) / 2);
+
+
+
+            let finalBox =
+                row.querySelector('.final-box');
+
+
+
+            if(finalBox){
+
+                finalBox.value =
+                    final.toFixed(2);
+
+            }
+
+
+
+            grandTotal += final;
+
+        });
+
+
+
+        let finalScore =
+            document.getElementById(
+                'finalScore'
+            );
+
+
+
+        if(finalScore){
+
+            finalScore.innerText =
+                grandTotal.toFixed(2);
+
+        }
+
+    }
+
+
+
+    document.querySelectorAll(
+        '.week12,.week34'
+    ).forEach(input => {
+
+        input.addEventListener(
+            'input',
+            calculateKPI
+        );
+
+    });
+
 });
 
-</script>
+
+
+/*
+|--------------------------------------------------------------------------
+| PAGE LOADER
+|--------------------------------------------------------------------------
+*/
+
+window.addEventListener('load', function(){
+
+    const loader =
+        document.getElementById('pageLoader');
+
+    if(loader){
+
+        setTimeout(() => {
+
+            loader.style.opacity = '0';
+
+            loader.style.visibility = 'hidden';
+
+            loader.style.pointerEvents = 'none';
+
+        }, 500);
+
+    }
+
+});
 
 
 
-<!-- TOAST -->
-
-<script>
+/*
+|--------------------------------------------------------------------------
+| TOAST
+|--------------------------------------------------------------------------
+*/
 
 setTimeout(() => {
 
@@ -660,24 +839,72 @@ setTimeout(() => {
 }, 3000);
 
 </script>
-
-
 <script>
 
-window.addEventListener('load', function(){
+const searchInput =
+    document.getElementById(
+        'employeeSearch'
+    );
 
-    const loader =
-        document.getElementById('pageLoader');
 
-    setTimeout(() => {
 
-        loader.style.opacity = '0';
+const dropdown =
+    document.getElementById(
+        'employeeDropdown'
+    );
 
-        loader.style.visibility = 'hidden';
 
-        loader.style.pointerEvents = 'none';
 
-    }, 500);
+searchInput.addEventListener('focus', function(){
+
+    dropdown.classList.add(
+        'show-dropdown'
+    );
+
+});
+
+
+
+searchInput.addEventListener('keyup', function(){
+
+    let value =
+        this.value.toLowerCase();
+
+
+
+    document.querySelectorAll(
+        '.employee-card'
+    ).forEach(card => {
+
+        let text =
+            card.innerText.toLowerCase();
+
+
+
+        card.style.display =
+            text.includes(value)
+            ? 'block'
+            : 'none';
+
+    });
+
+});
+
+
+
+document.addEventListener('click', function(e){
+
+    if(
+        !searchInput.contains(e.target)
+        &&
+        !dropdown.contains(e.target)
+    ){
+
+        dropdown.classList.remove(
+            'show-dropdown'
+        );
+
+    }
 
 });
 

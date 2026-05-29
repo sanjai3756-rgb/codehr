@@ -44,7 +44,7 @@
 
             <tr>
 
-                <th>ID</th>
+                <th>S.NO</th>
 
 
               <th>Department Name</th>
@@ -70,7 +70,7 @@
                 <tr>
 
                     <td>
-                        {{ $designation->id }}
+                        {{ $loop->iteration }}
                     </td>
                      <td>
 

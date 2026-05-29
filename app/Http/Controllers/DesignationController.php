@@ -100,26 +100,19 @@ $request->validate([
     |--------------------------------------------------------------------------
     */
 
-    public function update(
-        Request $request,
-        Designation $designation
-    )
+    public function update(Request $request)
     {
-  $request->validate([
-
-    'department_id' => 'required',
-
-    'designation_name' => 'required'
-
-]);
-
-        $designation->update([
-
-            'designation_name' =>
-                $request->designation_name
-
+        $request->validate([
+            'designation_name' => 'required'
         ]);
 
+        $designationId = $request->route('designation');
+
+        $designation = Designation::findOrFail($designationId);
+
+        $designation->update([
+            'designation_name' => $request->designation_name
+        ]);
 
         return redirect()
             ->route('designations.index')

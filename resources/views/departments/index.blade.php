@@ -47,7 +47,7 @@
 
             <tr>
 
-                <th>ID</th>
+                <th>S.NO</th>
 
                 <th>Department Name</th>
 
@@ -73,7 +73,7 @@
 
                     <td>
 
-                        {{ $department->id }}
+                        {{ $loop->iteration }}
 
                     </td>
 

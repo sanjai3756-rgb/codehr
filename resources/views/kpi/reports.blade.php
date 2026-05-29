@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="main">
+<div class="kpimain">
 
     <div class="kpi-container">
 

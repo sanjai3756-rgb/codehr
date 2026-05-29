@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\User;
-use App\Models\KpiAssignment;
-use App\Models\KpiCategory;
 use App\Models\KpiEvaluation;
-use App\Models\KpiScore;
+use App\Models\KpiTemplate;
+use App\Models\KpiReview;
+use App\Models\KpiReviewScore;
+use App\Models\KpiAssignment;
 
 class KpiController extends Controller
 {
@@ -25,52 +26,30 @@ class KpiController extends Controller
         $employees = User::count();
 
 
-        $evaluated = KpiEvaluation::whereMonth(
+
+        $evaluated = KpiReview::whereMonth(
             'created_at',
-            date('m')
+            now()->month
         )->count();
 
 
-        $top = KpiEvaluation::where(
+
+        $top = KpiReview::where(
             'total_score',
             '>=',
             80
         )->count();
 
 
-        $pending = User::count() - $evaluated;
+
+        $pending = $employees - $evaluated;
 
 
 
-        /*
-        |--------------------------------------------------------------------------
-        | TOP EMPLOYEES
-        |--------------------------------------------------------------------------
-        */
+        $topEmployees = User::with(
+            'designation'
+        )->latest()->take(10)->get();
 
-       $topEmployees = User::with(
-      'designation'
-       )
-      ->get();
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | CHART DATA
-        |--------------------------------------------------------------------------
-        */
-
-        $chartData = [
-
-            'Jan' => 70,
-            'Feb' => 82,
-            'Mar' => 65,
-            'Apr' => 90,
-            'May' => 75,
-            'Jun' => 88
-
-        ];
 
 
         return view(
@@ -80,17 +59,17 @@ class KpiController extends Controller
                 'evaluated',
                 'top',
                 'pending',
-                'topEmployees',
-                'chartData'
+                'topEmployees'
             )
         );
+
     }
 
 
 
     /*
     |--------------------------------------------------------------------------
-    | KPI INDEX
+    | EMPLOYEE KPI
     |--------------------------------------------------------------------------
     */
 
@@ -98,15 +77,38 @@ class KpiController extends Controller
     {
 
         $employees = User::with(
-       'designation'
+            'designation'
         )->latest()->get();
-
 
 
         return view(
             'kpi.index',
             compact('employees')
         );
+
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | KPI REPORTS
+    |--------------------------------------------------------------------------
+    */
+
+    public function reports()
+    {
+
+        $reports = KpiReview::with(
+            'employee.designation'
+        )->latest()->get();
+
+
+        return view(
+            'kpi.reports',
+            compact('reports')
+        );
+
     }
 
 
@@ -117,241 +119,236 @@ class KpiController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function evaluate($id)
-    {
-
-        $employee = User::with(
-            'designation',
-            'department'
-        )->findOrFail($id);
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | ACCESS CONTROL
-        |--------------------------------------------------------------------------
-        */
-
-        $allowed = KpiAssignment::where(
-
-            'evaluator_id',
-            auth()->id()
-
-        )->where(
-
-            'employee_id',
-            $employee->id
-
-        )->exists();
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | ADMIN FULL ACCESS
-        |--------------------------------------------------------------------------
-        */
-
-        if(
-            auth()->user()->designation &&
-            auth()->user()->designation->designation_name != 'Admin'
-        )
-        {
-
-            if(!$allowed)
-            {
-                abort(403);
-            }
-
-        }
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | GET KPI TEMPLATE
-        |--------------------------------------------------------------------------
-        */
-
-        $categories = KpiCategory::with(
-            'questions'
-        )
-        ->whereHas(
-            'template',
-            function($query) use ($employee)
-            {
-                $query->where(
-                    'designation_id',
-                    $employee->designation_id
-                );
-            }
-        )->get();
-
-
-
-        return view(
-            'kpi.evaluate',
-            compact(
-                'employee',
-                'categories'
-            )
-        );
-    }
-
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | STORE KPI
-    |--------------------------------------------------------------------------
-    */
-
-    public function store(Request $request)
-    {
-
-        $employee = User::findOrFail(
-            $request->employee_id
-        );
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | CREATE EVALUATION
-        |--------------------------------------------------------------------------
-        */
-
-        $evaluation = KpiEvaluation::create([
-
-            'employee_id' => $employee->id,
-
-            'evaluator_id' => auth()->id(),
-
-            'month' => date('m'),
-
-            'year' => date('Y'),
-
-            'period' => now()->day <= 15
-                            ? '1-15'
-                            : '16-end',
-
-            'total_score' => 0
-
-        ]);
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | STORE SCORES
-        |--------------------------------------------------------------------------
-        */
-
-        $total = 0;
-
-
-        foreach($request->scores as $questionId => $score)
-        {
-
-            KpiScore::create([
-
-                'kpi_evaluation_id' =>
-                    $evaluation->id,
-
-                'kpi_question_id' =>
-                    $questionId,
-
-                'score' => $score
-
-            ]);
-
-
-            $total += $score;
-        }
-
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | UPDATE TOTAL
-        |--------------------------------------------------------------------------
-        */
-
-        $evaluation->update([
-
-            'total_score' => $total
-
-        ]);
-
-
-
-        return redirect()
-            ->route('kpi.index')
-            ->with(
-                'success',
-                'KPI Submitted Successfully'
-            );
-    }
-
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | VIEW KPI
-    |--------------------------------------------------------------------------
-    */
-
-    public function show($id)
-    {
-
-        $employee = User::with(
-            'designation',
-            'department'
-        )->findOrFail($id);
-
-
-
-        $evaluations = KpiEvaluation::where(
-            'employee_id',
-            $employee->id
-        )
-        ->latest()
-        ->get();
-
-
-
-        return view(
-            'kpi.show',
-            compact(
-                'employee',
-                'evaluations'
-            )
-        );
-    }
-
-
-
-public function reports()
-
+public function evaluate($id)
 {
-    $reports = \App\Models\KpiEvaluation::with(
 
-        'employee.designation'
+    /*
+    |--------------------------------------------------------------------------
+    | EMPLOYEE
+    |--------------------------------------------------------------------------
+    */
 
-    )
-    ->latest()
-    ->get();
+    $employee = User::with(
+        'designation'
+    )->findOrFail($id);
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DESIGNATION
+    |--------------------------------------------------------------------------
+    */
+
+    $designation = strtolower(
+        $employee
+        ->designation
+        ->designation_name ?? ''
+    );
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | QUESTIONS
+    |--------------------------------------------------------------------------
+    */
+
+    $questions = [];
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | TESTER KPI
+    |--------------------------------------------------------------------------
+    */
+
+    if(str_contains($designation,'tester')){
+
+        $questions = [
+
+            'Test Case Coverage',
+            'Bug Detection',
+            'Bug Reporting',
+            'Execution Speed',
+            'Automation Skills',
+            'API Testing',
+            'Documentation',
+            'Team Collaboration',
+            'Communication',
+            'Attendance'
+
+        ];
+
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | PHP KPI
+    |--------------------------------------------------------------------------
+    */
+
+    elseif(str_contains($designation,'php')){
+
+        $questions = [
+
+            'Code Quality',
+            'Laravel Knowledge',
+            'Database Handling',
+            'API Integration',
+            'Bug Fixing',
+            'Team Communication',
+            'Task Completion',
+            'Git Usage',
+            'Optimization',
+            'Attendance'
+
+        ];
+
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | FLUTTER KPI
+    |--------------------------------------------------------------------------
+    */
+
+    elseif(str_contains($designation,'flutter')){
+
+        $questions = [
+
+            'UI Design',
+            'Flutter Knowledge',
+            'Firebase Usage',
+            'API Integration',
+            'Performance',
+            'Bug Fixing',
+            'Task Completion',
+            'Play Store Build',
+            'Code Quality',
+            'Attendance'
+
+        ];
+
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | UI UX KPI
+    |--------------------------------------------------------------------------
+    */
+
+    elseif(str_contains($designation,'ui')){
+
+        $questions = [
+
+            'Design Creativity',
+            'Figma Usage',
+            'Wireframe',
+            'User Experience',
+            'Color Theory',
+            'Responsive Design',
+            'Prototype',
+            'Team Coordination',
+            'Client Satisfaction',
+            'Attendance'
+
+        ];
+
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | VIDEO EDITOR KPI
+    |--------------------------------------------------------------------------
+    */
+
+    elseif(str_contains($designation,'video')){
+
+        $questions = [
+
+            'Editing Quality',
+            'Creativity',
+            'Transition Usage',
+            'Audio Sync',
+            'Color Grading',
+            'Reel Editing',
+            'Deadline Handling',
+            'Team Coordination',
+            'Client Satisfaction',
+            'Attendance'
+
+        ];
+
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | HR KPI
+    |--------------------------------------------------------------------------
+    */
+
+    elseif(str_contains($designation,'hr')){
+
+        $questions = [
+
+            'Hiring Process',
+            'Employee Handling',
+            'Communication',
+            'Interview Management',
+            'Documentation',
+            'Attendance Tracking',
+            'Problem Solving',
+            'Reporting',
+            'Team Support',
+            'Attendance'
+
+        ];
+
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DEFAULT KPI
+    |--------------------------------------------------------------------------
+    */
+
+    else{
+
+        $questions = [
+
+            'Performance',
+            'Communication',
+            'Task Completion',
+            'Quality',
+            'Attendance'
+
+        ];
+
+    }
 
 
 
     return view(
-
-        'kpi.reports',
-
-        compact('reports')
-
+        'kpi.evaluate',
+        compact(
+            'employee',
+            'questions'
+        )
     );
 
-    }
 }
+    }

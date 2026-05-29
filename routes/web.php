@@ -10,6 +10,7 @@ use App\Http\Controllers\DesignationController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\KpiController;
+use App\Http\Controllers\KpiAssignmentController;
 use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\LeaveSettingController;
@@ -407,6 +408,27 @@ Route::middleware([
 
 
 
+    // KPI Assignment permission
+
+    Route::get(
+
+    '/kpi/assignments',
+
+    [KpiAssignmentController::class,'index']
+
+)->name('kpi.assignments');
+
+
+
+Route::post(
+
+    '/kpi/assignments/store',
+
+    [KpiAssignmentController::class,'store']
+
+)->name('kpi.assignments.store');
+
+
     /*
     |--------------------------------------------------------------------------
     | EMPLOYEE KPI
@@ -438,7 +460,16 @@ Route::middleware([
         [KpiController::class,'store']
     )->name('kpi.store');
 
+    
+    Route::get(
+    '/kpi/evaluate/{id}',
+    [KpiController::class, 'evaluate']
+    )->name('kpi.evaluate');
 
+    Route::post(
+    '/kpi/submit/{id}',
+    [KpiController::class, 'submit']
+    )->name('kpi.submit');
 
     /*
     |--------------------------------------------------------------------------
