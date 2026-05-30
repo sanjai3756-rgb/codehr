@@ -21,53 +21,42 @@ class KpiController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function dashboard()
-    {
+public function dashboard()
+{
+    $employees = User::count();
 
-        $employees = User::count();
+    $evaluated = KpiReview::count();
 
+    $top = KpiReview::where(
+        'total_score',
+        '>=',
+        80
+    )->count();
 
+    $pending = $employees - $evaluated;
 
-        $evaluated = KpiReview::whereMonth(
-            'created_at',
-            now()->month
-        )->count();
+    $highestEmployees = KpiReview::with('employee')
+        ->orderByDesc('total_score')
+        ->take(3)
+        ->get();
 
+    $lowestEmployees = KpiReview::with('employee')
+        ->orderBy('total_score')
+        ->take(3)
+        ->get();
 
-
-        $top = KpiReview::where(
-            'total_score',
-            '>=',
-            80
-        )->count();
-
-
-
-        $pending = $employees - $evaluated;
-
-
-
-        $topEmployees = User::with(
-            'designation'
-        )->latest()->take(10)->get();
-
-
-
-        return view(
-            'kpi.dashboard',
-            compact(
-                'employees',
-                'evaluated',
-                'top',
-                'pending',
-                'topEmployees'
-            )
-        );
-
-    }
-
-
-
+    return view(
+        'kpi.dashboard',
+        compact(
+            'employees',
+            'evaluated',
+            'top',
+            'pending',
+            'highestEmployees',
+            'lowestEmployees'
+        )
+    );
+}
     /*
     |--------------------------------------------------------------------------
     | EMPLOYEE KPI
@@ -164,17 +153,33 @@ public function evaluate($id)
     $template = KpiTemplate::with(
         'categories.questions'
     )
-    ->where(
-        'role',
-        $employee->designation->designation_name
+    ->whereRaw(
+        'LOWER(role) = ?',
+        [
+            strtolower(
+                $employee->designation->designation_name
+            )
+        ]
     )
     ->first();
 
-    dd(
-        $template->categories
+    if (!$template) {
+
+        return back()->with(
+            'error',
+            'No KPI Template Found For : '
+            .$employee->designation->designation_name
+        );
+    }
+
+    return view(
+        'kpi.evaluate',
+        compact(
+            'employee',
+            'template'
+        )
     );
 }
-
 
 public function submitEvaluation(Request $request)
 {
@@ -270,27 +275,27 @@ public function downloadPdf($id)
 
 public function bulkPdf(Request $request)
 {
-
     if(
         !$request->has('report_ids')
         ||
         empty($request->report_ids)
     ){
-
         return back()->with(
             'error',
-            'Please select at least one report'
+            'Please select reports'
         );
-
     }
 
-  $reports = KpiReview::with([
-    'employee',
-    'evaluator',
-    'scores.question'
-   ])
-    ->whereIn('id',$request->report_ids)
-   ->get();
+    $reports = KpiReview::with([
+        'employee',
+        'evaluator',
+        'scores.question'
+    ])
+    ->whereIn(
+        'id',
+        $request->report_ids
+    )
+    ->get();
 
     $pdf = Pdf::loadView(
         'kpi.bulk_pdf',
@@ -298,9 +303,59 @@ public function bulkPdf(Request $request)
     );
 
     return $pdf->download(
-        'Bulk_KPI_Report.pdf'
+        'KPI_Reports.pdf'
     );
 }
 
+// kpi edit report
+public function editReport($id)
+{
+    $report = KpiReview::with(
+        'scores.question',
+        'employee'
+    )->findOrFail($id);
+    return view(
+        'kpi.edit_report',
+        compact('report')
+    );
+}
 
+// kpi update report
+public function updateReport(Request $request,$id)
+{
+    $report = KpiReview::findOrFail($id);
+
+    $report->update([
+
+        'total_score' =>
+            $request->final_score
+
+    ]);
+
+    return redirect()
+        ->route('kpi.reports')
+        ->with(
+            'success',
+            'Report Updated Successfully'
+        );
+}
+
+// kpi delete report
+public function deleteReport($id)
+{
+    KpiReviewScore::where(
+        'review_id',
+        $id
+    )->delete();
+
+    KpiReview::findOrFail($id)
+        ->delete();
+
+    return redirect()
+        ->route('kpi.reports')
+        ->with(
+            'success',
+            'KPI Report Deleted Successfully'
+        );
+}
     }

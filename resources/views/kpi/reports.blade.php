@@ -2,120 +2,119 @@
 
 @section('content')
 
+<!-- TOP BAR -->
+<div class="top-bar">
+
+    <a href="javascript:history.back()"
+       class="back-btn">
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+        Back
+
+    </a>
+
+</div>
+
 <div class="kpimain">
 
-```
-<div class="table-card">
+    <div class="table-card">
 
-    <div class="table-header">
+        <div class="kpitable-header">
+            
 
-        <div>
+            <div>
 
-            <h2>KPI Reports</h2>
+                <h2>KPI Reports</h2>
 
-            <p>Monthly KPI Reports & Downloads</p>
+                <p>Monthly KPI Reports & Downloads</p>
+
+            </div>
 
         </div>
 
-    </div>
+        <!-- FILTERS -->
 
-    <!-- FILTERS -->
+        <div class="report-top-bar">
 
-<div class="report-top-bar">
+            <form method="GET" class="report-filter-form">
 
-    <form method="GET" class="report-filter-form">
+                <input
+                    type="text"
+                    name="employee"
+                    placeholder="🔍 Search Employee..."
+                    value="{{ request('employee') }}"
+                    class="filter-search"
+                >
 
-        <input
-            type="text"
-            name="employee"
-            placeholder="🔍 Search Employee..."
-            value="{{ request('employee') }}"
-            class="filter-search"
-        >
+                <select
+                    name="month"
+                    class="kpifilter-select"
+                >
 
-        <select
-            name="month"
-            class="filter-select"
-        >
+                    <option value="">
+                        All Months
+                    </option>
 
-            <option value="">
-                All Months
-            </option>
+                    @foreach([
+                        'January','February','March',
+                        'April','May','June',
+                        'July','August','September',
+                        'October','November','December'
+                    ] as $month)
 
-            @foreach([
-                'January','February','March',
-                'April','May','June',
-                'July','August','September',
-                'October','November','December'
-            ] as $month)
+                    <option
+                        value="{{ $month }}"
+                        {{ request('month') == $month ? 'selected' : '' }}
+                    >
 
-            <option
-                value="{{ $month }}"
-                {{ request('month') == $month ? 'selected' : '' }}
-            >
+                        {{ $month }}
 
-                {{ $month }}
+                    </option>
 
-            </option>
+                    @endforeach
 
-            @endforeach
+                </select>
 
-        </select>
+                <button
+                    type="submit"
+                    class="kpifilter-btn"
+                >
+                    Search
+                </button>
 
-        <button
-            type="submit"
-            class="filter-btn"
-        >
-            Search
-        </button>
 
-        <button
-            type="button"
-            onclick="window.print()"
-            class="print-btn"
-        >
-            Print
-        </button>
+            </form>
 
-    </form>
+        </div>
 
-</div>
-<br>
+        <br>
 
 <form
     action="{{ route('kpi.bulk.pdf') }}"
     method="POST"
 >
 
-@csrf
+    @csrf
+
     <table>
 
         <thead>
 
             <tr>
 
-                <th>
-
-                    <input
-                        type="checkbox"
-                        id="selectAll"
-                    >
-
+                <th width="50">
+                    <input type="checkbox" id="selectAll">
                 </th>
 
                 <th>Employee</th>
-
                 <th>Evaluator</th>
-
                 <th>Month</th>
-
                 <th>Year</th>
-
                 <th>Total Score</th>
-
                 <th>Status</th>
-
-                <th>Download</th>
+                <th>PDF</th>
+                <th width="180">Actions</th>
 
             </tr>
 
@@ -126,48 +125,47 @@
             @forelse($reports as $report)
 
             <tr>
-            <td>
-                 <input
+
+                <td>
+
+                    <input
                         type="checkbox"
                         name="report_ids[]"
                         value="{{ $report->id }}"
                         class="report-check"
-                                             >
-                      </td>
+                    >
+
+                </td>
 
                 <td>
-
                     {{ $report->employee->name ?? '-' }}
-
                 </td>
 
                 <td>
-
                     {{ $report->evaluator->name ?? '-' }}
-
                 </td>
 
                 <td>
-
                     {{ $report->month }}
-
                 </td>
 
                 <td>
-
                     {{ $report->year }}
-
                 </td>
 
                 <td>
-
                     {{ $report->total_score }}
-
                 </td>
 
                 <td>
 
-                    @if($report->total_score >= 85)
+                    @if($report->total_score >= 97)
+
+                        <span class="status-success">
+                            Employee of the Month
+                        </span>
+
+                    @elseif($report->total_score >= 85)
 
                         <span class="status-success">
                             Excellent
@@ -191,12 +189,32 @@
 
                 <td>
 
-           <a
-               href="{{ route('kpi.pdf',$report->id) }}"
-               class="edit-btn"
-          >
-             PDF
-           </a>
+                    <a
+                        href="{{ route('kpi.pdf',$report->id) }}"
+                        class="kpipdf-btn"
+                    >
+                        PDF
+                    </a>
+
+                </td>
+
+                <td class="action-cell">
+
+                    <a
+                        href="{{ route('kpi.report.edit',$report->id) }}"
+                        class="kpiedit-btn"
+                    >
+                        Edit
+                    </a>
+
+                    <button
+                        type="button"
+                        class="kpidelete-btn"
+                        onclick="deleteReport({{ $report->id }})"
+                    >
+                        Delete
+                    </button>
+
                 </td>
 
             </tr>
@@ -205,7 +223,7 @@
 
             <tr>
 
-                <td colspan="8">
+                <td colspan="9">
 
                     No Reports Found
 
@@ -218,20 +236,38 @@
         </tbody>
 
     </table>
-    <button
-    type="submit"
-    class="save-btn"
->
-    Download Selected PDF
-</button>
-
-</form>
 
     <br>
 
+    <button
+        type="submit"
+        class="kpsave-btn"
+    >
+        Download Selected PDF
+    </button>
 
-</div>
-```
+</form>
+
+@foreach($reports as $report)
+
+<form
+    id="delete-form-{{ $report->id }}"
+    action="{{ route('kpi.report.delete',$report->id) }}"
+    method="POST"
+    style="display:none;"
+>
+
+    @csrf
+
+    @method('DELETE')
+
+</form>
+
+@endforeach
+
+        <br>
+
+    </div>
 
 </div>
 
@@ -256,4 +292,20 @@ document.getElementById(
 );
 
 </script>
+<script>
+
+function deleteReport(id)
+{
+    if(confirm('Delete this KPI Report?'))
+    {
+        document
+            .getElementById(
+                'delete-form-' + id
+            )
+            .submit();
+    }
+}
+
+</script>
+
 @endsection

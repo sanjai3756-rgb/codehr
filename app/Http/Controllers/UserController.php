@@ -132,7 +132,13 @@ class UserController extends Controller
                 $request->employee_id,
 
             'salary' =>
-                $request->salary,
+                $request->salary, 
+
+            'salary_type' => $request->salary_type,
+
+            'hourly_rate' => $request->hourly_rate,
+
+             'daily_rate' => $request->daily_rate,
 
             'joining_date' =>
                 $request->joining_date,
@@ -244,6 +250,15 @@ class UserController extends Controller
             'salary' =>
                 $request->salary,
 
+            'salary_type' =>
+             $request->salary_type,
+
+             'hourly_rate' =>
+            $request->hourly_rate,
+
+            'daily_rate' =>
+            $request->daily_rate,
+
             'joining_date' =>
                 $request->joining_date
 
@@ -286,6 +301,12 @@ class UserController extends Controller
 
 
         $user->update($data);
+            if ($request->role) {
+
+               $user->syncRoles([
+               $request->role
+    ]);
+    }
 
 
         /*

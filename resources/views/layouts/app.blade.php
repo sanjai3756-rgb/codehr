@@ -225,7 +225,9 @@
 
 
 
-    <!-- KPI MANAGEMENT -->
+<!-- KPI MANAGEMENT -->
+
+@can('kpi.evaluate')
 
 <button class="dropdown-btn">
 
@@ -241,8 +243,6 @@
 
 </button>
 
-
-
 <div class="dropdown-container">
 
     <a href="{{ route('kpi.dashboard') }}">
@@ -253,8 +253,6 @@
 
     </a>
 
-
-
     <a href="{{ route('kpi.index') }}">
 
         <i class="fa-solid fa-users"></i>
@@ -263,8 +261,6 @@
 
     </a>
 
-
-
     <a href="{{ route('kpi.reports') }}">
 
         <i class="fa-solid fa-file-lines"></i>
@@ -272,8 +268,6 @@
         <span>KPI Reports</span>
 
     </a>
-
-
 
     <a href="{{ route('kpi.assignments') }}">
 
@@ -285,6 +279,7 @@
 
 </div>
 
+@endcan
     <!-- PAYROLL -->
     @can('manage payroll')
 
@@ -412,6 +407,7 @@
 
 
     <!-- SETTINGS -->
+@can('settings.manage')
 
     <a href="/settings">
 
@@ -424,41 +420,75 @@
         </div>
 
     </a>
-
+@endcan
 
 
     <!-- EMPLOYEE PANEL -->
 
-    @role('employee')
-
-    <a href="/profile">
-
-        <div>
-
-            <i class="fa-solid fa-user"></i>
-
-            <span>My Profile</span>
-
-        </div>
-
-    </a>
-
-    @endrole
+@role('employee')
 
 
+<a href="/attendance/my">
 
-    <!-- LOGOUT -->
+    <div>
 
-    <a href="/logout"
-       class="logout-btn">
+        <i class="fa-solid fa-calendar-check"></i>
 
-        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>My Attendance</span>
 
-        <span>Logout</span>
+    </div>
 
-    </a>
+</a>
 
-</div>
+<a href="/leave/apply">
+
+    <div>
+
+        <i class="fa-solid fa-paper-plane"></i>
+
+        <span>Apply Leave</span>
+
+    </div>
+
+</a>
+
+<a href="/leave/my">
+
+    <div>
+
+        <i class="fa-solid fa-calendar-days"></i>
+
+        <span>My Leaves</span>
+
+    </div>
+
+</a>
+
+<a href="/employee/kpi">
+
+    <div>
+
+        <i class="fa-solid fa-chart-line"></i>
+
+        <span>My KPI</span>
+
+    </div>
+
+</a>
+
+<a href="/profile">
+
+    <div>
+
+        <i class="fa-solid fa-user"></i>
+
+        <span>My Profile</span>
+
+    </div>
+
+</a>
+
+@endrole
 
 
 

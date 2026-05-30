@@ -7,15 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 class Attendance extends Model
 {
     protected $fillable = [
+
         'employee_id',
         'date',
-        'status',
         'check_in',
-        'check_out'
+        'check_out',
+        'working_hours',
+        'salary_amount'
+
     ];
 
-  public function employee()
-{
-    return $this->belongsTo(Employee::class);
-}
+    public function employee()
+    {
+        return $this->belongsTo(
+            User::class,
+            'employee_id'
+        );
+    }
 }

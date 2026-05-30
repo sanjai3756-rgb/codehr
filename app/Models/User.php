@@ -26,6 +26,9 @@ class User extends Authenticatable
         'password',
         'department_id',
         'designation_id',
+        'salary_type',
+        'hourly_rate',
+        'daily_rate',
     ];
 
     /**

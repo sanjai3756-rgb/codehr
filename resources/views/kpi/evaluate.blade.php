@@ -2,6 +2,21 @@
 
 @section('content')
 
+<!-- TOP BAR -->
+<div class="top-bar">
+
+    <a href="javascript:history.back()"
+       class="back-btn">
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+        Back
+
+    </a>
+
+</div>
+
+
 <div class="kpimain">
 
 ```
@@ -149,75 +164,52 @@ function calculateKPI(){
 
     let grandTotal = 0;
 
-    document.querySelectorAll('.kpi-question-row')
-    .forEach(row => {
+    document.querySelectorAll(
+        '.kpi-question-row'
+    ).forEach(row => {
 
-        let week12 =
+        let week1 =
             parseFloat(
                 row.querySelector('.week12').value
             ) || 0;
 
-        let week34 =
+        let week2 =
             parseFloat(
                 row.querySelector('.week34').value
             ) || 0;
 
         let final =
-            (week12 + week34) / 2;
+            (week1 + week2) / 2;
 
-        row.querySelector('.final-box').value =
+        row.querySelector(
+            '.final-box'
+        ).value =
             final.toFixed(2);
 
         grandTotal += final;
 
     });
 
+    let totalQuestions =
+        document.querySelectorAll(
+            '.kpi-question-row'
+        ).length;
+
+    let finalScore =
+        (grandTotal / (totalQuestions * 10))
+        * 100;
+
     document.getElementById(
         'finalScore'
     ).innerText =
-        grandTotal.toFixed(2);
+        finalScore.toFixed(2);
 
     document.getElementById(
         'finalScoreInput'
     ).value =
-        grandTotal.toFixed(2);
+        finalScore.toFixed(2);
 
 }
-
-document.querySelectorAll(
-    '.week12,.week34'
-).forEach(input => {
-
-    input.addEventListener(
-        'input',
-        function(){
-
-            let value =
-                parseFloat(this.value);
-
-            if(value > 10){
-
-                alert(
-                    'Maximum score is 10'
-                );
-
-                this.value = 10;
-
-            }
-
-            if(value < 0){
-
-                this.value = 0;
-
-            }
-
-            calculateKPI();
-
-        }
-    );
-
-});
-
 </script>
 
 @endsection

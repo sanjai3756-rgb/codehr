@@ -43,27 +43,21 @@ Route::get('/logout', [AuthController::class, 'logout'])
 |--------------------------------------------------------------------------
 */
 
-Route::middleware('auth')->group(function () {
+Route::get('/dashboard', function () {
 
-    Route::get('/dashboard', function () {
+    if (auth()->user()->hasRole('admin')) {
+        return redirect('/admin/dashboard');
+    }
 
-        if (auth()->user()->hasRole('admin')) {
-            return redirect('/admin/dashboard');
-        }
+    if (auth()->user()->hasRole('hr')) {
+        return redirect('/hr/dashboard');
+    }
 
-        if (auth()->user()->hasRole('hr')) {
-            return redirect('/hr/dashboard');
-        }
+    return redirect('/employee/dashboard');
 
-        if (auth()->user()->hasRole('employee')) {
-            return redirect('/employee/dashboard');
-        }
+})->middleware('auth');    
 
-        abort(403);
 
-    });
-
-});
 
 
 /*
@@ -200,17 +194,32 @@ Route::middleware([
 |--------------------------------------------------------------------------
 */
 
-Route::middleware([
-    'auth',
-    'permission:manage attendance'
-])->group(function () {
+Route::get(
+    '/attendances',
+    [AttendanceController::class,'adminAttendance']
+);
 
-    Route::resource(
-        'attendances',
-        AttendanceController::class
-    );
+Route::get(
+    '/attendance/admin',
+    [AttendanceController::class,
+    'adminAttendance']
+)->name('attendance.admin');
 
-});
+Route::get(
+    '/attendance/my',
+    [AttendanceController::class,
+    'employeeAttendance']
+)->name('attendance.employee');
+
+Route::post(
+    '/attendance/check-in',
+    [AttendanceController::class,'checkIn']
+)->name('attendances.checkin');
+
+Route::post(
+    '/attendance/check-out',
+    [AttendanceController::class,'checkOut']
+)->name('attendances.checkout');
 
 
 /*
@@ -492,6 +501,20 @@ Route::post(
     [KpiController::class,'submitEvaluation']
 )->name('kpi.submit');
 
+Route::get(
+    '/kpi/report/edit/{id}',
+    [KpiController::class,'editReport']
+)->name('kpi.report.edit');
+
+Route::post(
+    '/kpi/report/update/{id}',
+    [KpiController::class,'updateReport']
+)->name('kpi.report.update');
+
+Route::delete(
+    '/kpi/report/delete/{id}',
+    [KpiController::class,'deleteReport']
+)->name('kpi.report.delete');
 
 // kpi pdf download
 Route::get(

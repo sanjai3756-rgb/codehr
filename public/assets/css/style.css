@@ -153,34 +153,8 @@ body{
 
 }
 
-/* .kpimain{
-
-    margin-left:40px;
-
-    padding:35px;
-
-    min-height:100vh;
-
-    background:var(--bg-color);
-
-} */
 
 
-
-/* =========================================
-   KPI WRAPPER
-========================================= */
-
-/* .kpi-dashboard-wrapper{
-
-    width:100%;
-
-    max-width:1350px;
-
-    margin:auto;
-
-}
- */
 
 
 /* =========================================
@@ -354,7 +328,7 @@ body{
 }
 .table-card th{
     background:#f1f5f9;
-    padding:16px;
+    padding:1px;
     text-align:left;
 }
 .table-card td{
@@ -1257,7 +1231,7 @@ table tbody tr:hover{
 
 .filter-search{
     flex:1;
-    min-width:300px;
+    min-width:250px;
     height:48px;
     border:1px solid #dbe2ea;
     border-radius:12px;
@@ -1300,3 +1274,109 @@ table tbody tr:hover{
 .print-btn:hover{
     transform:translateY(-2px);
 }
+
+/* kpi reports section */
+.action-cell{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    align-items:center;
+}
+
+.kpipdf-btn,
+.kpiedit-btn,
+.kpidelete-btn{
+    display:inline-block;
+    padding:10px 16px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:600;
+    color:#fff;
+    border:none;
+    cursor:pointer;
+}
+
+.kpipdf-btn{
+    background:#22b3d6;
+}
+
+.kpiedit-btn{
+    background:#e5e20c;
+}
+
+.kpidelete-btn{
+    background:#ef2222;
+}
+
+.status-success,
+.status-warning,
+.status-danger{
+    display:inline-block;
+    min-width:170px;
+    text-align:center;
+    padding:10px 15px;
+    border-radius:25px;
+}
+
+
+.kpsave-btn{
+
+    background:var(--theme-color);
+
+    color:#f4efef;
+
+    border:none;
+
+    text-decoration:none;
+
+    padding:10px 16px;
+
+    border-radius:12px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+
+/* kpi dashboard */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+    margin-top:30px;
+}
+
+.table-card{
+    background:#fff;
+    border-radius:20px;
+    padding:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.rank-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:15px;
+    margin-bottom:12px;
+
+    background:#f8fafc;
+
+    border-radius:12px;
+
+    font-size:15px;
+}
+
+.rank-item strong{
+    color:#2563eb;
+    font-size:16px;
+}
+

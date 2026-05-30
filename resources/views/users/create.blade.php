@@ -217,6 +217,34 @@
             </div>
 
         </div>
+{{-- select role --}}
+        <div class="form-group">
+
+    <label>
+        Role
+    </label>
+
+    <select name="role">
+
+        <option value="">
+            Select Role
+        </option>
+
+        <option value="admin">
+            Admin
+        </option>
+
+        <option value="hr">
+            HR
+        </option>
+
+        <option value="employee">
+            Employee
+        </option>
+
+    </select>
+
+</div>
 
             <!-- JOIN DATE -->
             
@@ -246,6 +274,64 @@
                 <input type="text"
                        name="salary"
                        placeholder="Enter Salary">
+
+            </div>
+            <div class="form-group">
+
+             <label>
+                Salary Type
+              </label>
+
+                  <select
+                    name="salary_type"
+                    id="salaryType"
+                    class="form-control"
+                   >
+
+                  <option value="hourly">
+                    Hourly Rate
+                    </option>
+
+                     <option value="daily">
+                         Daily Rate
+                        </option>
+
+                   </select>
+
+            
+           </div>
+
+                <div
+                  id="hourlyBox"
+                  class="form-group"
+                        >
+
+                  <label>
+                     Hourly Rate
+                   </label>
+
+                <input
+                   type="number"
+                   name="hourly_rate"
+                   class="form-control"
+                         >
+
+            </div>
+
+            <div
+                 id="dailyBox"
+                 class="form-group"
+                 >
+
+                <label>
+                    Daily Rate
+                 </label>
+
+             <input
+                 type="number"
+                 name="daily_rate"
+                 class="form-control"
+                    >
 
             </div>
 
@@ -317,3 +403,37 @@
 </div>
 
 @endsection
+<script>
+
+function toggleSalary()
+{
+    let type =
+        document.getElementById(
+            'salaryType'
+        ).value;
+
+    document.getElementById(
+        'hourlyBox'
+    ).style.display =
+        type === 'hourly'
+        ? 'block'
+        : 'none';
+
+    document.getElementById(
+        'dailyBox'
+    ).style.display =
+        type === 'daily'
+        ? 'block'
+        : 'none';
+}
+
+document
+.getElementById('salaryType')
+.addEventListener(
+    'change',
+    toggleSalary
+);
+
+toggleSalary();
+
+</script>

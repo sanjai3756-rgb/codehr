@@ -194,6 +194,41 @@
             </div>
 
         </div>
+
+        {{-- select role --}}
+
+        <div class="form-group">
+
+    <label>
+        Role
+    </label>
+
+    <select name="role">
+
+        <option
+            value="admin"
+            {{ $user->hasRole('admin') ? 'selected' : '' }}
+        >
+            Admin
+        </option>
+
+        <option
+            value="hr"
+            {{ $user->hasRole('hr') ? 'selected' : '' }}
+        >
+            HR
+        </option>
+
+        <option
+            value="employee"
+            {{ $user->hasRole('employee') ? 'selected' : '' }}
+        >
+            Employee
+        </option>
+
+    </select>
+
+</div>
         <!-- SALARY -->
       <div class="form-group">
 
@@ -209,6 +244,69 @@
 
              </div>
 
+
+             <div class="form-group">
+
+    <label>
+        Salary Type
+    </label>
+
+    <select
+        name="salary_type"
+        id="salaryType"
+    >
+
+        <option
+            value="hourly"
+            {{ $user->salary_type == 'hourly' ? 'selected' : '' }}
+        >
+            Hourly Rate
+        </option>
+
+        <option
+            value="daily"
+            {{ $user->salary_type == 'daily' ? 'selected' : '' }}
+        >
+            Daily Rate
+        </option>
+
+    </select>
+
+</div>
+
+        <div
+             id="hourlyBox"
+             class="form-group"
+            >
+
+              <label>
+                 Hourly Rate
+              </label>
+
+           <input
+        type="number"
+        name="hourly_rate"
+        value="{{ $user->hourly_rate }}"
+            >
+ 
+          </div>
+
+       <div
+           id="dailyBox"
+            class="form-group"
+           >
+
+    <label>
+        Daily Rate
+    </label>
+
+    <input
+        type="number"
+        name="daily_rate"
+        value="{{ $user->daily_rate }}"
+    >
+
+</div>
           <!-- JOINING DATE -->
 <div class="form-group">
 

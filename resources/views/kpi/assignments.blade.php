@@ -2,6 +2,20 @@
 
 @section('content')
 
+<!-- TOP BAR -->
+<div class="top-bar">
+
+    <a href="javascript:history.back()"
+       class="back-btn">
+
+        <i class="fa-solid fa-arrow-left"></i>
+
+        Back
+
+    </a>
+
+</div>
+
 <div class="kpimain">
 
     <div class="table-card">

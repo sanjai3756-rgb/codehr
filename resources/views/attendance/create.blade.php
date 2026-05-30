@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('attendances.store') }}">
+<form method="POST" action="{{ route('attendance.store') }}">
 @csrf
 
 <select name="employee_id">

@@ -6,21 +6,45 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-public function up(): void
-{
-    Schema::create('attendances', function (Blueprint $table) {
-        $table->id();
+    public function up(): void
+    {
+        Schema::create('attendances', function (Blueprint $table) {
 
-        $table->foreignId('employee_id')->constrained()->onDelete('cascade');
+            $table->id();
 
-        $table->date('date');
+            $table->foreignId('employee_id')
+                  ->constrained('users')
+                  ->onDelete('cascade');
 
-        $table->enum('status', ['Present', 'Absent', 'Leave']);
+            $table->date('date');
 
-        $table->time('check_in')->nullable();
-        $table->time('check_out')->nullable();
+            $table->time('check_in')
+                  ->nullable();
 
-        $table->timestamps();
-    });
-}
+            $table->time('check_out')
+                  ->nullable();
+
+            $table->decimal(
+                'working_hours',
+                5,
+                2
+            )->default(0);
+
+            $table->decimal(
+                'salary_amount',
+                10,
+                2
+            )->default(0);
+
+            $table->timestamps();
+
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists(
+            'attendances'
+        );
+    }
 };
