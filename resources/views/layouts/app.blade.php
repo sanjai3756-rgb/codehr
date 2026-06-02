@@ -21,7 +21,9 @@
     <link rel="stylesheet" href="{{ asset('assets/css/profile.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('assets/css/buttons.css') }}?v={{ time() }}">
     <link rel="stylesheet" href="{{ asset('assets/css/dark.css') }}?v={{ time() }}">
+    <link rel="stylesheet"href="{{ asset('assets/css/payroll.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/settings.css') }}?v={{ time() }}">
+    <link rel="stylesheet"href="{{ asset('assets/css/leave.css') }}">
 
     <!-- FONT AWESOME -->
     <link rel="stylesheet"
@@ -205,24 +207,49 @@
 
 
 
-    <!-- ATTENDANCE -->
-    @can('manage attendance')
+ <!-- ATTENDANCE -->
 
-    <a href="/attendances"
-       class="{{ request()->is('attendances*') ? 'active' : '' }}">
+@can('manage attendance')
 
-        <div>
 
-            <i class="fa-solid fa-calendar-check"></i>
+<button class="dropdown-btn">
 
-            <span>Attendance</span>
+    <div>
 
-        </div>
+        <i class="fa-solid fa-calendar-check"></i>
+
+        <span>Attendance</span>
+
+    </div>
+
+
+    <i class="fa-solid fa-chevron-down arrow"></i>
+
+
+</button>
+
+
+
+<div class="dropdown-container
+{{ request()->is('attendance*') ? 'show' : '' }}">
+
+
+
+
+    <a href="{{ route('attendance.settings') }}">
+
+        <i class="fa-solid fa-gear"></i>
+
+        <span>Attendance Settings</span>
 
     </a>
 
-    @endcan
 
+
+</div>
+
+
+@endcan
 
 
 <!-- KPI MANAGEMENT -->
@@ -338,19 +365,40 @@
 
         </a>
 
+     <a href="{{ route('leave.approval') }}">
 
-        <a href="/leave-settings">
+         <i class="fa-solid fa-gear"></i>
 
-            <i class="fa-solid fa-gear"></i>
+    Approval Settings
 
-            <span>Approval Settings</span>
+</a>
 
-        </a>
 
-    </div>
 
-    @endcan
+  
 
+<a href="{{ route('holidays.index') }}">
+
+    <i class="fa-solid fa-calendar-days"></i>
+
+    Holidays
+
+</a>
+
+
+
+<a href="{{ route('leave.settings') }}">
+
+        <i class="fa-solid fa-gear"></i>
+
+
+    Leave Settings
+
+</a>
+
+</div>
+
+      @endcan
 
 
     <!-- REPORTS -->
@@ -407,7 +455,7 @@
 
 
     <!-- SETTINGS -->
-@can('settings.manage')
+@can('manage settings')
 
     <a href="/settings">
 
@@ -423,10 +471,12 @@
 @endcan
 
 
+
+
+
     <!-- EMPLOYEE PANEL -->
 
 @role('employee')
-
 
 <a href="/attendance/my">
 
@@ -440,6 +490,7 @@
 
 </a>
 
+
 <a href="/leave/apply">
 
     <div>
@@ -451,6 +502,7 @@
     </div>
 
 </a>
+
 
 <a href="/leave/my">
 
@@ -464,6 +516,7 @@
 
 </a>
 
+
 <a href="/employee/kpi">
 
     <div>
@@ -475,6 +528,7 @@
     </div>
 
 </a>
+
 
 <a href="/profile">
 
@@ -489,6 +543,41 @@
 </a>
 
 @endrole
+
+
+
+
+<!-- LOGOUT -->
+
+<form
+method="POST"
+action="{{ route('logout') }}"
+class="sidebar-logout"
+>
+
+@csrf
+
+
+<button
+type="submit"
+>
+
+    <div>
+
+        <i class="fa-solid fa-right-from-bracket"></i>
+
+        <span>Logout</span>
+
+    </div>
+
+
+</button>
+
+
+</form>
+
+</div>
+{{-- SIDEBAR CLOSE --}}
 
 
 
@@ -533,15 +622,6 @@
 
 
                     
-
-                </a>
-
-
-                <a href="/logout">
-
-
-
-                </a>
 
             </div>
 

@@ -6,13 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class LeaveSetting extends Model
 {
+
     protected $fillable = [
 
         'auto_approve',
 
         'hr_can_approve',
 
-        'manager_can_approve'
+        'manager_can_approve',
+
+        'paid_leave_limit',
+
+        'paid_permission_hours'
 
     ];
+
 }

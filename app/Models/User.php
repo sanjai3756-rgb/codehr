@@ -71,4 +71,13 @@ public function designation()
         'designation_id'
     );
 }
+
+public function employee()
+{
+    return $this->hasOne(
+        Employee::class,
+        'user_id'
+    );
+}
+
 }

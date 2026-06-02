@@ -15,10 +15,13 @@ use App\Http\Controllers\LeaveRequestController;
 use App\Http\Controllers\LeaveTypeController;
 use App\Http\Controllers\LeaveSettingController;
 use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\PayrollSettingController;
+use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\EmployeePanelController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\AttendanceSettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,8 +36,11 @@ Route::get('/login', [AuthController::class, 'loginForm'])
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/logout', [AuthController::class, 'logout'])
-    ->middleware('auth');
+Route::post(
+    '/logout',
+    [AuthController::class,'logout']
+)
+->name('logout');
 
 
 /*
@@ -221,6 +227,19 @@ Route::post(
     [AttendanceController::class,'checkOut']
 )->name('attendances.checkout');
 
+Route::get(
+'/attendance-settings',
+[AttendanceSettingController::class,'index']
+)
+->name('attendance.settings');
+
+
+Route::post(
+'/attendance-settings',
+[AttendanceSettingController::class,'update']
+)
+->name('attendance.settings.update');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -253,13 +272,57 @@ Route::middleware([
     'permission:manage payroll'
 ])->group(function () {
 
+
     Route::resource(
         'payrolls',
         PayrollController::class
     );
 
+
+    // Generate employee payroll
+
+    Route::get(
+        '/payroll/generate/{employee}',
+        [PayrollController::class,'generate']
+    )
+    ->name('payroll.generate');
+
+
+
+    // PF ESI Settings
+
+    Route::get(
+        '/payroll-settings',
+        [PayrollSettingController::class,'index']
+    )
+    ->name('payroll.settings');
+
+
+    Route::post(
+        '/payroll-settings',
+        [PayrollSettingController::class,'update']
+    )
+    ->name('payroll.settings.update');
+
+
 });
 
+/*
+|--------------------------------------------------------------------------
+| HOLIDAYS
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware([
+    'auth'
+])->group(function(){
+
+    Route::resource(
+        'holidays',
+        HolidayController::class
+    );
+
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -284,13 +347,71 @@ Route::middleware([
 Route::get(
     '/leave-settings',
     [LeaveSettingController::class,'index']
-);
+)
+->name('leave.settings');
+
 
 Route::post(
     '/leave-settings',
     [LeaveSettingController::class,'update']
-);
+)
+->name('leave.settings.update');
+
+Route::get(
+    '/leave-settings',
+    [LeaveSettingController::class,'index']
+)
+->name('leave.settings');
+
+
+
+Route::post(
+    '/leave-settings',
+    [LeaveSettingController::class,'update']
+)
+->name('leave.settings.update');
+
 });
+
+
+// APPROVAL SETTINGS
+
+Route::get(
+    '/leave-approval-settings',
+    [LeaveSettingController::class,'approval']
+)
+->name('leave.approval');
+
+
+Route::post(
+    '/leave-approval-settings',
+    [LeaveSettingController::class,'approvalUpdate']
+)
+->name('leave.approval.update');
+Route::post(
+    '/leaves/{id}/approve',
+    [LeaveRequestController::class,'approve']
+)
+->name('leaves.approve');
+
+
+
+
+// LEAVE LIMIT SETTINGS
+
+Route::get(
+    '/leave-settings',
+    [LeaveSettingController::class,'index']
+)
+->name('leave.settings');
+
+
+Route::post(
+    '/leave-settings',
+    [LeaveSettingController::class,'update']
+)
+->name('leave.settings.update');
+
 
 
 /*

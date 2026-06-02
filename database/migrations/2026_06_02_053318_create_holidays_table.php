@@ -9,36 +9,47 @@ return new class extends Migration
 
 public function up(): void
 {
-
     Schema::create(
-        'leave_settings',
+        'holidays',
         function (Blueprint $table) {
 
             $table->id();
 
 
-            // Monthly paid leave limit
-            $table->integer(
-                'monthly_paid_leave'
+            $table->string(
+                'title'
+            );
+
+
+            $table->date(
+                'date'
+            );
+
+
+            // paid or unpaid holiday
+
+            $table->enum(
+                'type',
+                [
+                    'paid',
+                    'unpaid'
+                ]
             )
-            ->default(1);
+            ->default('paid');
 
 
             $table->timestamps();
 
         }
     );
-
 }
 
 
 public function down(): void
 {
-
     Schema::dropIfExists(
-        'leave_settings'
+        'holidays'
     );
-
 }
 
 };

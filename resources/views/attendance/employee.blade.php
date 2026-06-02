@@ -3,9 +3,6 @@
 
 @section('content')
 
-<h1 style="color:red">
-    ATTENDANCE PAGE LOADED
-</h1>
 <div class="table-card">
 
     <h2>My Attendance</h2>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Department;
 use App\Models\Designation;
+use App\Models\Employee;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;

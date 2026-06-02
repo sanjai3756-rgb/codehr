@@ -6,19 +6,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee extends Model
 {
+
     protected $fillable = [
-        'employee_id',
-        'name',
-        'email',
-        'phone',
-        'department_id',
-        'designation_id',
-        'joining_date',
-        'salary',
-        'photo',
-        'address',
-        'status'
-    ];
+
+    'user_id',
+
+    'employee_id',
+
+    'name',
+
+    'email',
+
+    'phone',
+
+    'designation_id',
+
+    'salary',
+
+    'joining_date'
+
+];
 
     public function department()
     {
