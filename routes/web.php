@@ -22,6 +22,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\AttendanceSettingController;
+use App\Http\Controllers\ShiftController;
 
 /*
 |--------------------------------------------------------------------------
@@ -239,6 +240,8 @@ Route::post(
 [AttendanceSettingController::class,'update']
 )
 ->name('attendance.settings.update');
+
+
 
 
 /*
@@ -653,4 +656,34 @@ Route::post(
     [KpiController::class,'bulkPdf']
 )->name('kpi.bulk.pdf');
 
+
+// shift
+
+Route::resource(
+    'shifts',
+    ShiftController::class
+);
+
+
+// BULK SHIFT FIRST
+
+Route::get(
+    '/bulk-shift',
+    [UserController::class,'bulkShiftPage']
+)
+->name('employees.bulkShiftPage');
+
+
+Route::post(
+    '/bulk-shift',
+    [UserController::class,'bulkShift']
+)
+->name('employees.bulkShift');
+
+// RESOURCE ALWAYS LAST
+
+Route::resource(
+    'employees',
+    UserController::class
+);
 });

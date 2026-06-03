@@ -23,6 +23,8 @@ class RolePermissionSeeder extends Seeder
             'manage attendance',
             'manage leaves',
             'manage payroll',
+            'manage kpi',
+            'kpi.evaluate',
             'view reports',
             'manage settings',
             'employee panel',

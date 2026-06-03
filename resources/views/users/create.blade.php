@@ -213,10 +213,67 @@
                     @endforeach
 
                 </select>
+                <select 
+name="shift_id"
+class="form-control">
+
+
+@foreach($shifts as $shift)
+
+<option value="{{ $shift->id }}">
+
+{{$shift->name}}
+
+{{$shift->start_time}}
+
+-
+
+{{$shift->end_time}}
+
+</option>
+
+@endforeach
+
+
+</select>
 
             </div>
 
         </div>
+
+        <div class="form-group">
+
+    <label>
+        Shift
+    </label>
+
+    <select 
+        name="shift_id"
+        class="form-control"
+        required>
+
+        <option value="">
+            Select Shift
+        </option>
+
+        @foreach($shifts as $shift)
+
+        <option value="{{ $shift->id }}">
+
+            {{ $shift->name }}
+            (
+            {{ $shift->start_time }}
+            -
+            {{ $shift->end_time }}
+            )
+
+        </option>
+
+        @endforeach
+
+    </select>
+
+</div>
 {{-- select role --}}
         <div class="form-group">
 

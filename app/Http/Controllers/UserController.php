@@ -6,12 +6,11 @@ use App\Models\User;
 use App\Models\Department;
 use App\Models\Designation;
 use App\Models\Employee;
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
+use App\Models\Shift;
 
 class UserController extends Controller
 {
@@ -42,24 +41,27 @@ class UserController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function create()
-    {
-        $departments = Department::all();
+  public function create()
+{
+    $departments = Department::all();
 
-        $designations = Designation::all();
+    $designations = Designation::all();
 
-        $permissions = Permission::all();
+    $permissions = Permission::all();
+
+    $shifts = Shift::where('status',1)->get();
 
 
-        return view(
-            'users.create',
-            compact(
-                'departments',
-                'designations',
-                'permissions'
-            )
-        );
-    }
+    return view(
+        'users.create',
+        compact(
+            'departments',
+            'designations',
+            'permissions',
+            'shifts'
+        )
+    );
+}
 
 
 
@@ -144,7 +146,10 @@ class UserController extends Controller
             'joining_date' =>
                 $request->joining_date,
 
-            'photo' => $photo
+            'photo' => $photo,
+
+            'shift_id' => $request->shift_id,
+
 
         ]);
 
@@ -356,4 +361,53 @@ class UserController extends Controller
             'User Deleted Successfully'
         );
     }
+
+public function bulkShiftPage()
+{
+    $users = User::all();
+
+    $shifts = Shift::all();
+
+
+    return view(
+        'users.bulk-shift',
+        compact(
+            'users',
+            'shifts'
+        )
+    );
+}
+
+
+public function bulkShift(Request $request)
+{
+
+    $request->validate([
+
+        'users'=>'required|array',
+
+        'shift_id'=>'required'
+
+    ]);
+
+
+    User::whereIn(
+        'id',
+        $request->users
+    )
+    ->update([
+
+        'shift_id'=>$request->shift_id
+
+    ]);
+
+
+    return back()
+    ->with(
+        'success',
+        'Shift Assigned Successfully'
+    );
+
+}
+
 }

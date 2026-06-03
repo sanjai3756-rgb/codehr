@@ -651,6 +651,7 @@ table tbody tr:hover{
     cursor:pointer;
 
     transition:.3s;
+    margin: 5px;
 
 }
 

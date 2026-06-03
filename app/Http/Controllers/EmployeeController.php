@@ -36,20 +36,21 @@ public function index()
     |--------------------------------------------------------------------------
     */
 
-    public function create()
-    {
-        $departments = Department::all();
+ public function create()
+{
+    $departments = Department::all();
+    $designations = Designation::all();
+    $shifts = Shift::where('status',1)->get();
 
-        $designations = Designation::all();
-
-        return view(
-            'employees.create',
-            compact(
-                'departments',
-                'designations'
-            )
-        );
-    }
+    return view(
+        'employees.create',
+        compact(
+            'departments',
+            'designations',
+            'shifts'
+        )
+    );
+}
 
 
 

@@ -192,31 +192,16 @@ public function checkOut()
 {
 
 
-   Attendance::where(
-    'employee_id',
-    auth()->user()->employee->id
-        )
-        ->whereDate(
-            'date',
-            today()
-        )
-        ->first();
+$employee = auth()->user()->employee;
 
+$attendance = Attendance::where('employee_id', $employee->id)
+    ->whereDate('date', today())
+    ->whereNull('check_out')
+    ->first();if(!$attendance){
 
-
-
-    if(!$attendance){
-
-
-        return back()
-        ->with(
-            'error',
-            'Please Check In First'
-        );
-
-    }
-
-
+    return back()
+        ->with('error','Please Check In First');
+}
 
 
     if(

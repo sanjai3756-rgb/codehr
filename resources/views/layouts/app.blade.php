@@ -251,10 +251,28 @@
 
 @endcan
 
+  
+<div class="nav-item">
+
+    <a 
+    href="{{ route('shifts.index') }}"
+    class="nav-link">
+
+        <i class="fa fa-clock"></i>
+
+        <span>
+            Shift Management
+        </span>
+
+    </a>
+
+</div>
+
+
 
 <!-- KPI MANAGEMENT -->
 
-@can('kpi.evaluate')
+@if(auth()->user() && (auth()->user()->hasRole('admin') || auth()->user()->canAny(['kpi.evaluate','manage kpi'])))
 
 <button class="dropdown-btn">
 
@@ -618,7 +636,7 @@ type="submit"
                 </a>
 
 
-                <a href="/settings">
+                {{-- <a href="/settings"> --}}
 
 
                     

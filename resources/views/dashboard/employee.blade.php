@@ -15,13 +15,11 @@
 <div class="dash-card green">
 <span>⏰</span>
 <h4>Punch</h4>
-<h1><a href="/punch" style="color:white;">Open</a></h1>
 </div>
 
 <div class="dash-card orange">
 <span>📝</span>
 <h4>Leaves</h4>
-<h1><a href="/my-leaves" style="color:white;">View</a></h1>
 </div>
 
 </div>

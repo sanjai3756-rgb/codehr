@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Shift;
 
 // SPATIE ROLE PERMISSION
 use Spatie\Permission\Traits\HasRoles;
@@ -29,6 +30,7 @@ class User extends Authenticatable
         'salary_type',
         'hourly_rate',
         'daily_rate',
+        'shift_id',
     ];
 
     /**
@@ -74,10 +76,15 @@ public function designation()
 
 public function employee()
 {
-    return $this->hasOne(
-        Employee::class,
-        'user_id'
+     return $this->hasOne(Employee::class);
+}
+
+public function shift()
+{
+    return $this->belongsTo(
+        Shift::class
     );
 }
+
 
 }
