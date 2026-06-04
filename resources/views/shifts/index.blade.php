@@ -26,15 +26,18 @@
 
 
 
+
         <div>
 
 
-<a href="{{ route('employees.bulkShiftPage') }}"
-   class="add-btn">
+            <a href="{{ route('employees.bulkShiftPage') }}"
+               class="add-btn">
 
-    Assign Shift
+                Assign Shift
 
-</a>
+            </a>
+
+
 
             <a href="{{ route('shifts.create') }}"
                class="add-btn">
@@ -53,12 +56,11 @@
 
 
 
-    {{-- SUCCESS MESSAGE --}}
+    <!-- SUCCESS -->
     @if(session('success'))
 
 
-        <div class="toast-success"
-             id="toast">
+        <div class="toast-success">
 
             {{ session('success') }}
 
@@ -66,6 +68,7 @@
 
 
     @endif
+
 
 
 
@@ -82,9 +85,11 @@
 
             <tr>
 
+
                 <th>
                     S.No
                 </th>
+
 
 
                 <th>
@@ -92,9 +97,17 @@
                 </th>
 
 
+
+                <th>
+                    Assigned Staffs
+                </th>
+
+
+
                 <th>
                     Start Time
                 </th>
+
 
 
                 <th>
@@ -102,9 +115,11 @@
                 </th>
 
 
+
                 <th>
                     Late Allowed
                 </th>
+
 
 
                 <th>
@@ -112,9 +127,11 @@
                 </th>
 
 
+
                 <th>
                     Action
                 </th>
+
 
 
             </tr>
@@ -126,15 +143,21 @@
 
 
 
+
+
         <tbody>
 
 
-            @foreach($shifts as $shift)
+        @foreach($shifts as $shift)
+
 
 
             <tr>
 
 
+
+
+                <!-- SERIAL -->
 
                 <td>
 
@@ -146,7 +169,11 @@
 
 
 
+
+                <!-- SHIFT NAME -->
+
                 <td>
+
 
                     <span class="role-badge">
 
@@ -154,15 +181,6 @@
 
                     </span>
 
-                </td>
-
-
-
-
-
-                <td>
-
-                    {{ date('h:i A', strtotime($shift->start_time)) }}
 
                 </td>
 
@@ -170,9 +188,22 @@
 
 
 
+
+                <!-- ASSIGNED USERS -->
+
                 <td>
 
-                    {{ date('h:i A', strtotime($shift->end_time)) }}
+
+                    <span class="role-badge">
+
+
+                        {{ $shift->users->count() }}
+
+                        Staffs
+
+
+                    </span>
+
 
                 </td>
 
@@ -180,17 +211,61 @@
 
 
 
+
+                <!-- START TIME -->
+
                 <td>
+
+
+                    {{ date(
+                        'h:i A',
+                        strtotime($shift->start_time)
+                    ) }}
+
+
+                </td>
+
+
+
+
+
+
+                <!-- END TIME -->
+
+                <td>
+
+
+                    {{ date(
+                        'h:i A',
+                        strtotime($shift->end_time)
+                    ) }}
+
+
+                </td>
+
+
+
+
+
+
+                <!-- LATE -->
+
+                <td>
+
 
                     {{ $shift->late_minutes }}
 
                     Minutes
 
+
                 </td>
 
 
 
 
+
+
+                <!-- STATUS -->
 
                 <td>
 
@@ -213,6 +288,7 @@
                     @endif
 
 
+
                 </td>
 
 
@@ -220,7 +296,9 @@
 
 
 
+
                 <!-- ACTION -->
+
 
                 <td class="action-buttons">
 
@@ -248,11 +326,14 @@
 
 
 
-                        <button type="submit"
-                                class="delete-btn"
-                                onclick="return confirm('Delete Shift?')">
+                        <button
+                            type="submit"
+                            class="delete-btn"
+                            onclick="return confirm('Delete Shift?')">
+
 
                             Delete
+
 
                         </button>
 
@@ -268,18 +349,22 @@
 
 
 
+
             </tr>
 
 
 
-            @endforeach
+        @endforeach
 
 
 
         </tbody>
 
 
+
+
     </table>
+
 
 
 

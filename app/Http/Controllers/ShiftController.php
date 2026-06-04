@@ -4,19 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Shift;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class ShiftController extends Controller
 {
-    public function index()
-    {
-        $shifts = Shift::all();
+   public function index()
+{
+    $shifts = Shift::with('users')->get();
 
-        return view(
-            'shifts.index',
-            compact('shifts')
-        );
-    }
-
+    return view(
+        'shifts.index',
+        compact('shifts')
+    );
+}
 
     public function create()
     {
@@ -24,29 +24,78 @@ class ShiftController extends Controller
     }
 
 
-    public function store(Request $request)
-    {
-        Shift::create([
+public function store(Request $request)
+{
 
-            'name'=>$request->name,
 
-            'start_time'=>$request->start_time,
+    $start =
+        $request->start_hour
+        .':'
+        .$request->start_minute
+        .' '
+        .$request->start_ampm;
 
-            'end_time'=>$request->end_time,
 
-            'late_minutes'=>$request->late_minutes,
 
-            'status'=>1
+    $end =
+        $request->end_hour
+        .':'
+        .$request->end_minute
+        .' '
+        .$request->end_ampm;
 
-        ]);
 
-        return redirect()
+
+
+
+    Shift::create([
+
+
+        'name'=>$request->name,
+
+
+
+        'start_time'=>date(
+            'H:i:s',
+            strtotime($start)
+        ),
+
+
+
+
+        'end_time'=>date(
+            'H:i:s',
+            strtotime($end)
+        ),
+
+
+
+
+        'late_minutes'=>$request->late_minutes,
+
+
+
+        'status'=>1
+
+
+    ]);
+
+
+
+
+
+
+    return redirect()
         ->route('shifts.index')
-        ->with('success','Shift Created');
-    }
+        ->with(
+            'success',
+            'Shift Created Successfully'
+        );
+
+}
 
 
-    public function edit(Shift $shift)
+  public function edit(Shift $shift)
     {
         return view(
             'shifts.edit',

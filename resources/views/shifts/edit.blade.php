@@ -39,26 +39,142 @@ value="{{$shift->name}}"
 class="form-control">
 
 
-<label>
-Start Time
-</label>
+<div class="shift-form-group">
 
-<input
-type="time"
-name="start_time"
-value="{{$shift->start_time}}"
-class="form-control">
+<!-- START TIME -->
+
+<div class="shift-form-group">
+
+    <label>
+        Start Time
+    </label>
 
 
-<label>
-End Time
-</label>
+    <div class="shift-time-row">
 
-<input
-type="time"
-name="end_time"
-value="{{$shift->end_time}}"
-class="form-control">
+
+        <select 
+        name="start_hour"
+        class="shift-select">
+
+            @for($i=1;$i<=12;$i++)
+
+            <option value="{{ $i }}">
+
+                {{ str_pad($i,2,'0',STR_PAD_LEFT) }}
+
+            </option>
+
+            @endfor
+
+        </select>
+
+
+
+        <select 
+        name="start_minute"
+        class="shift-select">
+
+            @for($i=0;$i<60;$i+=5)
+
+            <option value="{{ $i }}">
+
+                {{ str_pad($i,2,'0',STR_PAD_LEFT) }}
+
+            </option>
+
+            @endfor
+
+        </select>
+
+
+
+        <select 
+        name="start_ampm"
+        class="shift-select">
+
+            <option>AM</option>
+
+            <option>PM</option>
+
+        </select>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+<!-- END TIME -->
+
+<div class="shift-form-group">
+
+    <label>
+        End Time
+    </label>
+
+
+    <div class="shift-time-row">
+
+
+        <select 
+        name="end_hour"
+        class="shift-select">
+
+            @for($i=1;$i<=12;$i++)
+
+            <option value="{{ $i }}">
+
+                {{ str_pad($i,2,'0',STR_PAD_LEFT) }}
+
+            </option>
+
+            @endfor
+
+        </select>
+
+
+
+
+        <select 
+        name="end_minute"
+        class="shift-select">
+
+            @for($i=0;$i<60;$i+=5)
+
+            <option value="{{ $i }}">
+
+                {{ str_pad($i,2,'0',STR_PAD_LEFT) }}
+
+            </option>
+
+            @endfor
+
+        </select>
+
+
+
+
+        <select 
+        name="end_ampm"
+        class="shift-select">
+
+            <option>AM</option>
+
+            <option selected>PM</option>
+
+        </select>
+
+
+    </div>
+
+
+</div>
 
 
 <label>
@@ -77,8 +193,6 @@ Update
 
 </button>
 
-
-</form>
 
 
 @endsection

@@ -3,20 +3,25 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Shift extends Model
 {
     protected $fillable = [
+
         'name',
         'start_time',
         'end_time',
         'late_minutes',
         'status'
+
     ];
 
 
-    public function employees()
+    public function users()
     {
-        return $this->hasMany(Employee::class);
+        return $this->hasMany(
+            User::class
+        );
     }
 }

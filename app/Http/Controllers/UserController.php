@@ -402,12 +402,12 @@ public function bulkShift(Request $request)
     ]);
 
 
-    return back()
+  return redirect()
+    ->route('shifts.index')
     ->with(
         'success',
         'Shift Assigned Successfully'
     );
 
 }
-
 }

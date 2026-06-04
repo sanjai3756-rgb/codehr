@@ -24,6 +24,7 @@
     <link rel="stylesheet"href="{{ asset('assets/css/payroll.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/settings.css') }}?v={{ time() }}">
     <link rel="stylesheet"href="{{ asset('assets/css/leave.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/shift.css') }}">
 
     <!-- FONT AWESOME -->
     <link rel="stylesheet"
