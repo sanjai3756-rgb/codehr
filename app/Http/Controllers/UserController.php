@@ -21,18 +21,56 @@ class UserController extends Controller
     |--------------------------------------------------------------------------
     */
 
-    public function index()
-    {
-        $users = User::with('designation')
-                    ->latest()
-                    ->get();
+/*
+|--------------------------------------------------------------------------
+| INDEX
+|--------------------------------------------------------------------------
+*/
 
-        return view(
-            'users.index',
-            compact('users')
-        );
+public function index()
+{
+
+    $loginUser = auth()->user();
+
+
+    // ADMIN ONLY ALL STAFFS
+    if($loginUser->hasRole('Admin'))
+    {
+
+        $users = User::with([
+                'designation',
+                'shift'
+            ])
+            ->latest()
+            ->get();
+
     }
 
+
+    // EMPLOYEE ONLY OWN DATA
+    else
+    {
+
+        $users = User::with([
+                'designation',
+                'shift'
+            ])
+            ->where(
+                'id',
+                $loginUser->id
+            )
+            ->get();
+
+    }
+
+
+
+    return view(
+        'users.index',
+        compact('users')
+    );
+
+}
 
 
     /*
@@ -362,6 +400,11 @@ class UserController extends Controller
         );
     }
 
+
+
+
+
+
 public function bulkShiftPage()
 {
     $users = User::all();
@@ -409,5 +452,42 @@ public function bulkShift(Request $request)
         'Shift Assigned Successfully'
     );
 
+}
+
+public function editShift(User $user)
+{
+    $shifts = Shift::all();
+
+
+    return view(
+        'users.edit-shift',
+        compact(
+            'user',
+            'shifts'
+        )
+    );
+}
+
+
+
+public function updateShift(
+    Request $request,
+    User $user
+)
+{
+
+    $user->update([
+
+        'shift_id'=>$request->shift_id
+
+    ]);
+
+
+    return redirect()
+        ->route('shifts.index')
+        ->with(
+            'success',
+            'Shift Updated Successfully'
+        );
 }
 }

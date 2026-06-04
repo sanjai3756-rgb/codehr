@@ -25,12 +25,16 @@
 
 
 
-        <a href="{{ route('users.create') }}"
-           class="add-btn">
+      @if(auth()->user()->hasRole('Admin'))
 
-            + Add Staffs
+<a href="{{ route('employees.create') }}"
+class="add-btn">
 
-        </a>
++ Add Staffs
+
+</a>
+
+@endif
 
     </div>
 
@@ -105,7 +109,42 @@
                     {{ $user->email }}
 
                 </td>
+               
 
+                <td>
+
+
+               @if($user->shift)
+
+
+              <span class="role-badge">
+
+            {{ $user->shift->name }}
+
+             <br>
+
+             {{ date('h:i A',strtotime($user->shift->start_time)) }}
+
+               -
+
+            {{ date('h:i A',strtotime($user->shift->end_time)) }}
+ 
+
+            </span>
+
+
+            @else
+
+
+              <span>
+               No Shift
+                </span>
+
+
+             @endif
+
+
+          </td>
 
 
                 <!-- DESIGNATION -->
@@ -122,29 +161,28 @@
 
 
                 <!-- PERMISSIONS -->
-                <td>
+@if(auth()->user()->hasRole('Admin'))
 
-                    <a href="/permissions?user_id={{ $user->id }}"
-                       class="permission-btn">
+<td>
 
-                        Manage Permissions
+<a href="/permissions?user_id={{ $user->id }}"
+class="permission-btn">
 
-                    </a>
+Manage Permissions
 
-                </td>
+</a>
+
+</td>
 
 
+<td class="action-buttons">
 
-                <!-- ACTION -->
-                <td class="action-buttons">
+<a href="{{ route('employees.edit',$user->id) }}"
+class="edit-btn">
 
-                    <a href="{{ route('users.edit',$user->id) }}"
-                       class="edit-btn">
+Edit
 
-                        Edit
-
-                    </a>
-
+</a>
 
 
                     <form method="POST"

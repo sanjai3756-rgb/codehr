@@ -59,3 +59,159 @@
     border-color:#2fb3d0;
 
 }
+.staff-chip{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    padding:6px 12px;
+
+    margin:4px;
+
+    border-radius:20px;
+
+    background:#eef8fb;
+
+    font-size:14px;
+
+}
+
+
+
+.staff-chip a{
+
+    text-decoration:none;
+
+    cursor:pointer;
+
+}
+
+
+.shift-title{
+
+    font-weight:700;
+
+    font-size:16px;
+
+}
+
+
+.time-badge{
+
+    background:#f4f8fb;
+
+    padding:10px 15px;
+
+    border-radius:12px;
+
+    text-align:center;
+
+    font-weight:600;
+
+}
+
+
+.time-badge span{
+
+    color:#888;
+
+    font-size:12px;
+
+}
+
+
+.staff-count{
+
+    font-weight:600;
+
+    margin-bottom:10px;
+
+}
+
+
+.staff-list{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:8px;
+
+}
+
+
+
+.staff-chip{
+
+    background:#eef9fc;
+
+    padding:7px 12px;
+
+    border-radius:30px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+
+
+.staff-chip span{
+
+    width:25px;
+
+    height:25px;
+
+    border-radius:50%;
+
+    background:#30aeca;
+
+    color:white;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:12px;
+
+}
+
+
+
+.staff-chip a{
+
+    text-decoration:none;
+
+    color:#111;
+
+}
+
+
+
+.active-badge{
+
+    background:#dff8e8;
+
+    padding:6px 14px;
+
+    border-radius:20px;
+
+    color:#12823b;
+
+}
+
+
+
+.no-staff{
+
+    color:#999;
+
+}

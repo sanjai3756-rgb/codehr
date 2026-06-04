@@ -1038,6 +1038,34 @@ document.addEventListener('click', function(e){
 });
 
 </script>
+
+<script>
+
+setTimeout(function(){
+
+    let toast =
+    document.querySelector('.toast-success');
+
+
+    if(toast){
+
+        toast.style.opacity = '0';
+
+        setTimeout(function(){
+
+            toast.remove();
+
+        },500);
+
+    }
+
+
+},3000);
+
+
+</script>
+
+
 </body>
 
 </html>

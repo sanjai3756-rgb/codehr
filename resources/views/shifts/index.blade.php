@@ -3,31 +3,28 @@
 @section('content')
 
 
-<!-- TABLE CARD -->
 <div class="table-card">
 
 
     <!-- HEADER -->
+
     <div class="table-header">
 
 
         <div>
 
             <h2>
-                Shifts
+                Shift Management
             </h2>
 
-
             <p>
-                Manage employee shifts and timings
+                Manage shift timing and assigned staffs
             </p>
 
         </div>
 
 
-
-
-        <div>
+        <div class="header-actions">
 
 
             <a href="{{ route('employees.bulkShiftPage') }}"
@@ -38,11 +35,10 @@
             </a>
 
 
-
             <a href="{{ route('shifts.create') }}"
                class="add-btn">
 
-                + Add Shift
+                + Create Shift
 
             </a>
 
@@ -56,321 +52,293 @@
 
 
 
-    <!-- SUCCESS -->
-    @if(session('success'))
 
+@if(session('success'))
 
-        <div class="toast-success">
+<div class="toast-success">
 
-            {{ session('success') }}
+{{ session('success') }}
 
-        </div>
+</div>
 
+@endif
 
-    @endif
 
 
 
 
 
 
+<table class="custom-table">
 
-    <!-- TABLE -->
 
-    <table class="custom-table">
+<thead>
 
+<tr>
 
-        <thead>
+<th>#</th>
 
+<th>Shift</th>
 
-            <tr>
+<th>Timing</th>
 
+<th>Assigned Staffs</th>
 
-                <th>
-                    S.No
-                </th>
+<th>Late</th>
 
+<th>Status</th>
 
+<th>Action</th>
 
-                <th>
-                    Shift Name
-                </th>
+</tr>
 
+</thead>
 
 
-                <th>
-                    Assigned Staffs
-                </th>
 
 
 
-                <th>
-                    Start Time
-                </th>
+<tbody>
 
 
 
-                <th>
-                    End Time
-                </th>
+@foreach($shifts as $shift)
 
 
+<tr>
 
-                <th>
-                    Late Allowed
-                </th>
 
 
+<td>
 
-                <th>
-                    Status
-                </th>
+{{ $loop->iteration }}
 
+</td>
 
 
-                <th>
-                    Action
-                </th>
 
 
 
-            </tr>
 
+<td>
 
-        </thead>
 
+<div class="shift-title">
 
+{{ $shift->name }}
 
+</div>
 
 
+</td>
 
 
-        <tbody>
 
 
-        @foreach($shifts as $shift)
 
 
+<td>
 
-            <tr>
 
+<div class="time-badge">
 
 
+{{ date('h:i A',strtotime($shift->start_time)) }}
 
-                <!-- SERIAL -->
+<br>
 
-                <td>
+<span>
 
-                    {{ $loop->iteration }}
+to
 
-                </td>
+</span>
 
+<br>
 
 
-
-
-
-                <!-- SHIFT NAME -->
-
-                <td>
-
-
-                    <span class="role-badge">
-
-                        {{ $shift->name }}
-
-                    </span>
-
-
-                </td>
-
-
-
-
-
-
-                <!-- ASSIGNED USERS -->
-
-                <td>
-
-
-                    <span class="role-badge">
-
-
-                        {{ $shift->users->count() }}
-
-                        Staffs
-
-
-                    </span>
-
-
-                </td>
-
-
-
-
-
-
-                <!-- START TIME -->
-
-                <td>
-
-
-                    {{ date(
-                        'h:i A',
-                        strtotime($shift->start_time)
-                    ) }}
-
-
-                </td>
-
-
-
-
-
-
-                <!-- END TIME -->
-
-                <td>
-
-
-                    {{ date(
-                        'h:i A',
-                        strtotime($shift->end_time)
-                    ) }}
-
-
-                </td>
-
-
-
-
-
-
-                <!-- LATE -->
-
-                <td>
-
-
-                    {{ $shift->late_minutes }}
-
-                    Minutes
-
-
-                </td>
-
-
-
-
-
-
-                <!-- STATUS -->
-
-                <td>
-
-
-                    @if($shift->status)
-
-
-                        <span class="role-badge">
-
-                            Active
-
-                        </span>
-
-
-                    @else
-
-
-                        -
-
-                    @endif
-
-
-
-                </td>
-
-
-
-
-
-
-
-                <!-- ACTION -->
-
-
-                <td class="action-buttons">
-
-
-
-                    <a href="{{ route('shifts.edit',$shift->id) }}"
-                       class="edit-btn">
-
-                        Edit
-
-                    </a>
-
-
-
-
-
-                    <form method="POST"
-                          action="{{ route('shifts.destroy',$shift->id) }}"
-                          style="display:inline-block">
-
-
-                        @csrf
-
-                        @method('DELETE')
-
-
-
-                        <button
-                            type="submit"
-                            class="delete-btn"
-                            onclick="return confirm('Delete Shift?')">
-
-
-                            Delete
-
-
-                        </button>
-
-
-
-                    </form>
-
-
-
-
-                </td>
-
-
-
-
-
-            </tr>
-
-
-
-        @endforeach
-
-
-
-        </tbody>
-
-
-
-
-    </table>
-
-
-
+{{ date('h:i A',strtotime($shift->end_time)) }}
 
 
 </div>
 
+
+</td>
+
+
+
+
+
+
+
+<td>
+
+
+<div class="staff-count">
+
+{{ $shift->users->count() }}
+
+Staff Assigned
+
+</div>
+
+
+
+
+
+<div class="staff-list">
+
+
+@forelse($shift->users as $user)
+
+
+<div class="staff-chip">
+
+
+<span>
+
+{{ strtoupper(substr($user->name,0,1)) }}
+
+</span>
+
+
+{{ $user->name }}
+
+
+<a href="{{ route('users.shift.edit',$user->id) }}">
+
+✎
+
+</a>
+
+
+</div>
+
+
+
+@empty
+
+
+<p class="no-staff">
+
+No Staff Assigned
+
+</p>
+
+
+
+@endforelse
+
+
+</div>
+
+
+
+</td>
+
+
+
+
+
+
+
+<td>
+
+
+{{ $shift->late_minutes }}
+
+min
+
+
+</td>
+
+
+
+
+
+
+<td>
+
+
+@if($shift->status)
+
+
+<span class="active-badge">
+
+Active
+
+</span>
+
+
+@else
+
+
+-
+
+@endif
+
+
+</td>
+
+
+
+
+
+
+
+<td class="action-buttons">
+
+
+<a href="{{ route('shifts.edit',$shift->id) }}"
+class="edit-btn">
+
+Edit
+
+</a>
+
+
+
+
+<form method="POST"
+action="{{ route('shifts.destroy',$shift->id) }}"
+style="display:inline-block">
+
+
+@csrf
+
+@method('DELETE')
+
+
+<button class="delete-btn">
+
+Delete
+
+</button>
+
+
+</form>
+
+
+</td>
+
+
+
+
+</tr>
+
+
+@endforeach
+
+
+
+
+</tbody>
+
+
+</table>
+
+
+
+</div>
 
 
 @endsection

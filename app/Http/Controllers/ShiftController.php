@@ -8,9 +8,13 @@ use Carbon\Carbon;
 
 class ShiftController extends Controller
 {
-   public function index()
+
+
+public function index()
 {
-    $shifts = Shift::with('users')->get();
+    $shifts = Shift::with('users')
+        ->get();
+
 
     return view(
         'shifts.index',

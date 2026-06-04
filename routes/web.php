@@ -686,4 +686,18 @@ Route::resource(
     'employees',
     UserController::class
 );
+
+Route::get(
+    '/users/{user}/shift/edit',
+    [UserController::class,'editShift']
+)
+->name('users.shift.edit');
+
+
+Route::put(
+    '/users/{user}/shift/update',
+    [UserController::class,'updateShift']
+)
+->name('users.shift.update');
+
 });

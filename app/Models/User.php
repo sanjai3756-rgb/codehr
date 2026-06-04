@@ -79,12 +79,13 @@ public function employee()
      return $this->hasOne(Employee::class);
 }
 
+
 public function shift()
 {
     return $this->belongsTo(
-        Shift::class
+        Shift::class,
+        'shift_id'
     );
 }
-
 
 }
